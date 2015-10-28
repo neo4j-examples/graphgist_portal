@@ -2,6 +2,9 @@
 require 'net/http'
 require 'uri'
 
+if ENV['DISABLE_SSL_VERIFY_PEER_THIS_IS_A_BAD_IDEA_TOO_HAVE_ON_ALL_THE_TIME']
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+end
 
 namespace :graph_gist_portal do
 
