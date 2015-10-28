@@ -56,8 +56,6 @@ module GraphgistPortal
       graphgist-render.css
     )
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     config.neo4j.pretty_logged_cypher_queries = true
     config.neo4j.record_timestamps = true
   end
