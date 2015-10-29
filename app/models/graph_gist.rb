@@ -26,6 +26,8 @@ class GraphGist < GraphStarter::Asset
 
   display_properties :url, :created_at
 
+  category_association :author
+
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id class style)
   def place_asciidoc(asciidoc_text)
