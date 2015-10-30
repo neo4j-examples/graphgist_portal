@@ -31,46 +31,46 @@ namespace :graph_gist_portal do
   task import_legacy_db: :environment do
     legacy_db = Neo4j::Session.open(:server_db, ENV['LEGACY_GRAPHGIST_DB_URL']) 
 
-#    gists = legacy_db.query.match(gist: :Gist).pluck(:gist)
+    gists = legacy_db.query.match(gist: :Gist).pluck(:gist)
 
-#    puts 'Importing Gists'
-#    gists.each do |gist|
-#      props = gist.props
-#      updated_at = props[:updated] / 1000 if props[:updated].present?
-#      poster_image_url = final_url(props[:poster_image])
-#      url = final_url(props[:url])
-#      new_props = {
-#        legacy_neo_id: gist.neo_id,
-#        legacy_id: props[:id],
-#        legacy_poster_image: poster_image_url,
-#        summary: props[:summary],
-#        title: props[:title],
-#        status: props[:status],
-#        updated_at: updated_at,
-#        legacy_rated: props[:rated],
-#        private: false
-#      }
-#      graph_gist = GraphGist.find_or_create({legacy_neo_id: gist.neo_id}, new_props)
-#
-#      begin
-#        graph_gist.images << GraphStarter::Image.create(source: open(poster_image_url), original_url: poster_image_url) if poster_image_url.present?
-#      rescue OpenURI::HTTPError => http_error
-#        allowed_errors = ['403 Forbidden', '404 Not Found']
-#        fail http_error unless allowed_errors.include?(http_error.message)
-#      end
-#      begin
-#        graph_gist.url = url
-#      rescue ArgumentError => e
-#        if e.message.match('Gist has more than one file!')
-#          next
-#        else
-#          raise e
-#        end
-#      end
-#      graph_gist.place_asciidoc(open(graph_gist.raw_url).read) if graph_gist.raw_url.present?
-#      graph_gist.save
-#      putc '.'
-#    end
+    puts 'Importing Gists'
+    gists.each do |gist|
+      props = gist.props
+      updated_at = props[:updated] / 1000 if props[:updated].present?
+      poster_image_url = final_url(props[:poster_image])
+      url = final_url(props[:url])
+      new_props = {
+        legacy_neo_id: gist.neo_id,
+        legacy_id: props[:id],
+        legacy_poster_image: poster_image_url,
+        summary: props[:summary],
+        title: props[:title],
+        status: props[:status],
+        updated_at: updated_at,
+        legacy_rated: props[:rated],
+        private: false
+      }
+      graph_gist = GraphGist.find_or_create({legacy_neo_id: gist.neo_id}, new_props)
+
+      begin
+        graph_gist.images << GraphStarter::Image.create(source: open(poster_image_url), original_url: poster_image_url) if poster_image_url.present?
+      rescue OpenURI::HTTPError => http_error
+        allowed_errors = ['403 Forbidden', '404 Not Found']
+        fail http_error unless allowed_errors.include?(http_error.message)
+      end
+      begin
+        graph_gist.url = url
+      rescue ArgumentError => e
+        if e.message.match('Gist has more than one file!')
+          next
+        else
+          raise e
+        end
+      end
+      graph_gist.place_asciidoc(open(graph_gist.raw_url).read) if graph_gist.raw_url.present?
+      graph_gist.save
+      putc '.'
+    end
 
     people = legacy_db.query.match(person: :Person).pluck(:person)
     puts 'Importing People'
