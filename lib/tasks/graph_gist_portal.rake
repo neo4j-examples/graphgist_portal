@@ -8,7 +8,7 @@ end
 
 namespace :graph_gist_portal do
 
-  def final_url(url)
+  def final_url(url, times_tried = 0)
     return if url.nil?
     begin
       uri = URI.parse(url)
@@ -23,6 +23,13 @@ namespace :graph_gist_portal do
       end
     rescue SocketError
       return
+    rescue Errno::ETIMEDOUT
+      if times_tried > 2
+        puts "WARNING: Failed to get URL #{url} after multiple attempts"
+        return nil
+      else
+        return final_url(url, times_tried + 1)
+      end
     end
 
     res['location'] ? final_url(res['location']) : url
