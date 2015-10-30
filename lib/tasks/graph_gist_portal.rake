@@ -60,7 +60,13 @@ namespace :graph_gist_portal do
       graph_gist = GraphGist.find_or_create({legacy_neo_id: gist.neo_id}, new_props)
 
       begin
-        graph_gist.images << GraphStarter::Image.create(source: open(poster_image_url), original_url: poster_image_url) if poster_image_url.present?
+        if poster_image_url.present?
+          image = GraphStarter::Image.create(source: open(poster_image_url), original_url: poster_image_url)
+          if graph_gist.class.has_images?
+            graph_gist.images << image
+          elsif graph_gist.class.has_image?
+            graph_gist.image = image
+          end
       rescue OpenURI::HTTPError => http_error
         allowed_errors = ['403 Forbidden', '404 Not Found']
         fail http_error unless allowed_errors.include?(http_error.message)
