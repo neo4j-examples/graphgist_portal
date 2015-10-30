@@ -25,6 +25,7 @@ gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 
 # gem 'graph_starter', path: '../graph_starter'
 gem 'graph_starter'
+# gem 'neo4j', path: '../../neo4jrb/neo4j'
 
 gem 'aws-sdk', '< 2.0'
 gem 'unicorn-rails'
