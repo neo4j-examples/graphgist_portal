@@ -67,6 +67,7 @@ namespace :graph_gist_portal do
           elsif graph_gist.class.has_image?
             graph_gist.image = image
           end
+        end
       rescue OpenURI::HTTPError => http_error
         allowed_errors = ['403 Forbidden', '404 Not Found']
         fail http_error unless allowed_errors.include?(http_error.message)
