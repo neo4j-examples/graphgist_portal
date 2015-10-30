@@ -40,6 +40,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    appsignal (0.12.rc.1)
+      rack
+      thread_safe
     arel (6.0.3)
     asciidoctor (1.5.2)
     aws-sdk (1.65.0)
@@ -276,6 +279,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  appsignal (~> 0.12.rc)
   asciidoctor
   aws-sdk (< 2.0)
   coffee-rails (~> 4.1.0)
