@@ -23,7 +23,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 
-# gem 'graph_starter'
+# gem 'graph_starter', path: '../graph_starter'
 gem 'graph_starter'
 
 gem 'aws-sdk', '< 2.0'
