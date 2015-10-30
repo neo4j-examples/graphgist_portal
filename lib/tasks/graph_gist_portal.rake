@@ -73,7 +73,7 @@ namespace :graph_gist_portal do
         fail http_error unless allowed_errors.include?(http_error.message)
       end
       begin
-        graph_gist.url = url
+        graph_gist.place_url url
       rescue ArgumentError => e
         if e.message.match('Gist has more than one file!')
           next

@@ -44,8 +44,8 @@ class GraphGist < GraphStarter::Asset
     end
   end
 
-  def url=(new_url)
-    super
+  def place_url(new_url)
+    self.url = new_url
 
     self.raw_url = GraphGistTools.raw_url_for(url) if url.present?
   end
