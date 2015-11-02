@@ -10,6 +10,8 @@ class Person < GraphStarter::Asset
   property :tshirt_size, type: String
   property :tshirt_size_other, type: String
 
+  display_properties :name, :twitter_username
+
   has_many :out, :authored_gists, origin: :author, model_class: :GraphGist
 
   has_one :in, :user, origin: :person
