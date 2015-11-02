@@ -49,6 +49,7 @@ gem 'devise-neo4j'
 
 group :development, :test do
   gem 'pry'
+  gem 'twitter'
 end
 
 group :development do
