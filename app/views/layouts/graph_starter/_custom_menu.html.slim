@@ -1,0 +1,12 @@
+a.ui.item href="#{main_app.about_path}" What is a GraphGist?
+
+.right.menu
+  - if @current_user_is_admin
+    a.ui.item href="#{groups_path}" Groups
+  - if user_signed_in?
+    .ui.item Logged in as #{current_user.name}
+    a.ui.item href="#{main_app.destroy_user_session_path}" method="delete" Sign out
+  - else
+    a.ui.item href="#{main_app.new_user_session_path}" Sign in
+    a.ui.item href="#{main_app.new_user_registration_path}" Sign up
+

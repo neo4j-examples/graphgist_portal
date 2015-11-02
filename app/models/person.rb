@@ -11,4 +11,6 @@ class Person < GraphStarter::Asset
   property :tshirt_size_other, type: String
 
   has_many :out, :authored_gists, origin: :author, model_class: :GraphGist
+
+  has_one :in, :user, origin: :person
 end

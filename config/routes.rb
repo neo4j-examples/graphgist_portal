@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   get 'about' => 'info#about'
   get 'submit' => 'info#submit'
 
+  devise_for :users
+
   mount GraphStarter::Engine => '/'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
