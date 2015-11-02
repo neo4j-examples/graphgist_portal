@@ -23,6 +23,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 
+gem "neo4j", "~> 6.0.0.alpha"
+
 # gem 'graph_starter', path: '../graph_starter'
 gem 'graph_starter'
 
