@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   mathjax 'mathjax'
 
+  get 'about' => 'info#about'
+  get 'submit' => 'info#submit'
+
   mount GraphStarter::Engine => '/'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
