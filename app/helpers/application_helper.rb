@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include GraphStarter::ApplicationHelper
+
   # Copied from https://github.com/dongli/mathjax-rails
   # PR has been sitting there for a while...
   def mathjax_tag(opt={})
