@@ -5,4 +5,10 @@ GraphStarter.configure do |config|
     GraphGist: 'file text icon',
     Person: 'user'
   }
+
+  config.scope_filters = {
+    GraphGist: -> (graph_gists) do
+      graph_gists.where(status: 'live')
+    end
+  }
 end
