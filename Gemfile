@@ -49,8 +49,9 @@ gem 'devise-neo4j'
 
 group :development, :test do
   gem 'pry'
-  gem 'twitter'
 end
+
+gem 'twitter'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
