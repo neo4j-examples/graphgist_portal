@@ -34,6 +34,8 @@ gem 'mathjax-rails'
 
 gem 'rails-html-sanitizer'
 
+gem 'devise-neo4j'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
