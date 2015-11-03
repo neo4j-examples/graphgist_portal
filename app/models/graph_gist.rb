@@ -30,7 +30,7 @@ class GraphGist < GraphStarter::Asset
 
   property :featured, type: Boolean
 
-  scope :featured, -> { where(featured: true) }
+  scope :only_featured, -> { where(featured: true) }
 
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id class style)

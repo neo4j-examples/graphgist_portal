@@ -1,6 +1,6 @@
 class InfoController < ApplicationController
   def featured_graphgists
-    @featured_graphgists = GraphGist.featured.to_a
+    @featured_graphgists = GraphGist.only_featured.to_a
   end
 
   def about
