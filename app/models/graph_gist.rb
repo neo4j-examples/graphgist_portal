@@ -15,7 +15,7 @@ class GraphGist < GraphStarter::Asset
   validates :html, presence: true
 
   property :status, type: String
-  validates :status, inclusion: {in: %w(live disabled candidate)}
+  enumerable_property :status, %w(live disabled candidate)
 
   has_one :in, :author, type: :WROTE, model_class: :Person
 

@@ -11,4 +11,8 @@ GraphStarter.configure do |config|
       graph_gists.where(status: 'live')
     end
   }
+
+  config.editable_properties = {
+    GraphGist: %w(title url featured status)
+  }
 end
