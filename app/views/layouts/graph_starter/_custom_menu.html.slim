@@ -1,7 +1,7 @@
 a.ui.item href="#{main_app.about_path}" What is a GraphGist?
 
 .right.menu
-  - if @current_user_is_admin
+  - if current_user && current_user.admin?
     a.ui.item href="#{groups_path}" Groups
   - if user_signed_in?
     .ui.item Logged in as #{current_user.name}

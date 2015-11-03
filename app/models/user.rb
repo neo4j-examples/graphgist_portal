@@ -42,13 +42,13 @@ class User
   property :current_sign_in_ip, type:  String
   property :last_sign_in_ip, type: String
 
+  property :admin, type: Boolean, default: false
+
   has_one :out, :person, type: :IS_PERSON
 
   after_save :propogate_person_properties
 
   def propogate_person_properties
-    require 'pry'
-    binding.pry
     (person || Person.create).tap do |person|
       person.name = name
       person.email = email
