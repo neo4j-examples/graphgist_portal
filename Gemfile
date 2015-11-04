@@ -23,7 +23,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 
-gem "neo4j", "~> 6.0.0.alpha"
+gem 'neo4j', '~> 6.0.0.alpha'
 # gem 'neo4j', path: '../../neo4jrb/neo4j'
 
 # gem 'graph_starter', path: '../graph_starter'
@@ -52,6 +52,8 @@ gem 'rubocop'
 
 group :development, :test do
   gem 'pry'
+  gem 'guard-rspec'
+  gem 'guard-rubocop'
 end
 
 gem 'twitter'

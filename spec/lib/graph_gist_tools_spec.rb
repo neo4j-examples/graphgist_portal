@@ -5,7 +5,6 @@ RSpec.describe GraphGistTools do
   use_vcr_cassette 'graph_gist_tools', record: :new_episodes
 
   describe '.raw_url_for' do
-
     subject { GraphGistTools.raw_url_for(url) }
 
     # GitHub Gists

@@ -7,15 +7,9 @@ if ENV['DISABLE_SSL_VERIFY_PEER_THIS_IS_A_BAD_IDEA_TOO_HAVE_ON_ALL_THE_TIME']
 end
 
 namespace :graph_gist_portal do
-
   def final_url(url, times_tried = 0)
-    return if url.nil?
-    begin
-      uri = URI.parse(url)
-    rescue URI::InvalidURIError
-      return
-    end
-    return if !uri.is_a?(URI::HTTP)
+    uri = uri_for_url(url)
+    return if uri.nil?
 
     begin
       res = Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https'), ca_file: '/etc/openssl/cacert.pem') do |http|
@@ -35,8 +29,20 @@ namespace :graph_gist_portal do
     res['location'] ? final_url(res['location']) : url
   end
 
+  def uri_for_url(url)
+    return if url.nil?
+    begin
+      uri = URI.parse(url)
+    rescue URI::InvalidURIError
+      return
+    end
+    return if !uri.is_a?(URI::HTTP)
+
+    uri
+  end
+
   task import_legacy_db: :environment do
-    legacy_db = Neo4j::Session.open(:server_db, ENV['LEGACY_GRAPHGIST_DB_URL']) 
+    legacy_db = Neo4j::Session.open(:server_db, ENV['LEGACY_GRAPHGIST_DB_URL'])
 
     gists = legacy_db.query.match(gist: :Gist).pluck(:gist)
 
@@ -106,7 +112,7 @@ namespace :graph_gist_portal do
       putc '.'
     end
 
-    people_and_gists_neo_ids = legacy_db.query.match("(gist:Gist)<-[:WRITER_OF]-(person:Person)").pluck('ID(person)', 'ID(gist)')
+    people_and_gists_neo_ids = legacy_db.query.match('(gist:Gist)<-[:WRITER_OF]-(person:Person)').pluck('ID(person)', 'ID(gist)')
     people_by_gists = people_and_gists_neo_ids.each_with_object({}) do |(person_neo_id, gist_neo_id), result|
       result[person_neo_id] ||= []
       result[person_neo_id] << gist_neo_id
@@ -122,7 +128,6 @@ namespace :graph_gist_portal do
       person.authored_gists = gists
       putc '.'
     end
-
   end
 
   task import_twitter_profile_images: :environment do
@@ -130,7 +135,7 @@ namespace :graph_gist_portal do
       config.consumer_key    = ENV['TWITTER_CONSUMER_KEY']
       config.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
       config.access_token    = ENV['TWITTER_ACCESS_TOKEN']
-      config.access_token_secret    = ENV['TWITTER_ACCESS_TOKEN_SECRET']
+      config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
     end
 
     Person.where_not(twitter_username: nil).each do |person|
@@ -147,7 +152,6 @@ namespace :graph_gist_portal do
       person.image = image
       person.save
     end
-
   end
 end
 

@@ -1,4 +1,4 @@
-class User 
+class User
   include Neo4j::ActiveNode
   #
   # Neo4j.rb needs to have property definitions before any validations. So, the property block needs to come before
@@ -20,7 +20,7 @@ class User
   property :updated_at, type: DateTime
 
   ## Database authenticatable
-  property :email, type: String, null: false, default: ""
+  property :email, type: String, null: false, default: ''
   index :email
 
   property :encrypted_password
@@ -79,8 +79,4 @@ class User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-
-
-
-
 end

@@ -50,18 +50,6 @@ Rails/ReadWriteAttribute:
   Exclude:
     - 'app/models/graph_gist.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/CommentIndentation:
-  Exclude:
-    - 'lib/graph_gist_tools.rb'
-
 # Offense count: 11
 # Configuration parameters: Exclude.
 Style/Documentation:
@@ -76,29 +64,6 @@ Style/Documentation:
     - 'app/models/user.rb'
     - 'config/application.rb'
     - 'lib/graph_gist_tools.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'lib/tasks/graph_gist_portal.rake'
-    - 'spec/lib/graph_gist_tools_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'app/models/user.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Style/ExtraSpacing:
-  Exclude:
-    - 'bin/setup'
-    - 'lib/tasks/graph_gist_portal.rake'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -119,12 +84,6 @@ Style/SpaceAroundEqualsInParameterDefault:
 Style/SpaceInsideBlockBraces:
   Enabled: false
 
-# Offense count: 20
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/StringLiterals:
-  Enabled: false
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -138,16 +97,3 @@ Style/TrailingBlankLines:
     - 'spec/lib/graph_gist_tools_spec.rb'
     - 'spec/rails_helper.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
-Style/TrailingComma:
-  Exclude:
-    - 'config/application.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/TrailingWhitespace:
-  Exclude:
-    - 'app/models/user.rb'
-    - 'lib/tasks/graph_gist_portal.rake'

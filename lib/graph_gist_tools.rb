@@ -25,8 +25,8 @@ module GraphGistTools
     Asciidoctor.load(text, attributes: ASCIIDOC_ATTRIBUTES)
   end
 
- #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
- #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
+  #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
+  #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
 
   def self.raw_url_for(url)
     case url.strip
@@ -71,7 +71,7 @@ module GraphGistTools
       return nil
     end
 
-    fail ArgumentError, "Gist has more than one file!" if data['files'].size > 1
+    fail ArgumentError, 'Gist has more than one file!' if data['files'].size > 1
 
     data['files'].to_a[0][1]['raw_url']
   end

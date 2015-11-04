@@ -27,7 +27,7 @@ module GraphStarter
         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
       },
       url: ':s3_domain_url',
-      path: '/:class/:attachment/:id_partition/:style/:filename',
+      path: '/:class/:attachment/:id_partition/:style/:filename'
     }
   end
 end
