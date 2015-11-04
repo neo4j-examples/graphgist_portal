@@ -1,7 +1,5 @@
 inherit_from: .rubocop_todo.yml
 
-
-
 #---------------------------
 # Style configuration
 #---------------------------
@@ -14,6 +12,8 @@ Style/HashSyntax:
 
 AllCops:
   RunRailsCops: true
+  DisplayCopNames: true
+  DisplayStyleGuide: true
 
 # Cop supports --auto-correct.
 Style/SpaceInsideHashLiteralBraces:
