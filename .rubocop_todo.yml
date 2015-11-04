@@ -31,12 +31,6 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 17
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'lib/tasks/graph_gist_portal.rake'
-
 # Offense count: 2
 # Configuration parameters: Include.
 Rails/Output:

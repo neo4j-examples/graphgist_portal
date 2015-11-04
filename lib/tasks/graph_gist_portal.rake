@@ -141,7 +141,7 @@ namespace :graph_gist_portal do
     Person.where_not(twitter_username: nil).each do |person|
       puts "Getting icon for #{person.twitter_username}..."
       begin
-        url = client.user(person.twitter_username.gsub('@', '')).profile_image_url.to_s.gsub(/_(normal|bigger|mini)\./, '.')
+        url = client.user(person.twitter_username.delete('@')).profile_image_url.to_s.gsub(/_(normal|bigger|mini)\./, '.')
       rescue Twitter::Error::NotFound, Twitter::Error::Forbidden
         next
       end
