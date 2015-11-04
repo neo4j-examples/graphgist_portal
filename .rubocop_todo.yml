@@ -12,11 +12,6 @@ Lint/HandleExceptions:
     - 'bin/rails'
     - 'bin/rake'
 
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/graph_gist_tools.rb'
-
 # Offense count: 1
 Metrics/AbcSize:
   Max: 18

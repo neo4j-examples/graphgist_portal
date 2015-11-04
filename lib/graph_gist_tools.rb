@@ -54,7 +54,7 @@ module GraphGistTools
     begin
       url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
       data = JSON.load(open(url).read)
-    rescue OpenURI::HTTPError => e
+    rescue OpenURI::HTTPError
       puts "WARNING: Error trying to fetch: #{url}"
       return nil
     end
@@ -66,7 +66,7 @@ module GraphGistTools
     begin
       url = "https://api.github.com/gists/#{id}"
       data = JSON.load(open(url).read)
-    rescue OpenURI::HTTPError => e
+    rescue OpenURI::HTTPError
       puts "WARNING: Error trying to fetch: #{url}"
       return nil
     end
