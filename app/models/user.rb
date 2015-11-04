@@ -10,6 +10,8 @@ class User
 
   property :name
   property :username, type: String
+  index :username
+
   property :twitter_username, type: String
   property :facebook_token, type: String
   index :facebook_token
