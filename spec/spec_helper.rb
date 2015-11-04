@@ -24,10 +24,10 @@ end
 
 require 'vcr'
 VCR.configure do |config|
-  config.ignore_hosts 'localhost', 'neo4j.org', 'neo4j.com'
   config.cassette_library_dir = "fixtures/vcr_cassettes"
   config.hook_into :webmock # or :fakeweb
 end
+WebMock.allow_net_connect!
 
 
 require 'factory_girl'
