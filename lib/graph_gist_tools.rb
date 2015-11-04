@@ -76,4 +76,3 @@ module GraphGistTools
     data['files'].to_a[0][1]['raw_url']
   end
 end
-

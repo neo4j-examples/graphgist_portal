@@ -154,4 +154,3 @@ namespace :graph_gist_portal do
     end
   end
 end
-

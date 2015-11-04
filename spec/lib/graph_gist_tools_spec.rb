@@ -59,4 +59,3 @@ RSpec.describe GraphGistTools do
     end
   end
 end
-

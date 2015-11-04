@@ -9,4 +9,3 @@ module ApplicationHelper
     "<script src=\"#{main_app.mathjax_path(uri: 'MathJax.js', config: opt[:config])}\" type=\"text/javascript\"></script>".html_safe
   end
 end
-

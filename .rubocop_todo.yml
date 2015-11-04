@@ -65,16 +65,3 @@ Style/Documentation:
     - 'config/application.rb'
     - 'lib/graph_gist_tools.rb'
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/TrailingBlankLines:
-  Exclude:
-    - 'Gemfile'
-    - 'app/helpers/application_helper.rb'
-    - 'config/unicorn.rb'
-    - 'lib/graph_gist_tools.rb'
-    - 'lib/tasks/graph_gist_portal.rake'
-    - 'spec/lib/graph_gist_tools_spec.rb'
-    - 'spec/rails_helper.rb'
-
