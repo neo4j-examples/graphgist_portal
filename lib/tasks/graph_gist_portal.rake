@@ -106,7 +106,7 @@ namespace :graph_gist_portal do
         postal_address: props[:postal_address],
         tshirt_size: props[:tshirt_size],
         tshirt_size_other: props[:tshirt_size_other]
-      }.reject {|_, v| v.nil? }
+      }.reject { |_, v| v.nil? }
 
       Person.find_or_create({legacy_neo_id: person.neo_id}, new_props)
       putc '.'
@@ -123,7 +123,7 @@ namespace :graph_gist_portal do
 
     people_by_gists.each do |person_neo_id, gist_ids|
       person = Person.find_by(legacy_neo_id: person_neo_id)
-      gists = gist_ids.map {|id| GraphGist.find_by(legacy_neo_id: id) }.compact
+      gists = gist_ids.map { |id| GraphGist.find_by(legacy_neo_id: id) }.compact
 
       person.authored_gists = gists
       putc '.'
