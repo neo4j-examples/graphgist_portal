@@ -19,15 +19,17 @@
 
 def delete_db
   # clear_model_memory_caches
-  Neo4j::Session.current.query('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
+  VCR.turned_off do
+    Neo4j::Session.current.query('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
+  end
 end
 
 require 'vcr'
-WebMock.allow_net_connect!
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
   config.hook_into :webmock # or :fakeweb
 end
+WebMock.allow_net_connect!
 
 
 require 'factory_girl'
