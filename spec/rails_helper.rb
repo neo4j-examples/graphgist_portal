@@ -22,6 +22,7 @@ require 'rspec/rails'
 #
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
+# RSpec helpers for deleting data from Neo4j
 module DeleteDbHelpers
   def delete_dbs
     Neo4j::Session.current.query('MATCH n OPTIONAL MATCH n-[r]-() DELETE n, r')

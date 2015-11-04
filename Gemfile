@@ -39,6 +39,8 @@ gem 'rails-html-sanitizer'
 
 gem 'devise-neo4j'
 
+gem 'rubocop'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

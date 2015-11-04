@@ -20,7 +20,7 @@ class User
   property :updated_at, type: DateTime
 
   ## Database authenticatable
-  property :email, type: String, :null => false, :default => ""
+  property :email, type: String, null: false, default: ""
   index :email
 
   property :encrypted_password
@@ -38,7 +38,7 @@ class User
   property :reset_password_sent_at, type:   DateTime
 
   ## Trackable
-  property :sign_in_count, type: Integer, :default => 0
+  property :sign_in_count, type: Integer, default: 0
   property :current_sign_in_at, type: DateTime
   property :last_sign_in_at, type: DateTime
   property :current_sign_in_ip, type:  String
