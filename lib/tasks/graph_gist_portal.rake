@@ -76,7 +76,7 @@ namespace :graph_gist_portal do
         end
       rescue OpenURI::HTTPError => http_error
         allowed_errors = ['403 Forbidden', '404 Not Found']
-        fail http_error unless allowed_errors.include?(http_error.message)
+        raise http_error unless allowed_errors.include?(http_error.message)
       end
       begin
         graph_gist.place_url url

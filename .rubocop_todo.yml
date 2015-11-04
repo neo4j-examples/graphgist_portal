@@ -68,13 +68,6 @@ Style/Documentation:
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/SignalException:
-  Exclude:
-    - 'lib/tasks/graph_gist_portal.rake'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
