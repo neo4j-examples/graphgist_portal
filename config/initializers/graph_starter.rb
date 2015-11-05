@@ -1,5 +1,5 @@
 GraphStarter.configure do |config|
-  config.menu_models = %i(GraphGist)
+  config.menu_models = %i(GraphGist Industry UseCase)
 
   config.icon_classes = {
     GraphGist: 'file text icon',

@@ -116,7 +116,7 @@ GEM
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    graph_starter (0.8.2)
+    graph_starter (0.9.0)
       neo4j (~> 6.0.0.alpha)
       neo4jrb-paperclip (= 0.0.3)
       paperclip (~> 4.2.0)
@@ -392,7 +392,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mathjax-rails
-  neo4j (~> 6.0.0.alpha)
   pry
   rails (= 4.2.4)
   rails-html-sanitizer

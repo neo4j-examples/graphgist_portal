@@ -32,6 +32,16 @@ class GraphGist < GraphStarter::Asset
 
   scope :only_featured, -> { where(featured: true) }
 
+  has_many :out, :industries, type: :FOR_INDUSTRY
+  has_many :out, :use_cases, type: :FOR_USE_CASE
+
+  before_validation :place_updated_url, if: :url_changed?
+
+  def place_updated_url
+    place_url(url)
+    place_asciidoc(open(raw_url).read) if raw_url.present?
+  end
+
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id class style)
   def place_asciidoc(asciidoc_text)
@@ -44,7 +54,7 @@ class GraphGist < GraphStarter::Asset
                                      tags: VALID_HTML_TAGS,
                                      attributes: VALID_HTML_ATTRIBUTES)
 
-      self.title = document.doctitle
+      self.title = document.doctitle if document.doctitle.present?
     end
   end
 
