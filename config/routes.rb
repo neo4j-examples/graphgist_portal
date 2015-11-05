@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'about' => 'info#about'
   get 'submit' => 'info#submit'
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "users/registrations" }
 
   mount GraphStarter::Engine, at: '/'
 end
