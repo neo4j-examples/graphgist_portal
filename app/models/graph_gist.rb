@@ -26,7 +26,6 @@ class GraphGist < GraphStarter::Asset
 
   display_properties :url, :created_at
 
-  category_association :author
 
   property :featured, type: Boolean
 
@@ -34,6 +33,8 @@ class GraphGist < GraphStarter::Asset
 
   has_many :out, :industries, type: :FOR_INDUSTRY
   has_many :out, :use_cases, type: :FOR_USE_CASE
+
+  category_associations :author, :industries, :use_cases
 
   before_validation :place_updated_url, if: :url_changed?
 
