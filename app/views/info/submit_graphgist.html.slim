@@ -1,0 +1,55 @@
+= form_tag create_graphgist_path
+  .ui.form method="get" 
+    .field
+      label URL
+      = text_field_tag 'url'
+
+    .field#title-field
+      label Title
+      = text_field_tag 'title'
+
+
+    #preview-button.ui.button Preview
+    = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
+
+
+i#iframe-spinner.ui.massive.loading.spinner.icon
+
+coffee:
+  $('#preview-button').click ->
+    $('#iframe-spinner').show();
+    $('iframe').attr('src', '/preview_graphgist?url=' + $('#url').val())
+
+  window.iframe_loaded = ->
+    $('#iframe-spinner').hide();
+
+    title = $('iframe').contents().find('#graphgist-title').text()
+    title = title.replace(/^\s*/, '').replace(/\s+$/, '')
+
+    $('#title-field').show()
+    if title.length > 0
+      $('#title-field input').val title
+    else
+      $('#title-field input').val ''
+
+
+iframe onload="iframe_loaded()"
+
+scss:
+  iframe {
+    width: 100%;
+    height: 1000px;
+    margin-top: 1em;
+    border: 1px solid #999;
+  }
+
+  #iframe-spinner {
+    display: none;
+    left: 45%;
+    position: absolute;
+    top: 60%;
+  }
+
+  #title-field {
+    display: none;
+  }
