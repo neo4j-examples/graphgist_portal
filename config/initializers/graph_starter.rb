@@ -7,8 +7,8 @@ GraphStarter.configure do |config|
   }
 
   config.scope_filters = {
-    GraphGist: -> (graph_gists) do
-      graph_gists.where(status: 'live')
+    GraphGist: -> (var) do
+      "#{var}.status = 'live'"
     end
   }
 
