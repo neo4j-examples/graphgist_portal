@@ -130,7 +130,7 @@ p.console.fixed-console {
 
 p.console {
     margin-bottom: 48px;
-    background: #eeeeee url('http://gist.neo4j.org/images/loading.gif') no-repeat center center;
+    background: #eeeeee image-url('loading') no-repeat center center;
 
     > span.loading {
         display: block;
