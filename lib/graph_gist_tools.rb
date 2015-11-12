@@ -1,5 +1,6 @@
 require 'json'
 require 'open-uri'
+require 'faraday'
 
 module GraphGistTools
   ASCIIDOC_ATTRIBUTES = ['env-graphgist']
@@ -36,6 +37,14 @@ module GraphGistTools
       raw_url_for_graphgist_id($1)
     when %r{^https?://(www\.)?github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)/?$}
       raw_url_from_github_api($2, $3, $5, $4)
+    when %r{^https?://(www\.)?dropbox\.com/s/([^/]+)/([^\?]+)(\?dl=(0|1))?$}
+      "https://www.dropbox.com/s/#{$2}/#{$3}?dl=1"
+    when %r{^https?://docs.google.com/document/d/([^\/]+)(/edit)?$}
+      "https://docs.google.com/document/u/0/export?format=txt&id=#{$1}"
+    else
+      http_connection = Faraday.new url: url
+      result = http_connection.head url
+      url if result.headers['content-type'].match(/^text\//)
     end
   end
 

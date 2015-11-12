@@ -41,7 +41,47 @@ RSpec.describe GraphGistTools do
       it { should eq 'https://raw.githubusercontent.com/kvangundy/Slashco/master/slashco.adoc' }
     end
 
-    # Dropbox
+    describe 'Dropbox' do
+      let_context url: 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=0' do
+        it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
+      end
+
+      let_context url: 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt' do
+        it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
+      end
+
+      let_context url: 'https://dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=0' do
+        it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
+      end
+
+      let_context url: 'http://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=0' do
+        it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
+      end
+
+      let_context url: 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' do
+        it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
+      end
+    end
+
+    describe 'Google docs' do
+      let_context url: 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw&token=AC4w5VhoYYXF6XPJLJfjfIufyeHlai6D-g%3A1447325752412' do
+        it { should eq 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw&token=AC4w5VhoYYXF6XPJLJfjfIufyeHlai6D-g%3A1447325752412' }
+      end
+
+      let_context url: 'https://docs.google.com/document/d/1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw/edit' do
+        it { should eq 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw' }
+      end
+
+      let_context url: 'https://docs.google.com/document/d/1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw' do
+        it { should eq 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw' }
+      end
+    end
+
+    describe 'non-text responses' do
+      let_context url: 'https://gricker.files.wordpress.com/2015/02/graph.png' do
+        it { should be_nil }
+      end
+    end
   end
 
   # This is the method which converts the special GraphGist URL syntax to URLs
