@@ -23,11 +23,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 
-# gem 'graph_starter', path: '../graph_starter'
-gem 'graph_starter'
+if ENV['DEBUG_SERVER']
+  gem 'graph_starter', path: '../graph_starter'
+else
+  gem 'graph_starter'
+end
 
 gem 'aws-sdk', '< 2.0'
-gem 'unicorn-rails'
+
+gem 'unicorn-rails' if !ENV['DEBUG_SERVER']
+
+gem 'faraday'
 
 gem 'asciidoctor'
 gem 'mathjax-rails'
