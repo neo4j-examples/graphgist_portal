@@ -29,7 +29,7 @@ module GraphGistTools
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
   #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
 
-  def self.raw_url_for(url)
+  def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity
     case url.strip
     when %r{^https?://gist\.github\.com/([^/]+/)?(.+)$}
       url_from_github_graphgist_api($2)
@@ -42,10 +42,14 @@ module GraphGistTools
     when %r{^https?://docs.google.com/document/d/([^\/]+)(/edit)?$}
       "https://docs.google.com/document/u/0/export?format=txt&id=#{$1}"
     else
-      http_connection = Faraday.new url: url
-      result = http_connection.head url
-      url if result.headers['content-type'].match(/^text\//)
+      url if url_returns_text_content_type?(url)
     end
+  end
+
+  def self.url_returns_text_content_type?(url)
+    http_connection = Faraday.new url: url
+    result = http_connection.head url
+    result.headers['content-type'].match(%r{^text/})
   end
 
   def self.raw_url_for_graphgist_id(graphgist_id)

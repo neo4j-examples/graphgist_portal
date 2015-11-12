@@ -20,6 +20,12 @@ Style/SpaceInsideHashLiteralBraces:
   Enabled: true
   EnforcedStyle: no_space
 
+Metrics/LineLength:
+  Max: 154
+  Exclude:
+    - 'spec/lib/graph_gist_tools_spec.rb'
+
+
 #---------------------------
 # Don't intend to fix these:
 #---------------------------
