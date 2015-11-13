@@ -57,6 +57,7 @@ group :development, :test do
   gem 'pry'
   gem 'guard-rspec'
   gem 'guard-rubocop'
+  gem 'meta_request'
 end
 
 gem 'twitter'
