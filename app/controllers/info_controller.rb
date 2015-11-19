@@ -9,7 +9,7 @@ class InfoController < ApplicationController
   def graphgist_recommendations
     graphgist = GraphGist.find(params[:id])
 
-    @recommendations = @graphgist.secret_sauce_recommendations
+    @recommendations = graphgist.secret_sauce_recommendations
   end
 
   def submit_graphgist
