@@ -41,6 +41,7 @@ gem 'mathjax-rails'
 gem 'rails-html-sanitizer'
 
 gem 'devise-neo4j'
+gem 'neo4j', path: '/Users/brian/github/neo4jrb/neo4j'
 
 gem 'rubocop'
 
