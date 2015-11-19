@@ -36,6 +36,8 @@ class GraphGist < GraphStarter::Asset
 
   category_associations :author, :industries, :use_cases
 
+  body_property :html
+
   before_validation :place_updated_url, if: :url_changed?
 
   def place_updated_url
