@@ -46,7 +46,7 @@ module GraphgistPortal
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.eager_load_paths += ["#{Rails.root}/lib/graph_gist_tools.rb"]
+    config.eager_load_paths += [Rails.root.join('lib').to_s]
 
     config.assets.precompile += %w(
       jquery.datetimepicker.js

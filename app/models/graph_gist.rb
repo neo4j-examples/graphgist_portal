@@ -54,6 +54,7 @@ class GraphGist < GraphStarter::Asset
       self.html = sanitizer.sanitize(document.convert,
                                      tags: VALID_HTML_TAGS,
                                      attributes: VALID_HTML_ATTRIBUTES)
+      self.html += GraphGistTools.metadata_html(document)
 
       self.title = document.doctitle if document.doctitle.present?
     end

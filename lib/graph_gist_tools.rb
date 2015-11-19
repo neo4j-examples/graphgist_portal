@@ -26,6 +26,19 @@ module GraphGistTools
     Asciidoctor.load(text, attributes: ASCIIDOC_ATTRIBUTES)
   end
 
+  def self.metadata_html(asciidoc_doc)
+    attrs = asciidoc_doc.attributes
+
+    <<-METADATA
+<span id="metadata"
+ author="#{attrs['author']}"
+ version="#{attrs['neo4j-version']}"
+ twitter="#{attrs['twitter']}"
+ tags="#{attrs['tags']}"
+/>
+METADATA
+  end
+
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
   #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
 
