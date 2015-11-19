@@ -190,7 +190,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.2.0)
-    neo4j (6.0.0.rc.3)
+    neo4j (6.0.0.rc.4)
       active_attr (~> 0.8)
       activemodel (~> 4)
       activesupport (~> 4)
