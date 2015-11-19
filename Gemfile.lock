@@ -1,13 +1,3 @@
-PATH
-  remote: /Users/brian/github/neo4jrb/neo4j
-  specs:
-    neo4j (6.0.0.rc.4)
-      active_attr (~> 0.8)
-      activemodel (~> 4)
-      activesupport (~> 4)
-      neo4j-core (~> 6.0.0.rc.1)
-      orm_adapter (~> 0.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -200,6 +190,12 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.2.0)
+    neo4j (6.0.0.rc.3)
+      active_attr (~> 0.8)
+      activemodel (~> 4)
+      activesupport (~> 4)
+      neo4j-core (~> 6.0.0.rc.1)
+      orm_adapter (~> 0.5.0)
     neo4j-core (6.0.0.rc.1)
       activesupport
       faraday (~> 0.9.0)
@@ -407,7 +403,6 @@ DEPENDENCIES
   jquery-rails
   mathjax-rails
   meta_request
-  neo4j!
   pry
   rails (= 4.2.4)
   rails-html-sanitizer
