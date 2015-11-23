@@ -140,7 +140,7 @@ function GraphGist($, options) {
     function postProcessPage() {
         var $meta = $('#metadata', $content);
         var version = $meta.attr('version'), tags = $meta.attr('tags'), author = $meta.attr('author'), twitter = $meta.attr('twitter');
-        regex = /^(\d+)\.(\d+)\.\d+$/;
+        var regex = /^(\d+)\.(\d+)\.\d+$/;
         if (version.match(regex)) {
           version = version.replace(regex, '$1.$2');
         }
