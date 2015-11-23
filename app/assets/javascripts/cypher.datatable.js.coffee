@@ -15,7 +15,7 @@ convertResult = (data) ->
     new_row = for column, idx in columns
       value = convertCell(row[column])
       result.columns[idx].sWidth = Math.max(value.length * CHAR_WIDTH, result.columns[idx].sWidth)
-      value
+      render(value)
 
     result.data[row_idx] = new_row
 
@@ -27,6 +27,16 @@ convertResult = (data) ->
     result.columns[idx].sWidth = '' + Math.round(100 * result.columns[idx].sWidth / width) + '%'
 
   result
+
+render = (cell) ->
+  if typeof cell is 'string'
+    if cell.match(/^https?:/)
+      if (cell.match(/(jpg|png|gif)$/i))
+        return '<img style="display:inline;max-height:100%" src="'+cell+'">'
+      return '<a href="'+cell+'" target="_blank">'+cell+'</a>'
+
+  cell
+
 
 convertCell = (cell) ->
   return '<null>' if cell == null
@@ -51,9 +61,15 @@ convertCell = (cell) ->
       return '(' + cell['_id'] + labels + props(cell) + ')'
     return props(cell)
 
+  if typeof(cell) is 'string'
+    if cell.match(/^https?:/)
+      if cell.match(/(jpg|png|gif)$/i)
+        return '<img style="display:inline;max-height:100%" src="'+cell+'">'
+      return '<a href="'+cell+'" target="_blank">'+cell+'</a>';
+
   cell
 
-props = (cell) ->
+window.props = (cell) ->
   props = []
   for key of cell
     if cell.hasOwnProperty(key) and key[0] != '_'

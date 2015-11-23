@@ -8,8 +8,8 @@ module GraphGistTools
   COMMENT_REPLACEMENTS = {
     console: '<p class="console"><span class="loading"><i class="icon-cogs"></i> Running queries, preparing the console!</span></p>',
 
-    graph_result: '<h5 class="graph-visualization" graph-mode="result"><i class="huge spinner loading icon"></i></h5>',
-    graph: '<h5 class="graph-visualization">Loading graph...<i class="huge spinner loading icon"></i></h5>',
+    graph_result: '<h5 class="graph-visualization" data-style="{style}" graph-mode="result"><i class="huge spinner loading icon"></i></h5>',
+    graph: '<h5 class="graph-visualization" data-style="{style}">Loading graph...<i class="huge spinner loading icon"></i></h5>',
     table: '<h5 class="result-table">Loading table...<i class="huge spinner loading icon"></i></h5>',
 
     hide: '<span class="hide-query"></span>',
@@ -20,7 +20,9 @@ module GraphGistTools
   def self.asciidoc_document(asciidoc_text)
     text = asciidoc_text.dup
     COMMENT_REPLACEMENTS.each do |tag, replacement|
-      text.gsub!(Regexp.new(%r{^//\s*#{tag}}, 'gm'), "++++\n#{replacement}\n++++\n")
+      prefix = nil
+      prefix = "\n\n[subs=\"attributes\"]\n" if [:graph_result, :graph].include?(tag)
+      text.gsub!(Regexp.new(%r{^//\s*#{tag}}, 'gm'), "#{prefix}++++\n#{replacement}\n++++\n")
     end
 
     Asciidoctor.load(text, attributes: ASCIIDOC_ATTRIBUTES)
