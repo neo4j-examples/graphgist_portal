@@ -338,6 +338,7 @@ function GraphGist($, options) {
             var visualization = $wrapper.data('visualization');
             var id = 'graph-visualization-' + (counter++);
             var $visContainer = $VISUALIZATION.clone().attr('id', id).insertAfter($heading);
+            var style = $heading.attr('data-style');
             var show_result_only = $heading.attr('graph-mode') && $heading.attr('graph-mode').indexOf('result') !== -1;
             var selectedVisualization = handleSelection(visualization, show_result_only);
             $heading.remove();
@@ -346,7 +347,7 @@ function GraphGist($, options) {
 
             function performVisualizationRendering() {
                 if (visualization) {
-                    var rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization);
+                    var rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style);
                     var subscriptions = 'subscriptions' in rendererHooks ? rendererHooks['subscriptions'] : {};
                     var actions = 'actions' in rendererHooks ? rendererHooks['actions'] : {};
                     var $visualizationIcons = $VISUALIZATION_ICONS.clone().appendTo($visContainer);

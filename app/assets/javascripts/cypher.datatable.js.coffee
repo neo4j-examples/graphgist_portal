@@ -1,5 +1,6 @@
+
 convertResult = (data) ->
-  result = 
+  result =
     columns: []
     data: []
   columns = data.columns
