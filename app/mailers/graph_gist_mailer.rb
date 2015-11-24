@@ -1,5 +1,5 @@
+# Mailers for everything to do with GraphGists
 class GraphGistMailer < ApplicationMailer
-
   def notify_admins_about_creation(graphgist)
     @graphgist = graphgist
 
