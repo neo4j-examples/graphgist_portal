@@ -44,6 +44,8 @@ gem 'devise-neo4j'
 
 gem 'rubocop'
 
+gem 'mandrill_dm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

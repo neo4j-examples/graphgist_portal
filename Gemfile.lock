@@ -100,6 +100,7 @@ GEM
       railties (~> 4.0)
     equalizer (0.0.10)
     erubis (2.7.0)
+    excon (0.45.4)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -173,6 +174,11 @@ GEM
     lumberjack (1.0.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mandrill-api (1.0.53)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
+    mandrill_dm (1.2.0)
+      mandrill-api (~> 1.0.53)
     mathjax-rails (2.5.1)
       railties (>= 3.0)
     memoizable (0.4.2)
@@ -401,6 +407,7 @@ DEPENDENCIES
   guard-rubocop
   jbuilder (~> 2.0)
   jquery-rails
+  mandrill_dm
   mathjax-rails
   meta_request
   pry

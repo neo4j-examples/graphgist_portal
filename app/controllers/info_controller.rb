@@ -28,6 +28,6 @@ class InfoController < ApplicationController
     @graphgist.save
     @graphgist.update_attribute(:title, params[:title])
 
-    redirect_to controller: 'graph_starter/assets', action: 'show', id: @graphgist.id
+    redirect_to controller: 'graph_starter/assets', action: 'show', id: @graphgist.id, model_slug: 'graph_gists'
   end
 end

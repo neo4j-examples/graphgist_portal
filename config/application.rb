@@ -58,5 +58,7 @@ module GraphgistPortal
 
     config.neo4j.pretty_logged_cypher_queries = true
     config.neo4j.record_timestamps = true
+
+    config.action_mailer.delivery_method = :mandrill
   end
 end
