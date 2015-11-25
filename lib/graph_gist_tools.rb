@@ -44,7 +44,7 @@ METADATA
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
   #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
 
-  def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity
+  def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     case url.strip
     when %r{^https?://gist\.github\.com/([^/]+/)?(.+)$}
       url_from_github_graphgist_api($2)

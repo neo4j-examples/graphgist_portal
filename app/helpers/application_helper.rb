@@ -6,6 +6,8 @@ module ApplicationHelper
   def mathjax_tag(opt = {})
     opt[:config] ||= 'TeX-AMS_HTML-full.js'
     opt[:config] = nil if opt[:config] == false
-    "<script src=\"#{main_app.mathjax_path(uri: 'MathJax.js', config: opt[:config])}\" type=\"text/javascript\"></script>".html_safe
+
+    route_method = opt[:absolute_path] ? :mathjax_url : :mathjax_path
+    "<script src=\"#{main_app.send(route_method, uri: 'MathJax.js', config: opt[:config])}\" type=\"text/javascript\"></script>".html_safe
   end
 end

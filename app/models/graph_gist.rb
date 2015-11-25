@@ -8,13 +8,14 @@ class GraphGist < GraphStarter::Asset
   property :title
   property :url, type: String, constraint: :unique
   property :raw_url, type: String
+  validates :raw_url, presence: true
 
   property :asciidoc, type: String
   validates :asciidoc, presence: true
   property :html, type: String
   validates :html, presence: true
 
-  property :status, type: String
+  property :status, type: String, default: 'candidate'
   enumerable_property :status, %w(live disabled candidate)
 
   has_one :in, :author, type: :WROTE, model_class: :Person
@@ -52,7 +53,7 @@ class GraphGist < GraphStarter::Asset
   end
 
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
-  VALID_HTML_ATTRIBUTES = %w(id class style data-style)
+  VALID_HTML_ATTRIBUTES = %w(id src class style data-style)
   def place_asciidoc(asciidoc_text)
     write_attribute(:asciidoc, asciidoc_text)
 

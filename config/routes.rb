@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
+  get 'render_graphgist_js' => 'info#render_graphgist_js'
+
   devise_for :users, controllers: {registrations: 'users/registrations'}
 
   mount GraphStarter::Engine, at: '/'

@@ -141,7 +141,7 @@ function GraphGist($, options) {
         var $meta = $('#metadata', $content);
         var version = $meta.attr('version'), tags = $meta.attr('tags'), author = $meta.attr('author'), twitter = $meta.attr('twitter');
         var regex = /^(\d+)\.(\d+)\.\d+$/;
-        if (version.match(regex)) {
+        if (typeof version !== 'undefined' && version.match(regex)) {
           version = version.replace(regex, '$1.$2');
         }
         if (tags === '{tags}') {

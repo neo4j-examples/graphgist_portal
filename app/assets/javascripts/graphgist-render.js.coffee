@@ -18,7 +18,7 @@
 # Transform ASCIIdoc HTML output to match Semantic UI expectations
 $('.sect1').addClass('ui container')
 for code_element in $('code[class*="language-"]')
-  classes = _(code_element.classList).select (c) -> c.match(/^language-/)
+  classes = (e for e in code_element.classList when e.match(/^language-/))
 
   $(code_element).parent('pre').addClass(c) for c in classes
 
