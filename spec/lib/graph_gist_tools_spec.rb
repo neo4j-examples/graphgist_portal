@@ -63,6 +63,30 @@ RSpec.describe GraphGistTools do
       end
     end
 
+    describe 'pastebin' do
+      let_context url: 'http://pastebin.com/AFmNzecE' do
+        it { should eq 'http://pastebin.com/raw.php?i=AFmNzecE' }
+      end
+
+      let_context url: 'https://pastebin.com/AFmNzecE' do
+        it { should eq 'http://pastebin.com/raw.php?i=AFmNzecE' }
+      end
+
+      let_context url: 'https://www.pastebin.com/AFmNzecE' do
+        it { should eq 'http://pastebin.com/raw.php?i=AFmNzecE' }
+      end
+    end
+
+    describe 'etherpad' do
+      let_context url: 'https://public.etherpad-mozilla.org/p/aouoeuoeu' do
+        it { should eq 'https://public.etherpad-mozilla.org/p/aouoeuoeu/export/txt' }
+      end
+
+      let_context url: 'http://beta.etherpad.org/p/IudqLHvuRj' do
+        it { should eq 'http://beta.etherpad.org/p/IudqLHvuRj/export/txt' }
+      end
+    end
+
     describe 'Google docs' do
       let_context url: 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw&token=AC4w5VhoYYXF6XPJLJfjfIufyeHlai6D-g%3A1447325752412' do
         it { should eq 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw&token=AC4w5VhoYYXF6XPJLJfjfIufyeHlai6D-g%3A1447325752412' }

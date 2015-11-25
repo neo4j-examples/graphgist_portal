@@ -56,6 +56,10 @@ METADATA
       "https://www.dropbox.com/s/#{$2}/#{$3}?dl=1"
     when %r{^https?://docs.google.com/document/d/([^\/]+)(/edit)?$}
       "https://docs.google.com/document/u/0/export?format=txt&id=#{$1}"
+    when %r{^(https?://[^/]*etherpad[^/]*/([^/]+/)*)p/([^/]+)/?$}
+      "#{$1}p/#{$3}/export/txt"
+    when %r{^https?://(www.)?pastebin.com/([^/]+)/?$}
+      "http://pastebin.com/raw.php?i=#{$2}"
     else
       url if url_returns_text_content_type?(url)
     end
