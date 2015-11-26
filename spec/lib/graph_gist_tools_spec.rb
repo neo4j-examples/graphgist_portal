@@ -32,6 +32,10 @@ RSpec.describe GraphGistTools do
       it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
     end
 
+    let_context url: 'https://gist.github.com/patbaumgartner/8139605' do
+      it { should eq 'something' }
+    end
+
     # Github repos
     let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
       it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
