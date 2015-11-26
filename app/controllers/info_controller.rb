@@ -36,9 +36,7 @@ class InfoController < ApplicationController
 
   def render_graphgist
     url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
-    if url.present?
-      @graphgist = GraphGist.new(url: url)
-    end
+    @graphgist = GraphGist.new(url: url) if url.present?
   end
 
   def render_graphgist_js

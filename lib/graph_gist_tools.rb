@@ -87,14 +87,6 @@ METADATA
     end
   end
 
-#  https://www.dropbox.com/s/pwt6loe0mrcte97/gistfile.adoc?dl=0
-
-# var DROPBOX_PUBLIC_BASE_URL = 'https://www.dropbox.com/u/';
-# var DROPBOX_PUBLIC_API_BASE_URL = 'https://dl.dropboxusercontent.com/u/';
-# var DROPBOX_PRIVATE_BASE_URL = 'https://www.dropbox.com/s/';
-# var DROPBOX_PRIVATE_API_BASE_URL = 'https://dl.dropboxusercontent.com/s/';
-
-
   def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
     begin
       url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
