@@ -3,7 +3,7 @@ a.ui.item href="#{main_app.submit_graphgist_path}" Submit a GraphGist
 a.ui.item href="#{main_app.challenge_path}" style="color: red; font-weight: bold" GraphGist Challenge!
 
 .right.menu
-  - if current_user && current_user.admin?
+  /- if current_user && current_user.admin?
     a.ui.item href="#{graph_starter.groups_path}" Groups
   - if user_signed_in?
     .ui.item Logged in as #{current_user.name}
