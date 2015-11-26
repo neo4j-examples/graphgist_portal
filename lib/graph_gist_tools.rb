@@ -77,10 +77,23 @@ METADATA
     when /^github-(.*)$/
       parts = $1.split('/')
       raw_url_from_github_api(parts[0], parts[1], parts[3..-1].join('/'))
+    when /^dropbox(s?)-(.*)$/
+      is_private = !$1.empty?
+      "https://dl.dropboxusercontent.com/#{is_private ? 's' : 'u'}/#{$2}"
+    when /^copy-(.*)$/
+      "https://copy.com/#{$1}?download=1"
     else
       url_from_github_graphgist_api(id)
     end
   end
+
+#  https://www.dropbox.com/s/pwt6loe0mrcte97/gistfile.adoc?dl=0
+
+# var DROPBOX_PUBLIC_BASE_URL = 'https://www.dropbox.com/u/';
+# var DROPBOX_PUBLIC_API_BASE_URL = 'https://dl.dropboxusercontent.com/u/';
+# var DROPBOX_PRIVATE_BASE_URL = 'https://www.dropbox.com/s/';
+# var DROPBOX_PRIVATE_API_BASE_URL = 'https://dl.dropboxusercontent.com/s/';
+
 
   def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
     begin

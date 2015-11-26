@@ -115,15 +115,49 @@ RSpec.describe GraphGistTools do
   # This is the method which converts the special GraphGist URL syntax to URLs
   describe '.raw_url_for_graphgist_id' do
     subject { GraphGistTools.raw_url_for_graphgist_id(id) }
-    let_context id: '8176106' do
-      it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+    describe 'GitHub gists' do
+      let_context id: '8176106' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+      let_context id: '6009066' do
+        it { should eq 'https://gist.githubusercontent.com/peterneubauer/6009066/raw/b0dd549f6299b4a5dcc9e32982996f33b012c415/T-Graph.adoc' }
+      end
     end
-    let_context id: 'github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
-      it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
+
+    describe 'GitHub files' do
+      let_context id: 'github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
+        it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
+      end
+      let_context id: 'github-whatSocks/jobSNV//socialNetworks.adoc' do
+        it { should eq 'https://raw.githubusercontent.com/whatSocks/jobSNV/master/socialNetworks.adoc' }
+      end
+      # Encoded
+      let_context id: 'github-neo4j-contrib%2Fgists%2F%2Fother%2FNetworkDataCenterManagement1.adoc' do
+        it { should eq 'https://raw.githubusercontent.com/neo4j-contrib/gists/master/other/NetworkDataCenterManagement1.adoc' }
+      end
+
+      # blobs
+      let_context id: 'github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
+        it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
+      end
     end
-    # Encoded
-    let_context id: 'github-neo4j-contrib%2Fgists%2F%2Fother%2FNetworkDataCenterManagement1.adoc' do
-      it { should eq 'https://raw.githubusercontent.com/neo4j-contrib/gists/master/other/NetworkDataCenterManagement1.adoc' }
+
+    describe 'Dropbox' do
+      let_context id: 'dropboxs-vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' do
+        it { should eq 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' }
+      end
+    end
+
+    describe 'copy.com' do
+      # Public files
+      let_context id: 'copy-7MuhBZKFDsCIPNLp' do
+        it { should eq 'https://copy.com/7MuhBZKFDsCIPNLp?download=1' }
+      end
+
+      # Direct files
+      let_context id: 'copy-7MuhBZKFDsCIPNLp/analysis.txt' do
+        it { should eq 'https://copy.com/7MuhBZKFDsCIPNLp/analysis.txt?download=1' }
+      end
     end
   end
 end

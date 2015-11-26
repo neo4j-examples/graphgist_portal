@@ -34,6 +34,13 @@ class InfoController < ApplicationController
     redirect_to controller: 'graph_starter/assets', action: 'show', id: @graphgist.id, model_slug: 'graph_gists'
   end
 
+  def render_graphgist
+    url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
+    if url.present?
+      @graphgist = GraphGist.new(url: url)
+    end
+  end
+
   def render_graphgist_js
     render layout: false
   end
