@@ -15,7 +15,7 @@ namespace :graph_gist_portal do
       res = Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https'), ca_file: '/etc/openssl/cacert.pem') do |http|
         http.request(Net::HTTP::Head.new(uri.request_uri))
       end
-    rescue SocketError
+    rescue SocketError, Errno::ECONNREFUSED
       return
     rescue Errno::ETIMEDOUT
       if times_tried > 2
@@ -99,7 +99,7 @@ namespace :graph_gist_portal do
 
       new_props = {
         name: props[:name],
-        twitter_username: props[:twitter],
+        twitter_username: props[:twitter] && props[:twitter].downcase,
         created_at: props[:created] && props[:created] / 1000,
         updated_at: props[:updated] && props[:updated] / 1000,
         email: props[:email],
