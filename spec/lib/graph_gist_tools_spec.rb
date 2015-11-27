@@ -33,7 +33,7 @@ RSpec.describe GraphGistTools do
     end
 
     let_context url: 'https://gist.github.com/patbaumgartner/8139605' do
-      it { should eq 'something' }
+      it { should eq 'https://gist.githubusercontent.com/patbaumgartner/8139605/raw/c5a8c8476f9b68508ed2a15c0603ee72fc8cd189/Single%20Malt%20Scotch%20Whisky%20GraphGist.adoc' }
     end
 
     # Github repos
