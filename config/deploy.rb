@@ -41,4 +41,3 @@ namespace :deploy do
     invoke 'unicorn:legacy_restart'
   end
 end
-
