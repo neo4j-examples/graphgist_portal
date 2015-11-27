@@ -87,10 +87,16 @@ METADATA
     end
   end
 
+  def self.github_api_headers
+    {}.tap do |headers|
+      headers['Authorization'] = "token #{ENV['GITHUB_TOKEN']}" if ENV['GITHUB_TOKEN']
+    end
+  end
+
   def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
     begin
       url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
-      data = JSON.load(open(url).read)
+      data = JSON.load(open(url, github_api_headers).read)
     rescue OpenURI::HTTPError
       puts "WARNING: Error trying to fetch: #{url}"
       return nil
@@ -102,7 +108,7 @@ METADATA
   def self.url_from_github_graphgist_api(id)
     begin
       url = "https://api.github.com/gists/#{id}"
-      data = JSON.load(open(url).read)
+      data = JSON.load(open(url, github_api_headers).read)
     rescue OpenURI::HTTPError
       puts "WARNING: Error trying to fetch: #{url}"
       return nil
