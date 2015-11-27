@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
+gem 'dotenv-rails', github: 'bkeepers/dotenv', require: 'dotenv/rails-now'
 
 if ENV['DEBUG_SERVER']
   gem 'graph_starter', path: '../graph_starter'
@@ -67,6 +67,10 @@ gem 'twitter'
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'capistrano-rails'
+  gem 'capistrano3-unicorn'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-bundler'
 end
 
 group :test do
