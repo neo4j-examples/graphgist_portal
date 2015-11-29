@@ -71,6 +71,8 @@ group :development do
   gem 'capistrano3-unicorn'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
+
+  gem 'stackprof'
 end
 
 group :test do
