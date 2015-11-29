@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   layout 'layouts/graph_starter/application'
 
-  #around_filter :performance_test
+  # around_filter :performance_test
 
   def performance_test
     require 'tempfile'
@@ -21,6 +21,6 @@ class ApplicationController < ActionController::Base
     output = StringIO.new
     StackProf::Report.new(Marshal.load(File.read(path))).print_text(false, nil, output)
 
-    puts output.string.split(/[\n\r]+/)[0,13].join("\n")
+    logger.debug output.string.split(/[\n\r]+/)[0, 13].join("\n")
   end
 end
