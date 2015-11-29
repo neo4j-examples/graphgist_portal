@@ -6,4 +6,21 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_user!
 
   layout 'layouts/graph_starter/application'
+
+  #around_filter :performance_test
+
+  def performance_test
+    require 'tempfile'
+    report_file = Tempfile.new('stackprof_report')
+    path = report_file.path
+
+    StackProf.run(mode: :cpu, out: path) do
+      yield
+    end
+
+    output = StringIO.new
+    StackProf::Report.new(Marshal.load(File.read(path))).print_text(false, nil, output)
+
+    puts output.string.split(/[\n\r]+/)[0,13].join("\n")
+  end
 end
