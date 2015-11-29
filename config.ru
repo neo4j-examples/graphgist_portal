@@ -1,6 +1,6 @@
 # --- Start of unicorn worker killer code ---
 
-if ENV['RAILS_ENV'] == 'production' 
+if ENV['RAILS_ENV'] == 'production'
   require 'unicorn/worker_killer'
 
   max_request_min =  500
@@ -20,6 +20,3 @@ end
 
 require ::File.expand_path('../config/environment', __FILE__)
 run Rails.application
-
-
-
