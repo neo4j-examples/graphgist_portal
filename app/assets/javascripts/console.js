@@ -17,7 +17,7 @@ function CypherConsole(config, ready) {
 
     var $IFRAME = $('<iframe/>').attr('id', 'console').addClass('cypherdoc-console');
     var $IFRAME_WRAPPER = $('<div/>').attr('id', 'console-wrapper');
-    var RESIZE_OUT_ICON = 'ui large expandedd icon';
+    var RESIZE_OUT_ICON = 'ui expand icon';
     var RESIZE_IN_ICON = 'ui large compress icon';
     var $RESIZE_BUTTON = $('<a class="resize-toggle ui icon green button"><i class="' + RESIZE_OUT_ICON + '"></i></a>');
     var $RESIZE_VERTICAL_BUTTON = $('<span class="resize-vertical-handle ui-resizable-handle ui-resizable-s"><span/></span>');
