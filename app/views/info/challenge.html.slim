@@ -1,3 +1,8 @@
+css:
+  .ui.header {
+    width: 100%;
+  }
+
 .ui.text.container
   .ui.middle.aligned.stackable.grid.container
     .row
@@ -77,7 +82,7 @@
 
 
     .row
-      h2 Judging
+      h2.ui.header Judging
 
       p
         | Judging will be based on the following criteria:
@@ -92,8 +97,9 @@
           li We had an epiphany while looking at the gist
 
 
+      h3.ui.header The Judges
+
       p
-        | The judges
         .ui.items
           .item 
             a.ui.tiny.image href="https://github.com/johnymontana"
@@ -120,14 +126,9 @@
               = image_tag 'challenge/judges/kevinvangundy.png'
             .middle.aligned.content
               .header Kevin Van Gundy
-          .item
-            a.ui.tiny.image href="https://twitter.com/ryguyrg"
-              = image_tag 'challenge/judges/ryguyrg.png'
-            .middle.aligned.content
-              .header Ryan Boyd
 
     .row
-      h2 Prizes
+      h2.ui.header Prizes
 
       ul
         li For each category there will be a prize of an $300 Amazon Gift Card
