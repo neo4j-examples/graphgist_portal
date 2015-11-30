@@ -49,7 +49,7 @@ class GraphGist < GraphStarter::Asset
   after_create :notify_admins_about_creation
 
   def notify_admins_about_creation
-#    GraphGistMailer.notify_admins_about_creation(self).deliver_now
+    GraphGistMailer.notify_admins_about_creation(self).deliver_now
   end
 
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
