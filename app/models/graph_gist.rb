@@ -52,24 +52,22 @@ class GraphGist < GraphStarter::Asset
     GraphGistMailer.notify_admins_about_creation(self).deliver_now
   end
 
+  SANITIZER = Rails::Html::WhiteListSanitizer.new
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id src class style data-style)
   def place_asciidoc(asciidoc_text)
     write_attribute(:asciidoc, asciidoc_text)
 
     GraphGistTools.asciidoc_document(asciidoc).tap do |document|
-      sanitizer = Rails::Html::WhiteListSanitizer.new
-
-      self.html = sanitizer.sanitize(document.convert,
+      self.html = SANITIZER.sanitize(document.convert,
                                      tags: VALID_HTML_TAGS,
                                      attributes: VALID_HTML_ATTRIBUTES)
       self.html += GraphGistTools.metadata_html(document)
 
       self.title = document.doctitle if document.doctitle.present?
 
-      if document.attributes['twitter']
-        self.author ||= Person.find_or_create({twitter_username: document.attributes['twitter']}, name: document.attributes['author'])
-      end
+      twitter, author = document.attributes.values_at('twitter', 'author')
+      self.author ||= Person.find_or_create({twitter_username: twitter}, name: author) if twitter
     end
   end
 

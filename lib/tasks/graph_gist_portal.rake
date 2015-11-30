@@ -159,47 +159,45 @@ namespace :graph_gist_portal do
   end
 
   task import_featured_graphgists: :environment do
-    base_url = "https://api.github.com/repos/neo4j-examples/graphgists/contents"
+    base_url = 'https://api.github.com/repos/neo4j-examples/graphgists/contents'
 
     get_github_url(base_url).each do |base_file|
-      if base_file['type'] == 'dir'
-        dir_name = base_file['name']
-        get_github_url("#{base_url}/#{dir_name}").each do |file|
-          if file['name'].match(/\.adoc$/)
+      next if base_file['type'] != 'dir'
 
-            url = "https://github.com/neo4j-examples/graphgists/blob/master/#{dir_name}/#{file['name']}"
-            puts url
-            graph_gist = GraphGist.new(url: url, status: 'live', private: false, featured: true)
+      dir_name = base_file['name']
+      get_github_url("#{base_url}/#{dir_name}").each do |file|
+        next if !file['name'].match(/\.adoc$/)
 
-            raw_url = GraphGistTools.raw_url_for(url)
-            doc = Asciidoctor.load(open(raw_url).read)
-            html_doc = Nokogiri::HTML(doc.convert)
+        url = "https://github.com/neo4j-examples/graphgists/blob/master/#{dir_name}/#{file['name']}"
 
-            first_image_url = html_doc.search('img').map do |img|
-              img.attributes['src'].value
-            end.detect do |url|
-              open(url).read
-            end
+        graph_gist = GraphGist.new(url: url, status: 'live', private: false, featured: true)
 
-            begin
-              if first_image_url.present?
-                image = GraphStarter::Image.create(source: open(first_image_url), original_url: first_image_url)
-                if graph_gist.class.has_images?
-                  graph_gist.images << image
-                elsif graph_gist.class.has_image?
-                  graph_gist.image = image
-                end
-              end
-            rescue OpenURI::HTTPError => http_error
-              allowed_errors = ['403 Forbidden', '404 Not Found']
-              raise http_error unless allowed_errors.include?(http_error.message)
-            end
-            graph_gist.place_asciidoc(open(graph_gist.raw_url).read) if graph_gist.raw_url.present?
-            graph_gist.save
-            puts 'graph_gist.id', graph_gist.id
+        raw_url = GraphGistTools.raw_url_for(url)
+        doc = Asciidoctor.load(open(raw_url).read)
+        html_doc = Nokogiri::HTML(doc.convert)
 
-          end
+        first_image_url = html_doc.search('img').map do |img|
+          img.attributes['src'].value
+        end.detect do |image_url|
+          open(image_url).read
         end
+
+        begin
+          if first_image_url.present?
+            image = GraphStarter::Image.create(source: open(first_image_url), original_url: first_image_url)
+            if graph_gist.class.has_images?
+              graph_gist.images << image
+            elsif graph_gist.class.has_image?
+              graph_gist.image = image
+            end
+          end
+        rescue OpenURI::HTTPError => http_error
+          allowed_errors = ['403 Forbidden', '404 Not Found']
+          raise http_error unless allowed_errors.include?(http_error.message)
+        end
+        graph_gist.place_asciidoc(open(graph_gist.raw_url).read) if graph_gist.raw_url.present?
+        graph_gist.save
+        puts 'graph_gist.id', graph_gist.id
       end
     end
   end

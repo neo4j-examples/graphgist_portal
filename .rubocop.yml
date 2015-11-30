@@ -73,3 +73,7 @@ Style/Lambda:
 # Reason: I'm proud to be part of the double negative Ruby tradition
 Style/DoubleNegation:
   Enabled: false
+
+# This is sometimes really nice
+Style/MultilineBlockChain:
+  Enabled: false
