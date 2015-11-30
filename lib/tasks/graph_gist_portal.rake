@@ -169,7 +169,7 @@ namespace :graph_gist_portal do
 
             url = "https://github.com/neo4j-examples/graphgists/blob/master/#{dir_name}/#{file['name']}"
             puts url
-            graph_gist = GraphGist.new(url: url, status: 'live', private: false)
+            graph_gist = GraphGist.new(url: url, status: 'live', private: false, featured: true)
 
             raw_url = GraphGistTools.raw_url_for(url)
             doc = Asciidoctor.load(open(raw_url).read)
