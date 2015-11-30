@@ -66,6 +66,10 @@ class GraphGist < GraphStarter::Asset
       self.html += GraphGistTools.metadata_html(document)
 
       self.title = document.doctitle if document.doctitle.present?
+
+      if document.attributes['twitter']
+        self.author ||= Person.find_or_create({twitter_username: document.attributes['twitter']}, name: document.attributes['author'])
+      end
     end
   end
 
