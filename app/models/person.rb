@@ -23,6 +23,6 @@ class Person < GraphStarter::Asset
   end
 
   def self.standardized_twitter_username(username)
-    username.match(/^@\w/) ? username[1..-1] : username
+    (username.is_a?(String) && username.match(/^@\w/)) ? username[1..-1] : username
   end
 end
