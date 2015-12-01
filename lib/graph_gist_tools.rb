@@ -2,12 +2,14 @@ require 'json'
 require 'open-uri'
 require 'faraday'
 
+require 'action_controller'
+
 module GraphGistTools
   ASCIIDOC_ATTRIBUTES = ['env-graphgist']
 
   # ActionController::Base.helpers.image_url('loading.gif')
 
-  loading_image_tag = '<img src="' + ActionController::Base.asset_host + '/images/loading.gif" style="width: 30px">'
+  loading_image_tag = '<img src="' + ActionController::Base.asset_host.to_s + '/images/loading.gif" style="width: 30px">'
 
   COMMENT_REPLACEMENTS = {
     console: '<p class="console"><span class="loading">' + loading_image_tag + ' Running queries, preparing the console!</span></p>',
