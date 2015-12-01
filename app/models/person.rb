@@ -4,6 +4,7 @@ class Person < GraphStarter::Asset
   property :name, type: String
   property :email, type: String
   property :twitter_username, type: String
+  # index :twitter_username
   property :legacy_id, type: Integer
   property :legacy_neo_id, type: Integer
   property :postal_address, type: String
