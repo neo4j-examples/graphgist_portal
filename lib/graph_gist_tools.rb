@@ -2,6 +2,8 @@ require 'json'
 require 'open-uri'
 require 'faraday'
 
+require 'action_controller'
+
 module GraphGistTools
   ASCIIDOC_ATTRIBUTES = ['env-graphgist']
 
