@@ -7,14 +7,14 @@ module GraphGistTools
 
   # ActionController::Base.helpers.image_url('loading.gif')
 
-  loading_image_tag = '<img src="'+ ActionController::Base.helpers.image_url('loading.gif', only_path: false) +'" style="width: 30px">'
+  loading_image_tag = '<img src="' + ActionController::Base.helpers.image_url('loading.gif', only_path: false) + '" style="width: 30px">'
 
   COMMENT_REPLACEMENTS = {
-    console: '<p class="console"><span class="loading">'+ loading_image_tag +' Running queries, preparing the console!</span></p>',
+    console: '<p class="console"><span class="loading">' + loading_image_tag + ' Running queries, preparing the console!</span></p>',
 
-    graph_result: '<h5 class="graph-visualization" data-style="{style}" graph-mode="result">'+ loading_image_tag +'</h5>',
-    graph: '<h5 class="graph-visualization" data-style="{style}">Loading graph...'+ loading_image_tag +'</h5>',
-    table: '<h5 class="result-table">Loading table...'+ loading_image_tag +'</h5>',
+    graph_result: '<h5 class="graph-visualization" data-style="{style}" graph-mode="result">' + loading_image_tag + '</h5>',
+    graph: '<h5 class="graph-visualization" data-style="{style}">Loading graph...' + loading_image_tag + '</h5>',
+    table: '<h5 class="result-table">Loading table...' + loading_image_tag + '</h5>',
 
     hide: '<span class="hide-query"></span>',
     setup: '<span class="setup"></span>',
