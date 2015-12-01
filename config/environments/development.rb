@@ -38,6 +38,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
 
+  config.action_controller.asset_host = "http://localhost:4000"
+
   config.neo4j.session_type = :server_db
   config.neo4j.session_path = 'http://localhost:9999'
 end
