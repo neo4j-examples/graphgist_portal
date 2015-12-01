@@ -31,6 +31,7 @@ end
 
 gem 'aws-sdk', '< 2.0'
 
+gem 'puma'
 gem 'unicorn-rails' if !ENV['DEBUG_SERVER']
 gem 'unicorn-worker-killer'
 

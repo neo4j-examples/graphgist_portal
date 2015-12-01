@@ -1,1 +1,1 @@
-web: bundle exec unicorn -p $PORT -c ./config/unicorn/production.rb
+web: bundle exec puma -C config/puma.rb
