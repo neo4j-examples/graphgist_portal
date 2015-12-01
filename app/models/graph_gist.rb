@@ -7,8 +7,9 @@ class GraphGist < GraphStarter::Asset
 
   property :title
   property :url, type: String, constraint: :unique
+  validates :url, uniqueness: {message: 'URL already in use'}
   property :raw_url, type: String
-  validates :raw_url, presence: true
+  validates :raw_url, presence: {message: 'URL could not be resolved'}
 
   property :asciidoc, type: String
   validates :asciidoc, presence: true
