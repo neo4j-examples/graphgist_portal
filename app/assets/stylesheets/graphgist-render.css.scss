@@ -4,6 +4,11 @@
  *= require neod3
  */
 
+#gist-body img {
+  max-width: 100%;
+}
+
+
 span.query-toggle, span.result-toggle {
     position: absolute;
     right: 0;
