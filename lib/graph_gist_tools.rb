@@ -9,7 +9,7 @@ module GraphGistTools
 
   # ActionController::Base.helpers.image_url('loading.gif')
 
-  loading_image_tag = '<img src="' + ActionController::Base.helpers.image_url('loading.gif', only_path: false) + '" style="width: 30px">'
+  loading_image_tag = '<img src="' + ActionController::Base.helpers.image_url('loading.gif') + '" style="width: 30px">'
 
   COMMENT_REPLACEMENTS = {
     console: '<p class="console"><span class="loading">' + loading_image_tag + ' Running queries, preparing the console!</span></p>',
