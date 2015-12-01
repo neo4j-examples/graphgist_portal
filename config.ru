@@ -1,6 +1,6 @@
 # --- Start of unicorn worker killer code ---
 
-#if ENV['RAILS_ENV'] == 'production'
+# if ENV['RAILS_ENV'] == 'production'
 #  require 'unicorn/worker_killer'
 #
 #  max_request_min =  500
@@ -14,7 +14,7 @@
 #
 #  # Max memory size (RSS) per worker
 #  use Unicorn::WorkerKiller::Oom, oom_min, oom_max
-#end
+# end
 
 # --- End of unicorn worker killer code ---
 
