@@ -75,6 +75,7 @@ METADATA
     http_connection = Faraday.new url: url
     result = http_connection.head url
     result.headers['content-type'].match(%r{^text/})
+  rescue URI::InvalidURIError, Faraday::ConnectionFailed
   end
 
   def self.raw_url_for_graphgist_id(graphgist_id)

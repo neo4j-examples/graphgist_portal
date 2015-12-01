@@ -7,6 +7,16 @@ RSpec.describe GraphGistTools do
   describe '.raw_url_for' do
     subject { GraphGistTools.raw_url_for(url) }
 
+    describe 'error cases' do
+      let_context url: 'not a url' do
+        it { should be_nil }
+      end
+
+      let_context url: 'http://naodeonaedinaoedinodoaeu.oue/foo.adoc' do
+        it { should be_nil }
+      end
+    end
+
     # GitHub Gists
     let_context url: 'https://gist.github.com/galliva/ca811daa580aee95bd07' do
       it { should eq 'https://gist.githubusercontent.com/galliva/ca811daa580aee95bd07/raw/aa11f84ec7cd02beeefd0bf892602cbf1ed09797/NoSQLGist' }
