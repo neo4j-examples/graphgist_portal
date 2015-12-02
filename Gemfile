@@ -48,6 +48,8 @@ gem 'rubocop'
 
 gem 'mandrill_dm'
 
+gem 'rollbar', '~> 2.4.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -86,5 +88,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'rollbar', '~> 2.4.0'
 end
