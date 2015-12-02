@@ -86,5 +86,5 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'appsignal', '~> 0.12.rc'
+  gem 'rollbar', '~> 2.4.0'
 end

@@ -49,9 +49,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    appsignal (0.12.rc.5)
-      rack
-      thread_safe
     arel (6.0.3)
     asciidoctor (1.5.2)
     ast (2.1.0)
@@ -312,6 +309,8 @@ GEM
     rdoc (4.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rollbar (2.4.0)
+      multi_json
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -428,7 +427,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  appsignal (~> 0.12.rc)
   asciidoctor
   aws-sdk (< 2.0)
   capistrano-bundler
@@ -453,6 +451,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails-html-sanitizer
   rails_12factor
+  rollbar (~> 2.4.0)
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
