@@ -1,8 +1,30 @@
 class InfoController < ApplicationController
   def featured_graphgists
-    @featured_graphgists = GraphGist.only_featured.to_a
+    @featured_graphgists = apply_associations(GraphGist.only_featured).to_a
     @featured_page = true
   end
+
+
+  def associations
+    return @associations if @associations.present?
+
+    @associations = []
+    @associations << GraphGist.image_association
+    @associations += GraphGist.category_associations
+    @associations.compact!
+    @associations
+  end
+
+  def apply_associations(scope, var = :asset)
+    if associations.present?
+      # Gah, shouldn't need this proxy_as business.  Bug to fix, I think...
+      scope.query_as(var).with(var).proxy_as(GraphGist, var).with_associations(*associations)
+    else
+      scope
+    end
+  end
+
+
 
   def about
   end
