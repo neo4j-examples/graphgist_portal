@@ -90,6 +90,8 @@ METADATA
       "https://dl.dropboxusercontent.com/#{is_private ? 's' : 'u'}/#{$2}"
     when /^copy-(.*)$/
       "https://copy.com/#{$1}?download=1"
+    when /^https?/
+      id
     else
       url_from_github_graphgist_api(id)
     end

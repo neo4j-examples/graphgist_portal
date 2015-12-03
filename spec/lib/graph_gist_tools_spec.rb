@@ -125,6 +125,7 @@ RSpec.describe GraphGistTools do
   # This is the method which converts the special GraphGist URL syntax to URLs
   describe '.raw_url_for_graphgist_id' do
     subject { GraphGistTools.raw_url_for_graphgist_id(id) }
+
     describe 'GitHub gists' do
       let_context id: '8176106' do
         it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
@@ -167,6 +168,12 @@ RSpec.describe GraphGistTools do
       # Direct files
       let_context id: 'copy-7MuhBZKFDsCIPNLp/analysis.txt' do
         it { should eq 'https://copy.com/7MuhBZKFDsCIPNLp/analysis.txt?download=1' }
+      end
+    end
+
+    describe 'Raw URLs' do
+      let_context id: 'https%3A%2F%2Fgist.githubusercontent.com%2Frvanbruggen%2Fc82d0a68d32cf3067706%2Fraw%2Fe05fa4ff92c1822acac87593f058a06f0798f141%2FMiddle%2520East%2520GraphGist.adoc' do
+        it { should eq 'https://gist.githubusercontent.com/rvanbruggen/c82d0a68d32cf3067706/raw/e05fa4ff92c1822acac87593f058a06f0798f141/Middle%20East%20GraphGist.adoc' }
       end
     end
   end
