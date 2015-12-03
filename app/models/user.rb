@@ -44,6 +44,13 @@ class User
   property :current_sign_in_ip, type:  String
   property :last_sign_in_ip, type: String
 
+  property :image, type: String
+
+  property :provider
+  property :uid
+  property :info
+  serialize :info
+
   property :admin, type: Boolean, default: false
 
   has_one :out, :person, type: :IS_PERSON
@@ -78,5 +85,42 @@ class User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:twitter]
+  def self.find_by_provider_and_uid(provider, uid)
+    all.where(provider: provider, uid: uid).first
+  end
+
+  # def self.create_with_omniauth(auth)
+  #  create! do |user|
+  #    user.provider = auth["provider"]
+  #    user.uid = auth["uid"]
+  #    user.name = auth["info"]["name"]
+  #    user.email = auth["info"]["email"]
+  #    user.password = Devise.friendly_token[0,20]
+  #  end
+  #end
+
+  def self.from_omniauth(auth)
+    params = {provider: auth.provider, uid: auth.uid}
+    (self.where(params).first || new(params)).tap do |user|
+      user.email = auth.info.email
+      user.uid = auth.uid
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name   # assuming the user model has a name
+      user.username = auth.info.nickname
+      user.info = auth.info
+      user.image = auth.info.image # assuming the user model has an image
+      user.save
+    end
+  end
+
+  def password_required?
+    false
+  end
+
+  def email_required?
+    false
+  end
+
 end

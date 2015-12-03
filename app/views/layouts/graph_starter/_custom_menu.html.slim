@@ -6,9 +6,11 @@ a.ui.item href="#{main_app.challenge_path}" style="color: red; font-weight: bold
   /- if current_user && current_user.admin?
     a.ui.item href="#{graph_starter.groups_path}" Groups
   - if user_signed_in?
-    .ui.item Logged in as #{current_user.name}
+    .ui.item style="padding-right: 50px"
+      .content Logged in as <a href="#{main_app.edit_user_registration_path}">#{current_user.name}</a>
+      img.ui.mini.circular.image src="#{current_user.image}" style="margin-left: 8px; position: absolute; top: 5px; right: 10px; width: 30px;"
     a.ui.item href="#{main_app.destroy_user_session_path}" method="delete" Sign out
   - else
-    a.ui.item href="#{main_app.new_user_session_path}" Sign in
-    a.ui.item href="#{main_app.new_user_registration_path}" Sign up
+    a.ui.item href="#{main_app.user_omniauth_authorize_path(:twitter)}" Sign in with Twitter
+
 

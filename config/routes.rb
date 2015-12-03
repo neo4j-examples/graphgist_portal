@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get 'render_graphgist_js' => 'info#render_graphgist_js'
 
-  devise_for :users, controllers: {registrations: 'users/registrations'}
+  devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
 
   mount GraphStarter::Engine, at: '/'
 end
