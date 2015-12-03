@@ -203,6 +203,9 @@ namespace :graph_gist_portal do
   end
 
   task refresh_graphgist_html: :environment do
-    GraphGist.all.each {|g| g.place_asciidoc(g.asciidoc) if g.asciidoc; g.save }
+    GraphGist.all.each do |graphgist|
+      graphgist.place_asciidoc(g.asciidoc) if graphgist.asciidoc
+      graphgist.save
+    end
   end
 end
