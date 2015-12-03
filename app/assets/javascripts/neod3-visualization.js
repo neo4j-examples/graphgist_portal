@@ -80,7 +80,7 @@ function Neod3Renderer() {
         }
 
 
-        function isSelector(label) { return label.substring(0,5) == "node."; }
+        function isSelector(label) { return label && label.substring(0,5) == "node."; }
         function selectorFor(label) { return "node."+label; }
         function styleFor(label, property,color) {
             var textColor = window.isInternetExplorer ? '#000000' : color['text-color-internal'];
@@ -167,7 +167,7 @@ function Neod3Renderer() {
         for (var i = 0; i < links.length; i++) {
             links[i].source = links[i].start;
             links[i].target = links[i].end;
-            links[i].properties = extract_props(links[i]);
+            links[i].properties = props(links[i]);
         }
         var nodeStyles = node_styles(nodes);
         var styleSheet = style_sheet(nodeStyles, styleContents);
@@ -257,6 +257,11 @@ function Neod3Renderer() {
             .replace(/<g/, '\n' + svgStyling + '\n<g');
         return svg;
     }
+
+    // $.get(stylingUrl, function (data) {
+    //     svgStyling = '<style>\n' + data + '\n</style>';
+    //     $(svgStyling).appendTo('head');
+    // });
 
     return {'render': render};
 }
