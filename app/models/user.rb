@@ -86,9 +86,9 @@ class User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:twitter]
+         :omniauthable, omniauth_providers: [:twitter]
   def self.find_by_provider_and_uid(provider, uid)
-    all.where(provider: provider, uid: uid).first
+    all.find_by(provider: provider, uid: uid)
   end
 
   # def self.create_with_omniauth(auth)
@@ -99,20 +99,27 @@ class User
   #    user.email = auth["info"]["email"]
   #    user.password = Devise.friendly_token[0,20]
   #  end
-  #end
+  # end
 
   def self.from_omniauth(auth)
-    params = {provider: auth.provider, uid: auth.uid}
-    (self.where(params).first || new(params)).tap do |user|
-      user.email = auth.info.email
+    user_from_omniauth(auth).tap do |user|
       user.uid = auth.uid
-      user.password = Devise.friendly_token[0,20]
-      user.name = auth.info.name   # assuming the user model has a name
+      user.password = Devise.friendly_token[0, 20]
+
       user.username = auth.info.nickname
-      user.info = auth.info
-      user.image = auth.info.image # assuming the user model has an image
+
+      %w(email name info image).each do |field|
+        user.send("#{field}=", auth.info.send(field))
+      end
+
       user.save
     end
+  end
+
+  def self.user_from_omniauth(auth)
+    params = {provider: auth.provider, uid: auth.uid}
+
+    find_by(params) || new(params)
   end
 
   def password_required?
@@ -122,5 +129,4 @@ class User
   def email_required?
     false
   end
-
 end
