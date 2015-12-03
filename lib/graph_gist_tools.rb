@@ -38,12 +38,7 @@ module GraphGistTools
     attrs = asciidoc_doc.attributes
 
     <<-METADATA
-<span id="metadata"
- author="#{attrs['author']}"
- version="#{attrs['neo4j-version']}"
- twitter="#{attrs['twitter']}"
- tags="#{attrs['tags']}"
-/>
+<span id="metadata" author="#{attrs['author']}" version="#{attrs['neo4j-version']}" twitter="#{attrs['twitter']}" tags="#{attrs['tags']}" />
 METADATA
   end
 
