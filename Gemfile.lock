@@ -309,7 +309,7 @@ GEM
     rdoc (4.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rollbar (2.4.0)
+    rollbar (2.6.3)
       multi_json
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
@@ -451,7 +451,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails-html-sanitizer
   rails_12factor
-  rollbar (~> 2.4.0)
+  rollbar (~> 2.6.0)
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
