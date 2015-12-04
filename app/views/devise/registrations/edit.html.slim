@@ -5,8 +5,17 @@ h2 Edit #{resource_name.to_s.humanize}
 
   .field
     = f.label :email
-    br
+
     = f.email_field :email, autofocus: true
+
+  .field
+    = f.label :twitter_username
+
+    - if @user.provider == 'twitter'
+      = @user.username
+    - else
+      = f.email_field :twitter_username
+
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div Currently waiting confirmation for: #{resource.unconfirmed_email}

@@ -86,7 +86,7 @@ class User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:twitter]
+         :omniauthable, omniauth_providers: [:twitter, :github]
   def self.find_by_provider_and_uid(provider, uid)
     all.find_by(provider: provider, uid: uid)
   end

@@ -11,6 +11,10 @@ a.ui.item href="/challenge/index.html" style="color: red; font-weight: bold" Gra
       img.ui.mini.circular.image src="#{current_user.image}" style="margin-left: 8px; position: absolute; top: 5px; right: 10px; width: 30px;"
     a.ui.item href="#{main_app.destroy_user_session_path}" method="delete" Sign out
   - else
-    a.ui.item href="#{main_app.user_omniauth_authorize_path(:twitter)}" Sign in with Twitter
+    .ui.item Sign in with:
+    a.ui.item href="#{main_app.user_omniauth_authorize_path(:twitter)}"
+      i.twitter.icon
+    a.ui.item href="#{main_app.user_omniauth_authorize_path(:github)}"
+      i.github.icon
 
 
