@@ -86,6 +86,9 @@ group :test do
   gem 'rspec-rails'
   gem 'vcr'
   gem 'webmock'
+
+  gem 'cucumber'
+  gem 'rspec-expectations'
 end
 
 group :production do
