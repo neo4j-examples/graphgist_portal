@@ -37,9 +37,7 @@ module GraphGistTools
   def self.metadata_html(asciidoc_doc)
     attrs = asciidoc_doc.attributes
 
-    <<-METADATA
-<span id="metadata" author="#{attrs['author']}" version="#{attrs['neo4j-version']}" twitter="#{attrs['twitter']}" tags="#{attrs['tags']}" />
-METADATA
+    %(<span id="metadata" author="#{attrs['author']}" version="#{attrs['neo4j-version']}" twitter="#{attrs['twitter']}" tags="#{attrs['tags']}" />)
   end
 
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
@@ -85,18 +83,14 @@ METADATA
     nil
   end
 
+
   def self.raw_url_for_graphgist_id(graphgist_id)
     id = graphgist_id.nil? ? nil : URI.decode(graphgist_id) if graphgist_id
-    case id
-    when /^github-(.*)$/
-      parts = $1.split('/')
-      raw_url_from_github_api(parts[0], parts[1], parts[3..-1].join('/'))
-    when /^dropbox(s?)-(.*)$/
-      is_private = !$1.empty?
-      "https://dl.dropboxusercontent.com/#{is_private ? 's' : 'u'}/#{$2}"
-    when /^copy-(.*)$/
-      "https://copy.com/#{$1}?download=1"
-    when %r{^(https?://[^/]+)/(.+)$}
+
+    raw_url = raw_url_for_provider(id)
+    return raw_url if raw_url
+
+    if id.match(%r{^(https?://[^/]+)/(.+)$})
       _, host, path = id.match(%r{^(https?://[^/]+)/(.+)$}).to_a
       host + '/' + URI.encode(URI.decode(path))
     else
@@ -104,10 +98,22 @@ METADATA
     end
   end
 
-  def self.github_api_headers
-    {}.tap do |headers|
-      headers['Authorization'] = "token #{ENV['GITHUB_TOKEN']}" if ENV['GITHUB_TOKEN']
+  def self.raw_url_for_provider(id)
+    case id
+    when /^github-(.*)$/
+      parts = $1.split('/')
+      raw_url_from_github_api(parts[0], parts[1], parts[3..-1].join('/'))
+    when /^dropbox(s?)-(.*)$/
+      "https://dl.dropboxusercontent.com/#{$1.empty? ? 'u' : 's'}/#{$2}"
+    when /^copy-(.*)$/
+      "https://copy.com/#{$1}?download=1"
     end
+  end
+
+
+
+  def self.github_api_headers
+    ENV['GITHUB_TOKEN'] ? {'Authorization' => "token #{ENV['GITHUB_TOKEN']}"} : {}
   end
 
   def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
