@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'render_graphgist' => 'info#render_graphgist'
 
+  get 'show_from_graphgist_id/:id(.:format)' => 'info#show_from_graphgist_id'
+
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
   get 'render_graphgist_js' => 'info#render_graphgist_js'

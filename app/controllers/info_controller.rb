@@ -46,6 +46,14 @@ class InfoController < ApplicationController
     @hide_menu = true
   end
 
+  def show_from_graphgist_id
+    @asset = GraphGist.new(url: GraphGistTools.raw_url_for_graphgist_id(params[:id]))
+
+    @asset.place_updated_url
+
+    render 'graph_starter/assets/show'
+  end
+
   def create_graphgist
     @graphgist = GraphGist.new(url: params[:url], status: 'candidate')
 
