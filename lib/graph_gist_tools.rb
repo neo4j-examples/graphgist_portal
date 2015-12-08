@@ -98,7 +98,7 @@ METADATA
       "https://copy.com/#{$1}?download=1"
     when %r{^(https?://[^/]+)/(.+)$}
       _, host, path = id.match(%r{^(https?://[^/]+)/(.+)$}).to_a
-      host + '/' + URI.encode(URI.decode(URI.decode(path)))
+      host + '/' + URI.encode(URI.decode(path))
     else
       url_from_github_graphgist_api(id)
     end
