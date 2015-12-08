@@ -1,5 +1,5 @@
 GraphStarter.configure do |config|
-#  config.menu_models = %i(GraphGist Industry UseCase)
+  #  config.menu_models = %i(GraphGist Industry UseCase)
   config.menu_models = %i()
 
   config.icon_classes = {
