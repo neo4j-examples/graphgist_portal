@@ -17,33 +17,45 @@ RSpec.describe GraphGistTools do
       end
     end
 
-    # GitHub Gists
-    let_context url: 'https://gist.github.com/galliva/ca811daa580aee95bd07' do
-      it { should eq 'https://gist.githubusercontent.com/galliva/ca811daa580aee95bd07/raw/aa11f84ec7cd02beeefd0bf892602cbf1ed09797/NoSQLGist' }
-    end
-    let_context url: 'https://gist.github.com/ca811daa580aee95bd07' do
-      it { should eq 'https://gist.githubusercontent.com/galliva/ca811daa580aee95bd07/raw/aa11f84ec7cd02beeefd0bf892602cbf1ed09797/NoSQLGist' }
-    end
-    let_context url: 'https://gist.github.com/roquec/8176106' do
-      it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
-    end
-    let_context url: 'https://gist.github.com/roquec/8176106#with-anchor' do
-      it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
-    end
-
-    # Via gist.neo4j.org
-    let_context url: 'http://gist.neo4j.org/?8176106' do
-      it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
-    end
-    let_context url: 'http://gist.neo4j.org/?8176106#with-anchor' do
-      it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
-    end
-    let_context url: 'https://gist.neo4j.org/?github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
-      it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
+    describe 'GitHub Gists' do
+      let_context url: 'https://gist.github.com/galliva/ca811daa580aee95bd07' do
+        it { should eq 'https://gist.githubusercontent.com/galliva/ca811daa580aee95bd07/raw/aa11f84ec7cd02beeefd0bf892602cbf1ed09797/NoSQLGist' }
+      end
+      let_context url: 'https://gist.github.com/ca811daa580aee95bd07' do
+        it { should eq 'https://gist.githubusercontent.com/galliva/ca811daa580aee95bd07/raw/aa11f84ec7cd02beeefd0bf892602cbf1ed09797/NoSQLGist' }
+      end
+      let_context url: 'https://gist.github.com/roquec/8176106' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+      let_context url: 'https://gist.github.com/roquec/8176106#with-anchor' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+      let_context url: 'https://gist.github.com/patbaumgartner/8139605' do
+        it { should eq 'https://gist.githubusercontent.com/patbaumgartner/8139605/raw/c5a8c8476f9b68508ed2a15c0603ee72fc8cd189/Single%20Malt%20Scotch%20Whisky%20GraphGist.adoc' }
+      end
     end
 
-    let_context url: 'https://gist.github.com/patbaumgartner/8139605' do
-      it { should eq 'https://gist.githubusercontent.com/patbaumgartner/8139605/raw/c5a8c8476f9b68508ed2a15c0603ee72fc8cd189/Single%20Malt%20Scotch%20Whisky%20GraphGist.adoc' }
+    describe 'gist.neo4j.org' do
+      let_context url: 'http://gist.neo4j.org/?8176106' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+      let_context url: 'http://gist.neo4j.org/?8176106#with-anchor' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+      let_context url: 'https://gist.neo4j.org/?github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
+        it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
+      end
+    end
+
+    describe 'graphgist.neo4j.com' do
+      let_context url: 'http://graphgist.neo4j.com/#!/gists/8176106' do
+        it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }
+      end
+
+      # IDs of this form are internal to the node.js app DB.  Could probably query for the raw URL, but punting for now
+      let_context url: 'http://graphgist.neo4j.com/#!/gists/1428842b2170702400451777c2bc813f' do
+        it { should be_nil }
+      end
     end
 
     # Github repos
@@ -173,6 +185,10 @@ RSpec.describe GraphGistTools do
 
     describe 'Raw URLs' do
       let_context id: 'https%3A%2F%2Fgist.githubusercontent.com%2Frvanbruggen%2Fc82d0a68d32cf3067706%2Fraw%2Fe05fa4ff92c1822acac87593f058a06f0798f141%2FMiddle%2520East%2520GraphGist.adoc' do
+        it { should eq 'https://gist.githubusercontent.com/rvanbruggen/c82d0a68d32cf3067706/raw/e05fa4ff92c1822acac87593f058a06f0798f141/Middle%20East%20GraphGist.adoc' }
+      end
+
+      let_context id: 'https://gist.githubusercontent.com/rvanbruggen/c82d0a68d32cf3067706/raw/e05fa4ff92c1822acac87593f058a06f0798f141/Middle%20East%20GraphGist.adoc' do
         it { should eq 'https://gist.githubusercontent.com/rvanbruggen/c82d0a68d32cf3067706/raw/e05fa4ff92c1822acac87593f058a06f0798f141/Middle%20East%20GraphGist.adoc' }
       end
     end

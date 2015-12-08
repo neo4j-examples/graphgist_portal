@@ -49,18 +49,29 @@ METADATA
     case url.strip
     when %r{^https?://gist\.github\.com/([^/]+/)?(.+)$}
       url_from_github_graphgist_api($2)
+
     when %r{^https?://gist\.neo4j\.org/\?(.+)$}
       raw_url_for_graphgist_id($1)
+
+    when %r{^https?://graphgist.neo4j.com/#!/gists/([^/]+)/?$}
+      id = $1
+      raw_url_for_graphgist_id(id) if id && !id.match(/[0-9a-f]{32}/)
+
     when %r{^https?://(www\.)?github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)/?$}
       raw_url_from_github_api($2, $3, $5, $4)
+
     when %r{^https?://(www\.)?dropbox\.com/s/([^/]+)/([^\?]+)(\?dl=(0|1))?$}
       "https://www.dropbox.com/s/#{$2}/#{$3}?dl=1"
+
     when %r{^https?://docs.google.com/document/d/([^\/]+)(/edit)?$}
       "https://docs.google.com/document/u/0/export?format=txt&id=#{$1}"
+
     when %r{^(https?://[^/]*etherpad[^/]*/([^/]+/)*)p/([^/]+)/?$}
       "#{$1}p/#{$3}/export/txt"
+
     when %r{^https?://(www.)?pastebin.com/([^/]+)/?$}
       "http://pastebin.com/raw.php?i=#{$2}"
+
     else
       url if url_returns_text_content_type?(url)
     end
@@ -75,7 +86,7 @@ METADATA
   end
 
   def self.raw_url_for_graphgist_id(graphgist_id)
-    id = URI.decode(graphgist_id)
+    id = graphgist_id.nil? ? nil : URI.decode(graphgist_id) if graphgist_id
     case id
     when /^github-(.*)$/
       parts = $1.split('/')
@@ -85,8 +96,9 @@ METADATA
       "https://dl.dropboxusercontent.com/#{is_private ? 's' : 'u'}/#{$2}"
     when /^copy-(.*)$/
       "https://copy.com/#{$1}?download=1"
-    when /^https?/
-      id
+    when %r{^(https?://[^/]+)/(.+)$}
+      _, host, path = id.match(%r{^(https?://[^/]+)/(.+)$}).to_a
+      host + '/' + URI.encode(URI.decode(URI.decode(path)))
     else
       url_from_github_graphgist_api(id)
     end
