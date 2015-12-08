@@ -23,4 +23,8 @@ class ApplicationController < ActionController::Base
 
     logger.debug output.string.split(/[\n\r]+/)[0, 13].join("\n")
   end
+
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+  end
 end
