@@ -100,9 +100,8 @@ module GraphGistTools
 
   def self.raw_url_for_provider(id)
     case id
-    when /^github-(.*)$/
-      parts = $1.split('/')
-      raw_url_from_github_api(parts[0], parts[1], parts[3..-1].join('/'))
+    when %r{^github-([^/]*)/([^/]*)/(.*)$}
+      raw_url_from_github_api($1, $2, $3)
     when /^dropbox(s?)-(.*)$/
       "https://dl.dropboxusercontent.com/#{$1.empty? ? 'u' : 's'}/#{$2}"
     when /^copy-(.*)$/

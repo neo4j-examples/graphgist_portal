@@ -163,6 +163,12 @@ RSpec.describe GraphGistTools do
       let_context id: 'github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc' do
         it { should eq 'https://raw.githubusercontent.com/kbastani/gists/master/meta/TimeScaleEventMetaModel.adoc' }
       end
+
+      # Other
+      # Occurred in Rollbar
+      let_context id: 'github-jotomo' do
+        it { should be_nil }
+      end
     end
 
     describe 'Dropbox' do
