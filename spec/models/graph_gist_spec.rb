@@ -13,7 +13,7 @@ RSpec.describe GraphGistTools do
 
     let_context url: 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' do
       its(:raw_url) { should eq 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' }
-      its(:asciidoc) { should match /This interactive Neo4j graph tutorial covers bank fraud detection scenarios/ }
+      its(:asciidoc) { should match(/This interactive Neo4j graph tutorial covers bank fraud detection scenarios/) }
     end
 
     let_context url: 'https://dl.dropboxusercontent.com/u/14493611' do
@@ -21,4 +21,3 @@ RSpec.describe GraphGistTools do
     end
   end
 end
-

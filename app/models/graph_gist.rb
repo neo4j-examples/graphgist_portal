@@ -44,10 +44,10 @@ class GraphGist < GraphStarter::Asset
 
   def place_updated_url
     place_url(url)
-    if raw_url.present?
-      text = self.class.data_from_url(raw_url)
-      place_asciidoc(text) if text
-    end
+    return if !raw_url.present?
+
+    text = self.class.data_from_url(raw_url)
+    place_asciidoc(text) if text
   end
 
   after_create :notify_admins_about_creation
