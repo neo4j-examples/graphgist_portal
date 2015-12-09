@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'info#featured_graphgists'
   get 'featured_graphgists(.:format)' => 'info#featured_graphgists'
   get 'about' => 'info#about'
-  get 'challenge' => 'info#challenge'
+
   get 'submit_graphgist' => 'info#submit_graphgist'
   get 'preview_graphgist' => 'info#preview_graphgist'
   post 'create_graphgist' => 'info#create_graphgist'
