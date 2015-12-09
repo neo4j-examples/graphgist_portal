@@ -78,7 +78,7 @@ module GraphGistTools
   def self.url_returns_text_content_type?(url)
     http_connection = Faraday.new url: url
     result = http_connection.head url
-    result.headers['content-type'].match(%r{^text/})
+    [200, 302].include?(result.status) && result.headers['content-type'].match(%r{^text/})
   rescue URI::InvalidURIError, Faraday::ConnectionFailed
     nil
   end

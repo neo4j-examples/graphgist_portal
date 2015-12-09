@@ -44,7 +44,10 @@ class GraphGist < GraphStarter::Asset
 
   def place_updated_url
     place_url(url)
-    place_asciidoc(open(raw_url).read) if raw_url.present?
+    if raw_url.present?
+      text = self.class.data_from_url(raw_url)
+      place_asciidoc(text) if text
+    end
   end
 
   after_create :notify_admins_about_creation
@@ -87,11 +90,17 @@ class GraphGist < GraphStarter::Asset
       asciidoc_text = nil
 
       t = Benchmark.realtime do
-        asciidoc_text = open(url).read
+        asciidoc_text = data_from_url(url)
       end
       Rails.logger.debug "Retrieved #{url} in #{t.round(1)}s"
 
       new(asciidoc: asciidoc_text, private: false)
+    end
+
+    def data_from_url(url)
+      open(url).read
+    rescue OpenURI::HTTPError
+      nil
     end
   end
 end
