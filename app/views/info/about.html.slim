@@ -1,3 +1,13 @@
+scss:
+  pre {
+    background-color: #FDFFE8;
+    border: 1px solid black;
+    padding: 1em;
+    font-size: 0.7em;
+    display: inline-block;
+    margin-right: 1em;
+  }
+
 div style="font-size: 1.4rem"
 
   h1 What is a GraphGist?
@@ -6,22 +16,57 @@ div style="font-size: 1.4rem"
 
   p
     |
-      With Neo4j GraphGists you can describe and model your domain in a simple text file and render it as a rich, interactive page in any browser.
+      With Neo4j GraphGists you can describe and model your domain in a simple text file (<a href="http://asciidoc.org/">AsciiDoc</a>) and render it as a rich, interactive, database-backed page in any browser.
 
-      Perfect to document a specific domain, use-case, question or graph problem.
+      It is perfect to document a specific domain, use-case, question or graph problem.
+
+  h2 Examples
+
+  p GraphGists work like any AsciiDoc document, but they allow you to insert special comments to define how data from Neo4j can be displayed and interacted with.
+
+  p First define a block of <a href="http://neo4j.com/developer/cypher-query-language/">Cypher</a> code to setup the database:
+
+  pre
+    |
+      //setup
+      //hide
+      [source,cypher]
+      ----
+      CREATE (:Database {name:'Neo4j'})-[:SUPPORTS]->(:Language {name:'Cypher'})
+      ----
+
+  p You can then make queries to the data and output them as a table and/or a graph:
+
+  div
+    pre style="float: left"
+      |
+        [source,cypher]
+        ----
+        MATCH (db:Database)-[:SUPPORTS]->(language:Language)
+        RETURN db.name, collect(language.name)
+        ----
+
+        //table
+
+    pre
+      |
+        [source,cypher]
+        ----
+        MATCH (:Database)-[rel:SUPPORTS]->(:Language)
+        RETURN rel
+        ----
+
+        //graph
+
+
 
   p
     |
-      Documenting your graph domain model has never been easier.
-      A GraphGist is just a simple AsciiDoc text file, and can be hosted in a GitHub Gist or any other place with an accessible URL.
-      It will be rendered as an interactive page in your browser.
+      A reader can explore your GraphGist to read and understand your domain.  A live console is also inserted into GraphGists so that readers can even try out their own queries
+      We want to encourage you to model a domain that you know or like and describe it interactively in a GraphGist.
 
-  p
-    |
-      You can explore those pages, read and understand them and try out the provided use-case queries on a live graph.
-      We want to encourage you to model a domain that you know or like a graph model and describe it interactively in a GraphGist.
-
-  p
+  / Need to replace this!
+  /p
     |
       To learn about interesting existing models created by other Neo4j users browse the impressive collection.
 
@@ -42,21 +87,29 @@ div style="font-size: 1.4rem"
   h2 GraphGist Challenges
 
   p
-    asciidoc:
+    |
+      There have been two GraphGist challenges so far and we are currently holding another.  Check out our <a href="http://localhost:4000/challenge/index.html">2015/2016 Winter Challenge</a>!
+
+  /p
+    |
       The best way gathering great graph models is to ask your community.
       That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.
 
-  p
+  /p
     asciidoc:
       The first challenge in September 2013 had link:https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-september-challenge-submissions[17 submissions] and link:http://blog.neo4j.org/2013/10/the-first-graphgist-challenge-completed.html?_ga=1.56087459.909862480.1422364624[3 winners].
 
-  p
+  /p
     asciidoc:
       Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories.
       We got an impressive link:https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-winter-challenge-submissions---categories[65 submissions]. Here are the link:http://blog.neo4j.org/2014/02/graph-gist-winter-challenge-winners.html?_ga=1.56087459.909862480.1422364624[winners per category]
 
-  p
+  /p
     asciidoc:
       But we don't stop here. There will be more challenges.
       And you can even win now.
       Every original Graph Model that is link:#{submit_graphgist_path}[submitted via this form] will get a personalized Neo4j T-Shirt from us.
+
+  p
+
+  p
