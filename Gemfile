@@ -86,7 +86,7 @@ group :test do
   gem 'rspec-rails'
   gem 'rspec-its'
   gem 'vcr'
-  gem 'webmock'
+  gem 'webmock', require: false
 
   gem 'cucumber'
   gem 'rspec-expectations'
