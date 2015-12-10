@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  # constraints(host: /graphgist-portal.herokuapp.com/) do
-  #   match '/(*path)' => redirect { |params, _req| "http://portal.graphgist.org/#{params[:path]}" }, via: [:get, :post]
-  # end
+  constraints(host: /graphgist-portal.herokuapp.com/) do
+    match '/(*path)' => redirect { |params, _req| "http://portal.graphgist.org/#{params[:path]}" }, via: [:get, :post]
+  end
 
   mathjax 'mathjax'
 
