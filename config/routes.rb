@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  constraints(:host => /graphgist-portal.herokuapp.com/) do
+    match "/(*path)" => redirect {|params, req| "http://portal.graphgist.org/#{params[:path]}"},  via: [:get, :post]
+  end
+
   mathjax 'mathjax'
 
   root 'info#featured_graphgists'
