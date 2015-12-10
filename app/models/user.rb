@@ -59,7 +59,7 @@ class User
 
   def propogate_person_properties
     (person || Person.create).tap do |person|
-      person.name = name
+      person.name = name || username || twitter_username
       person.email = email
       person.twitter_username = twitter_username
       person.save
