@@ -52,6 +52,8 @@ class InfoController < ApplicationController
     @asset.place_updated_url
 
     render 'graph_starter/assets/show'
+  rescue GraphGistTools::InvalidGraphGistIDError => e
+    render text: e.message, status: :bad_request
   end
 
   def create_graphgist

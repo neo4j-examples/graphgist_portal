@@ -3390,4 +3390,282 @@ http_interactions:
       string: ''
     http_version: 
   recorded_at: Wed, 09 Dec 2015 13:49:05 GMT
+- request:
+    method: get
+    uri: https://api.github.com/gists/d788e117129c3730a042
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 10 Dec 2015 04:22:31 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '49'
+      X-Ratelimit-Reset:
+      - '1449722078'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Last-Modified:
+      - Thu, 19 Nov 2015 18:11:39 GMT
+      Etag:
+      - W/"57f9fad5aa88eebfc9e393369042f2a9"
+      Vary:
+      - Accept
+      - Accept-Encoding
+      X-Github-Media-Type:
+      - github.v3
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - deny
+      Content-Security-Policy:
+      - default-src 'none'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Served-By:
+      - bae57931a6fe678a3dffe9be8e7819c8
+      X-Github-Request-Id:
+      - 77517C51:14B63:2F94AFB:5668FE06
+    body:
+      encoding: ASCII-8BIT
+      string: '{"url":"https://api.github.com/gists/d788e117129c3730a042","forks_url":"https://api.github.com/gists/d788e117129c3730a042/forks","commits_url":"https://api.github.com/gists/d788e117129c3730a042/commits","id":"d788e117129c3730a042","git_pull_url":"https://gist.github.com/d788e117129c3730a042.git","git_push_url":"https://gist.github.com/d788e117129c3730a042.git","html_url":"https://gist.github.com/d788e117129c3730a042","files":{"load_csv_article.adoc":{"filename":"load_csv_article.adoc","type":"text/plain","language":"AsciiDoc","raw_url":"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/30d6c9f31fb9dd47dc272adbee5f4efdec404d5e/load_csv_article.adoc","size":14339,"truncated":false,"content":"==
+        LOAD CSV into Neo4j quickly and successfully\n\n:neo4j-version: 2.1\n:author:
+        Michael Hunger\n:twitter: @mesirii\n:tags: domain:ETL,use-case:graphdb\n:dataurl:
+        https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/a147631215456d86a77edc7ec08c128b9ef05e3b\n\nSince
+        version 2.1 Neo4j provides out-of-the box support for CSV ingestion. The +LOAD
+        CSV+ command that was added to the Cypher Query language is a versatile and
+        powerful ETL tool.\nIt allows you to ingest CSV data from any URL into a friendly
+        parameter stream for your simple or complex graph update operation, that ...
+        conversion.\n\nBut hear my words of advice before you jump directly into using
+        it. There are some tweaks and configuration aspects that you should know to
+        be successful on the first run.\n\nData volume: LOAD CSV was built to support
+        around 1M rows per import, it still works with 10M rows but you have to wait
+        a bit, at 100M it''ll try your patience.\nExcept for tiny datasets never run
+        it without the saveguard of periodic commits, which prevent you from large
+        transactions overflowing your available database memory (JVM Heap).\n\nThe
+        CSV used in this example is pretty basic, but enough to show some issues and
+        make a point, it''s people and companies they work(ed) for.\n\n[source,csv]\n----\nPersonName,\"Company
+        Name\",year\n\"Kenny Bastani\",\"Neo Technology\",2013\n\"Michael Hunger\",\"Neo
+        Technology\",2010\n\"James Ward\",\"Heroku\",2011\n\"Someone\",,\n\"John\",\"Doe.com\",\"ninetynine\"\n----\n\n\n===
+        OS, RAM and DISK\n\nFirst make sure the machine you want to import on is fit
+        to import the data. That means you should have some RAM available, if your
+        8GB machine only sports 1GB of free RAM and already uses 3GB swap, this is
+        a sure sign you shouldn''t try. The more RAM the better, I''d recommend to
+        reserve at least 4GB to import your data.\n\nIf you run on SSD''s you''re
+        lucky, on spinning disks it will definitely take longer.\n\n[NOTE]\nIf you
+        are on **Windows** take extra care. On Windows the database memory (JVM Heap)
+        is used for BOTH Neo4j''s objects & caches AND the memory-mapping for storage-files.
+        On Unix and OSX the memory mapping resides on the outside.\nSo make sure that
+        on Windows you have *enough* Java memory allocated to cater for both aspects.\n\n====
+        Memory Config\n\nFor your memory configuration, a sane starting point is to
+        give Neo4j 3-4GB RAM as Java heap (including the memory mapping size on Windows),
+        and a sensible amount (e.g. 1GB+) as memory mapping.\nThe more memory you
+        have the faster it will import your data.\n\nSo make sure to edit +conf/neo4j-wrapper.conf+
+        and set:\n\n[source]\n----\n# Uncomment these lines to set specific initial
+        and maximum\n# heap size in MB.\nwrapper.java.initmemory=4096\nwrapper.java.maxmemory=4096\n----\n\nIn
+        +conf/neo4j.properties+ set:\n\n[source]\n----\n# Default values for the low-level
+        graph engine\nneostore.nodestore.db.mapped_memory=50M\nneostore.relationshipstore.db.mapped_memory=500M\nneostore.propertystore.db.mapped_memory=100M\nneostore.propertystore.db.strings.mapped_memory=100M\nneostore.propertystore.db.arrays.mapped_memory=0M\n----\n\n===
+        Data Loading\n\nIf you load your CSV file over the network make sure it is
+        fast enough to sustain the ingestion rate you''d like to have. Otherwise if
+        possible download it, and use a +file://+ URL.\n\n[NOTE]\nFile URLs are tricky.
+        On OSX and Unix use +file:///path/to/data.csv+, on Windows, please use +file:c:/path/to/data.csv+.
+        Beware spaces in file-names and relative paths. Http-URLs are much easier.\n+LOAD
+        CSV+ afaik supports cookies, redirects and +https+.\n\n=== Data Quality\n\nThere
+        are some challenges when loading CSV data from \"organic\" files.\n\n1. You
+        might not load the right file. On a local filesystem Cypher will complain
+        if it can''t find it, but will happily ingest your latest movie-trilogy while
+        trying to find the first comma.\nFor remote URLs it will fail if the server
+        returns a 404, but otherwise try to load HTML error pages, which might be
+        fun.\n\n2. If you have the right file, make sure that it loads correctly.
+        I.e. all the columsn and lines are separated by delimeters to your liking.
+        You can easily try that by *sampling* the first few lines and see that they
+        are returned correctly.\n\n==== Initial checking for the first 5 lines\n\nDoes
+        everything look ok, anything that looks dubious? Fix it in your input data!\n\n//output\n[source,cypher]\n----\nLOAD
+        CSV FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/a147631215456d86a77edc7ec08c128b9ef05e3b/people_leading_empty.csv\"
+        \n  AS line\nWITH line LIMIT 4\nRETURN line\n----\n\n\nCaveats are: Leading
+        blank line, wrong or double line breaks.\n\n\n====  Check for correct columns\n\n//output\n[source,cypher]\n----\nLOAD
+        CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/a147631215456d86a77edc7ec08c128b9ef05e3b/people_leading_empty.csv\"
+        \n  AS line\nWITH line LIMIT 5\nRETURN line.PersonName, line.Company, line.company,
+        line.`Company Name`\n----\n\nLeading empty line will break +WITH HEADERS+.\n\n//output\n[source,cypher]\n----\nLOAD
+        CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\nWITH line LIMIT 5\nRETURN line.PersonName, line.Company, line.company,
+        line.`Company Name`\n----\n\nThis is better, still some misspelled columns.\n\n[NOTE]\nMisspelled
+        column name (it''s case sensitive), empty columns which are treated as +null+\n\nYou
+        can skip null values by adding a \n\n+WHERE line.value IS NOT NULL+ after
+        the +LOAD CSV .. WITH line+\n\nIf you don''t, you might end up with errors
+        in Neo4j''s indexing subsystem trying to index null values.\n\nIf you want
+        to you can alternatively provide defaults with \n\n+coalesce(value_or_null,value2_or_null,...,
+        default-value)+.\n\n=== Filter out NULL values\n\n//output\n[source,cypher]\n----\nLOAD
+        CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\nWITH line\n\nWHERE line.PersonName IS NOT NULL\n\nRETURN line.PersonName,
+        coalesce(line.Company,\"None\")\n----\n\n=== Data Conversion\n\nCypher reads
+        all CSV columns as Strings by default. You can use conversion functions like
+        +toInt(str)+, +toFloat(str)+, or boolean expressions, +split(str, \" \")+
+        and +substring(str,start,count)+ (e.g. for extracting day, month, year from
+        a date-string). Note that the conversion functions return +null+ if they can''t
+        convert. So use the null handling from above to handle unclean data.\n\nNote:
+        Make sure to use the same conversion for the same value in all the places,
+        both when creating nodes and relationships and also when using the CSV data
+        to look them up again. \nA helpful tip is to do the conversion upfront with
+        +WITH toInt(line.number) as number+\n\n//output\n[source,cypher]\n----\nLOAD
+        CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\n\nWITH line, toInt(line.year) as year\nRETURN line.PersonName,
+        year\n----\n\n=== Field Separation\n\nYou can specify alternative field separators
+        for your data. For a tab-separated file (+.tsv+) you can use +... AS line
+        FIELDTERMINATOR \\''\\t\\''+ for semicolons +... AS line FIELDTERMINATOR \\'';''
+        +\n\n=== Batch Your Transactions\n\n**This is really important** \n\nIf you
+        import more than 100k elements in a single transactions, it is very likely
+        (depending on your available memory), that you''ll fail. And it might not
+        be a quick death of your operation. It can drag on for quite a while desparately
+        trying to recover memory to store its intermediate transaction data.\n\nSo
+        make sure, to ALWAYS prefix your +LOAD CSV+ with +USING PERIODIC COMMIT 1000+.
+        The number given is the number of import rows after which a commit of the
+        imported data happens. Depending on the complexity of your import operation,
+        you might create from 100 elements per 1000 rows (if you have a lot of duplicates)
+        up to 100,000 when you have complex operations that generate up to 100 nodes
+        and relationships per row of input.\nThat''s why a commit size of 1000 might
+        be a safe bet (or not). \n\nThere is also an issue within Neo4j''s index operations
+        that makes it work better with smaller commit-sizes.\nIf you use +LOAD CSV+
+        without any create or update operation, you cannot use PERIODIC COMMIT. If
+        you use it from within an embedded Java-Application, make sure to __not start
+        a manual transaction beforehand_.\n\n==== Batch Transactions after every 1000
+        Rows\n\n//output\n[source,cypher]\n----\nUSING PERIODIC COMMIT 1000\nLOAD
+        CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\nCREATE (:Person {name:line.PersonName})\n----\n\n=== Indexing\n\nUsually
+        you import your nodes and relationships in one step, creating connections
+        as you process each line. As most CSV files are representing denormalized
+        tables, you''ll get a lot of duplication in them, especially for the joined
+        entity tables (which will probably converted to nodes). So you want to use
+        either +MERGE+ or +MATCH+ to lookup nodes in your graph database to connect
+        or update them in a later step.\n\nMake sure you created the neccessary indexes
+        and constraints upfront, so that both operations can utilize them and lookup
+        values really quickly.\n\n==== Creating Indexes and Constraints Upfront\n\nThis
+        example shows a mult-step import where people are created upfront from one
+        source, and then later on only looked up to connect them to merged Companies.\n\n//output\n[source,cypher]\n----\nCREATE
+        CONSTRAINT ON (c:Company) ASSERT c.name IS UNIQUE;\nCREATE INDEX ON :Person(name);\n\nUSING
+        PERIODIC COMMIT 1000\nLOAD CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\nCREATE (p:Person {name:line.PersonName});\n\nUSING PERIODIC COMMIT
+        1000\nLOAD CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv\"
+        \n  AS line\nMATCH (p:Person {name:line.PersonName})\nMERGE (c:Company {name:line.`Company
+        Name`});\nCREATE (p)-[:WORKS_FOR]->(c)\n----\n\n\n=== Test First\n\nUse the
+        same sampling approach as before, but now only take the first 10k or 100k
+        lines and import them. Try importing into a throwaway test database with the
+        *neo4j-shell* (see below).\nIf that goes well, remove the added data or clean
+        the database (by deleting the db-directory).\n\n=== Use the Neo4j-Shell for
+        larger Imports\n\nThe Neo4j Browser is great for quick query and playing around
+        with your import data, but if you really want to import millions of rows,
+        go with the Neo4j shell.\n\nIf you downloaded the http://neo4j.org/download[zip
+        distribution] of Neo4j, the shell can be found in +bin/neo4j-shell+ (+bin\\Neo4jShell.bat+
+        on Windows). By default it connects to a running server but you can also specify
+        a dedicated database directory with the +-path people.db+ parameter. With
+        +-config conf/neo4j.properties+ you''d use the same config as the Neo4j server
+        for that db-directory.\n\nFor importing lots of data you should probably edit
+        the shell script and edit this line +EXTRA_JVM_ARGUMENTS=\"-Xmx4G -Xms4G -Xmn1G\"+
+        to provide sensible Java heap settings.\nYou can add your import statements
+        (including index creation) to a Cypher script and execute it with +-file import.cql+.
+        **Don''t forget the semicolons at the end of your statements.**\n\nIf you
+        run into errors, you might try +export STACKTRACES=true+ and re-run the command
+        to have a good error message to share when asking on http://stackoverflow.com/questions/tagged/neo4j[StackOverflow].\n\n\n====
+        The Import Query in all its Beauty\n\nClean out the database for my final
+        import.\n\n//hide\n[source,cypher]\n----\nMATCH (n) \nWITH n LIMIT 10000\nOPTIONAL
+        MATCH (n)-[r]->()\nDELETE n,r\n----\n\n[source,cypher]\n----\nCREATE CONSTRAINT
+        ON (c:Company) ASSERT c.name IS UNIQUE;\nCREATE INDEX ON :Person(name);\n\nUSING
+        PERIODIC COMMIT 1000\nLOAD CSV WITH HEADERS FROM \"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/1bd8c19bf8b49d9eb7149918cc11a34faf996dd8/people.tsv\"
+        \n  AS line FIELDTERMINATOR ''\\t''\n\nWITH line, toInt(line.year) as year,
+        coalesce(line.`Company Name`,\"None\") as company\n\nWHERE year IS NOT NULL\n\nMERGE
+        (p:Person {name:line.PersonName})\nMERGE (c:Company {name:company})\nCREATE
+        (p)-[r:WORKS_FOR {since:year}]->(c)\nRETURN p,r,c\n----\n\n//graph\n\n//table\n\n===
+        Ready to go?\n\nThat''s it. If you hit any issue, I haven''t covered, here
+        please don''t hesitate to reach out to me, either by commenting below or dropping
+        me an emal to michael at neo4j.org\n\n\n=== Real World Example\n\nI just went
+        to http://www.mockaroo.com to generate a CSV sample. I did a _lastname_ and
+        _country_ tuple and generated 1M lines of them (18MB data), put them in my
+        public dropbox folder.\n\nThe data looks like this.\n\n[source]\n----\nlast_name,country\nFuller,Saint
+        Vincent and the Grenadines\nLynch,Israel\nCrawford,Iceland\nFowler,Belgium\n...
+        1M lines ...\nWalker,Mali\nWilson,Turkey\nHart,Saint Vincent and the Grenadines\nFowler,Nigeria\n----\n\nThen
+        I checked the CSV as outlined above, and used +bin/neo4j-shell -path people.db
+        -config conf/neo4j.properties -file import-names.cql+\n\n[source]\n----\nCREATE
+        CONSTRAINT ON (c:Country) ASSERT c.name IS UNIQUE;\nCREATE INDEX ON :Person(name);\n\nUSING
+        PERIODIC COMMIT 1000\nLOAD CSV WITH HEADERS FROM \"https://dl.dropboxusercontent.com/u/14493611/name_country.csv\"
+        \n  AS line \n\nWITH line\nWHERE line.last_name IS NOT NULL and line.country
+        IS NOT NULL\n\nMERGE (p:Person {name:line.last_name})\nMERGE (c:Country {name:line.country})\nCREATE
+        (p)-[r:LIVES_IN]->(c);\n----\n\nThe output shown here, you and also look at
+        the  https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/cb923c4e1693c4d9072894276cd5145a1f62b75d/shell_import.log[the
+        full log].\n\n[source]\n----\n+-------------------+\n| No data returned. |\n+-------------------+\nNodes
+        created: 499\nRelationships created: 1000000\nProperties set: 499\nLabels
+        added: 499\n119200 ms\n----\n\n=== References\n\n* You find some more details
+        about +LOAD CSV+ in the http://docs.neo4j.org/chunked/milestone/cypherdoc-importing-csv-files-with-cypher.html[Neo4j
+        Manual]\n* You can find the CSV files used in this article in https://gist.github.com/jexp/d788e117129c3730a042[this
+        GitHub Gist]\n* Read at my http://jexp.de/blog/2014/06/using-load-csv-to-import-git-history-into-neo4j/[git-commit
+        import article] that also uses LOAD CSV"},"people.csv":{"filename":"people.csv","type":"text/csv","language":null,"raw_url":"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/c5f98f269b4a219ebb88bd3eb83d331f439a8201/people.csv","size":212,"truncated":false,"content":"PersonName,\"Company
+        Name\",year\n\"Kenny Bastani\",\"Neo Technology\",2013\n\"Michael Hunger\",\"Neo
+        Technology\",2010\n\"James Ward\",\"Heroku\",2011,\n\"Matthew McCullough\",\"GitHub\",2010\n\"Someone\",,\n\"John\",\"Doe.com\",\"ninetynine\""},"people.tsv":{"filename":"people.tsv","type":"text/tab-separated-values","language":null,"raw_url":"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/1bd8c19bf8b49d9eb7149918cc11a34faf996dd8/people.tsv","size":167,"truncated":false,"content":"PersonName\t\"Company
+        Name\"\tyear\nKenny Bastani\t\"Neo Technology\"\t2013\nMichael Hunger\t\"Neo
+        Technology\"\t2010\nJames Ward\t\"Heroku\"\t2011\nSomeone\t\t\nJohn\t\"Doe.com\"\t\"ninetynine\"\n"},"people_leading_empty.csv":{"filename":"people_leading_empty.csv","type":"text/csv","language":null,"raw_url":"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/7f87b918d6df129769c1e8f9cdf608df1d1652e6/people_leading_empty.csv","size":176,"truncated":false,"content":"PersonName,\"Company
+        Name\",year\n\"Kenny Bastani\",\"Neo Technology\",2013\n\"Michael Hunger\",\"Neo
+        Technology\",2010\n\"James Ward\",\"Heroku\",2011\n\"Someone\",,\n\"John\",\"Doe.com\",\"ninetynine\""},"shell_import.log":{"filename":"shell_import.log","type":"text/plain","language":null,"raw_url":"https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/cb923c4e1693c4d9072894276cd5145a1f62b75d/shell_import.log","size":2659,"truncated":false,"content":"$
+        bin/neo4j-shell -path people.db -config conf/neo4j.properties\nNOTE: Local
+        Neo4j graph database service at ''people.db''\nWelcome to the Neo4j Shell!
+        Enter ''help'' for a list of commands\n\n\nneo4j-sh (?)$ LOAD CSV WITH HEADERS
+        FROM \"https://dl.dropboxusercontent.com/u/14493611/name_country.csv\" \n>   AS
+        line\n> return count(*);\n+----------+\n| count(*) |\n+----------+\n| 1000000  |\n+----------+\n1
+        row\n10320 ms\n\nneo4j-sh (?)$ LOAD CSV WITH HEADERS FROM \"https://dl.dropboxusercontent.com/u/14493611/name_country.csv\"
+        as line with line limit 10 return line;\n+------------------------------------------------------------------------+\n|
+        line                                                                   |\n+------------------------------------------------------------------------+\n|
+        {last_name -> \"Fuller\", country -> \"Saint Vincent and the Grenadines\"}
+        |\n| {last_name -> \"Lynch\", country -> \"Israel\"}                            |\n|
+        {last_name -> \"Crawford\", country -> \"Iceland\"}                        |\n|
+        {last_name -> \"Fowler\", country -> \"Belgium\"}                          |\n|
+        {last_name -> \"Larson\", country -> \"Panama\"}                           |\n|
+        {last_name -> \"Jenkins\", country -> \"Singapore\"}                       |\n|
+        {last_name -> \"Burke\", country -> \"Netherlands Antilles\"}              |\n|
+        {last_name -> \"Simmons\", country -> \"Isle of Man\"}                     |\n|
+        {last_name -> \"Martinez\", country -> \"Bahamas\"}                        |\n|
+        {last_name -> \"Berry\", country -> \"Guadeloupe\"}                        |\n+------------------------------------------------------------------------+\n10
+        rows\n830 ms\n\nneo4j-sh (?)$ CREATE CONSTRAINT ON (c:Country) ASSERT c.name
+        IS UNIQUE;\n+-------------------+\n| No data returned. |\n+-------------------+\nConstraints
+        added: 1\n98 ms\n\nneo4j-sh (?)$ CREATE INDEX ON :Person(name);\n+-------------------+\n|
+        No data returned. |\n+-------------------+\nIndexes added: 1\n8 ms\n\nneo4j-sh
+        (?)$ schema await\n\nneo4j-sh (?)$ schema\nIndexes\n  ON :Country(name) ONLINE
+        (for uniqueness constraint) \n  ON :Person(name)  ONLINE                             \n\nConstraints\n  ON
+        (country:Country) ASSERT country.name IS UNIQUE\n\nneo4j-sh (?)$ USING PERIODIC
+        COMMIT 1000\n> LOAD CSV WITH HEADERS FROM \"https://dl.dropboxusercontent.com/u/14493611/name_country.csv\"
+        \n>   AS line \n> \n> WITH line\n> WHERE line.last_name IS NOT NULL and line.country
+        IS NOT NULL\n> \n> MERGE (p:Person {name:line.last_name})\n> MERGE (c:Country
+        {name:line.country})\n> CREATE (p)-[r:LIVES_IN]->(c);\n+-------------------+\n|
+        No data returned. |\n+-------------------+\nNodes created: 499\nRelationships
+        created: 1000000\nProperties set: 499\nLabels added: 499\n119200 ms\n\n"}},"public":true,"created_at":"2014-06-25T00:49:10Z","updated_at":"2015-11-10T17:51:30Z","description":"LOAD
+        CSV","comments":0,"user":null,"comments_url":"https://api.github.com/gists/d788e117129c3730a042/comments","owner":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"forks":[{"url":"https://api.github.com/gists/f882a981212c2e7b8913","user":{"login":"jjinkou2","id":629656,"avatar_url":"https://avatars.githubusercontent.com/u/629656?v=3","gravatar_id":"","url":"https://api.github.com/users/jjinkou2","html_url":"https://github.com/jjinkou2","followers_url":"https://api.github.com/users/jjinkou2/followers","following_url":"https://api.github.com/users/jjinkou2/following{/other_user}","gists_url":"https://api.github.com/users/jjinkou2/gists{/gist_id}","starred_url":"https://api.github.com/users/jjinkou2/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jjinkou2/subscriptions","organizations_url":"https://api.github.com/users/jjinkou2/orgs","repos_url":"https://api.github.com/users/jjinkou2/repos","events_url":"https://api.github.com/users/jjinkou2/events{/privacy}","received_events_url":"https://api.github.com/users/jjinkou2/received_events","type":"User","site_admin":false},"id":"f882a981212c2e7b8913","created_at":"2014-07-01T15:02:28Z","updated_at":"2015-08-29T14:03:20Z"},{"url":"https://api.github.com/gists/b50f14a8c87077944ffd","user":{"login":"widged","id":320596,"avatar_url":"https://avatars.githubusercontent.com/u/320596?v=3","gravatar_id":"","url":"https://api.github.com/users/widged","html_url":"https://github.com/widged","followers_url":"https://api.github.com/users/widged/followers","following_url":"https://api.github.com/users/widged/following{/other_user}","gists_url":"https://api.github.com/users/widged/gists{/gist_id}","starred_url":"https://api.github.com/users/widged/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/widged/subscriptions","organizations_url":"https://api.github.com/users/widged/orgs","repos_url":"https://api.github.com/users/widged/repos","events_url":"https://api.github.com/users/widged/events{/privacy}","received_events_url":"https://api.github.com/users/widged/received_events","type":"User","site_admin":false},"id":"b50f14a8c87077944ffd","created_at":"2015-10-14T06:47:59Z","updated_at":"2015-10-14T06:47:59Z"}],"history":[{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"dec4561873354d36940534441277023f207fa0cb","committed_at":"2014-06-25T07:46:27Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/d788e117129c3730a042/dec4561873354d36940534441277023f207fa0cb"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"4e8c85685107decc722ef81cb4460c18c43ad165","committed_at":"2014-06-25T07:45:25Z","change_status":{"total":154,"additions":77,"deletions":77},"url":"https://api.github.com/gists/d788e117129c3730a042/4e8c85685107decc722ef81cb4460c18c43ad165"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"2b6aff80d5db6e727d97621352f78d9b715594fb","committed_at":"2014-06-25T07:44:37Z","change_status":{"total":61,"additions":52,"deletions":9},"url":"https://api.github.com/gists/d788e117129c3730a042/2b6aff80d5db6e727d97621352f78d9b715594fb"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"129d099c3456f4c74ff393729fc83f8d3ea05504","committed_at":"2014-06-25T07:40:49Z","change_status":{"total":77,"additions":77,"deletions":0},"url":"https://api.github.com/gists/d788e117129c3730a042/129d099c3456f4c74ff393729fc83f8d3ea05504"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"f9952bbec99ced7f0969464fa5a5dad52517e145","committed_at":"2014-06-25T06:32:35Z","change_status":{"total":6,"additions":3,"deletions":3},"url":"https://api.github.com/gists/d788e117129c3730a042/f9952bbec99ced7f0969464fa5a5dad52517e145"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"7a7de26bc552220662f9869959683f730c34d6c5","committed_at":"2014-06-25T06:30:21Z","change_status":{"total":21,"additions":19,"deletions":2},"url":"https://api.github.com/gists/d788e117129c3730a042/7a7de26bc552220662f9869959683f730c34d6c5"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"4e7e5ae8ec1c1ad6822128ca2783100d77921979","committed_at":"2014-06-25T06:11:00Z","change_status":{"total":41,"additions":37,"deletions":4},"url":"https://api.github.com/gists/d788e117129c3730a042/4e7e5ae8ec1c1ad6822128ca2783100d77921979"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"cea2c015e1a21f78c1482cb6f959b700cfb13bfe","committed_at":"2014-06-25T06:01:40Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/d788e117129c3730a042/cea2c015e1a21f78c1482cb6f959b700cfb13bfe"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"f67c883b4347b881cfa659157315e488b1110c57","committed_at":"2014-06-25T06:00:43Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/d788e117129c3730a042/f67c883b4347b881cfa659157315e488b1110c57"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"594efbde66a3a01abc67e56bb1b30e49493b0c8b","committed_at":"2014-06-25T05:59:44Z","change_status":{"total":57,"additions":41,"deletions":16},"url":"https://api.github.com/gists/d788e117129c3730a042/594efbde66a3a01abc67e56bb1b30e49493b0c8b"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"a1b3d2fd9978c14248b75d474588d26f1eaab936","committed_at":"2014-06-25T01:21:38Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/a1b3d2fd9978c14248b75d474588d26f1eaab936"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"a8901d9d80d3964fcf367656cb58010206b01c6d","committed_at":"2014-06-25T01:17:15Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/a8901d9d80d3964fcf367656cb58010206b01c6d"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"c06be14698f07f07e63131cae9119e7b2640e09b","committed_at":"2014-06-25T01:15:22Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/c06be14698f07f07e63131cae9119e7b2640e09b"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"e39ada7dda2cabf44abb19505a426ac2fdd4a0a4","committed_at":"2014-06-25T01:06:57Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/e39ada7dda2cabf44abb19505a426ac2fdd4a0a4"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"a000338a64785f29a2e494172874a13fe1707347","committed_at":"2014-06-25T01:04:30Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/a000338a64785f29a2e494172874a13fe1707347"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"5aafc91fdd7494ac8e494d79cb1d287ee53a2654","committed_at":"2014-06-25T01:03:46Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/5aafc91fdd7494ac8e494d79cb1d287ee53a2654"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"ad60a308a612716d4bb106f809cb8687c2a699eb","committed_at":"2014-06-25T01:02:56Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/ad60a308a612716d4bb106f809cb8687c2a699eb"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"05188a0913bb7af999ccb65c900aff0be6d12ff2","committed_at":"2014-06-25T01:02:09Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/05188a0913bb7af999ccb65c900aff0be6d12ff2"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"c0b0d7b0cce31b3157efabaed1aae8607ccc336f","committed_at":"2014-06-25T00:52:03Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/c0b0d7b0cce31b3157efabaed1aae8607ccc336f"},{"user":{"login":"jexp","id":67427,"avatar_url":"https://avatars.githubusercontent.com/u/67427?v=3","gravatar_id":"","url":"https://api.github.com/users/jexp","html_url":"https://github.com/jexp","followers_url":"https://api.github.com/users/jexp/followers","following_url":"https://api.github.com/users/jexp/following{/other_user}","gists_url":"https://api.github.com/users/jexp/gists{/gist_id}","starred_url":"https://api.github.com/users/jexp/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jexp/subscriptions","organizations_url":"https://api.github.com/users/jexp/orgs","repos_url":"https://api.github.com/users/jexp/repos","events_url":"https://api.github.com/users/jexp/events{/privacy}","received_events_url":"https://api.github.com/users/jexp/received_events","type":"User","site_admin":false},"version":"1cf858a6dc109f8f50a5f3fa7aab5816d53e3f41","committed_at":"2014-06-25T00:49:11Z","change_status":{},"url":"https://api.github.com/gists/d788e117129c3730a042/1cf858a6dc109f8f50a5f3fa7aab5816d53e3f41"}]}'
+    http_version: 
+  recorded_at: Thu, 10 Dec 2015 04:22:31 GMT
 recorded_with: VCR 2.9.3

@@ -5,6 +5,8 @@ require 'faraday'
 require 'action_controller'
 
 module GraphGistTools
+  class InvalidGraphGistIDError < StandardError; end
+
   ASCIIDOC_ATTRIBUTES = ['env-graphgist']
 
   # ActionController::Base.helpers.image_url('loading.gif')
@@ -136,7 +138,7 @@ module GraphGistTools
       return nil
     end
 
-    fail ArgumentError, 'Gist has more than one file!' if data['files'].size > 1
+    fail InvalidGraphGistIDError, 'Gist has more than one file!' if data['files'].size > 1
 
     data['files'].to_a[0][1]['raw_url']
   end

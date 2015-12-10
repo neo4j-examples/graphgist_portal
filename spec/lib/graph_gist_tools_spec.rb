@@ -145,6 +145,13 @@ RSpec.describe GraphGistTools do
       let_context id: '6009066' do
         it { should eq 'https://gist.githubusercontent.com/peterneubauer/6009066/raw/b0dd549f6299b4a5dcc9e32982996f33b012c415/T-Graph.adoc' }
       end
+
+      # More than one file in a Gist
+      let_context id: 'd788e117129c3730a042' do
+        it 'should raise an exception' do
+          expect { subject }.to raise_error GraphGistTools::InvalidGraphGistIDError, /Gist has more than one file/
+        end
+      end
     end
 
     describe 'GitHub files' do
