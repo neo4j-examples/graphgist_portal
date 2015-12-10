@@ -64,7 +64,7 @@ class InfoController < ApplicationController
     render text: e.message, status: :bad_request
   end
 
-  def create_graphgist
+  def create_graphgist # rubocop: disable Metrics/AbcSize
     @graphgist = GraphGist.new(url: params[:url], status: 'candidate')
 
     @graphgist.author = current_user.person
