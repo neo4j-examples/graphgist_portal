@@ -47,7 +47,8 @@ class GraphGist < GraphStarter::Asset
     return if !raw_url.present?
 
     text = self.class.data_from_url(raw_url)
-    place_asciidoc(text) if text
+
+    text ? place_asciidoc(text) : false
   end
 
   after_create :notify_admins_about_creation

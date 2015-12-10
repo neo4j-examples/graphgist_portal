@@ -87,6 +87,11 @@ RSpec.describe GraphGistTools do
       let_context url: 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' do
         it { should eq 'https://www.dropbox.com/s/81fka14d5hyg378/gistfile1.txt?dl=1' }
       end
+
+      # Bad URL
+      let_context url: 'https://dl.dropboxusercontent.com/u/14493611' do
+        it { should be_nil }
+      end
     end
 
     describe 'pastebin' do
@@ -181,6 +186,11 @@ RSpec.describe GraphGistTools do
     describe 'Dropbox' do
       let_context id: 'dropboxs-vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' do
         it { should eq 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' }
+      end
+
+      # Invalid ID
+      let_context id: 'dropbox-14493611' do
+        it { should be_nil }
       end
     end
 
