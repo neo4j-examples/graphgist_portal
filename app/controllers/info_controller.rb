@@ -66,11 +66,13 @@ class InfoController < ApplicationController
   def create_graphgist
     @graphgist = GraphGist.new(url: params[:url], status: 'candidate')
 
+    @graphgist.author = current_user.person
+
     return if !@graphgist.save
 
     @graphgist.update_attribute(:title, params[:title])
 
-    redirect_to controller: 'graph_starter/assets', action: 'show', id: @graphgist.id, model_slug: 'graph_gists'
+    redirect_to graph_starter.asset_path(id: @graphgist.id, model_slug: 'graph_gists')
   end
 
   def render_graphgist
