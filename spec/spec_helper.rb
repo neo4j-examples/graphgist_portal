@@ -30,7 +30,6 @@ VCR.configure do |config|
   config.hook_into :webmock # or :fakeweb
   config.ignore_localhost = true
 end
-WebMock.allow_net_connect!
 
 
 require 'factory_girl'
