@@ -55,6 +55,7 @@ class InfoController < ApplicationController
     end
 
     if raw_url && placed
+      @model_slug = 'graph_gists'
       render 'graph_starter/assets/show'
     else
       render text: 'Invalid GraphGist ID', status: :bad_request
