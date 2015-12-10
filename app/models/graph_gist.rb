@@ -20,6 +20,7 @@ class GraphGist < GraphStarter::Asset
   enumerable_property :status, %w(live disabled candidate)
 
   has_one :in, :author, type: :WROTE, model_class: :Person
+  has_many :in, :creators, type: :CREATED, model_class: :User
 
   property :legacy_id, type: String
   property :legacy_neo_id, type: Integer

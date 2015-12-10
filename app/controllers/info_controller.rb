@@ -68,8 +68,9 @@ class InfoController < ApplicationController
     @graphgist = GraphGist.new(url: params[:url], status: 'candidate')
 
     @graphgist.author = current_user.person
+    @graphgist.creators << current_user
 
-    return if !@graphgist.save
+    return render text: "Could not create GraphGist: #{@graphgist.errors.messages.inspect}" if !@graphgist.save
 
     @graphgist.update_attribute(:title, params[:title])
 
