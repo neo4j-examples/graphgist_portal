@@ -190,7 +190,7 @@ RSpec.describe GraphGistTools do
 
       # Invalid ID
       let_context id: 'dropbox-14493611' do
-        it { should be_nil }
+        it { should eq 'https://dl.dropboxusercontent.com/u/14493611' } # Invalid URL, tested above
       end
     end
 
