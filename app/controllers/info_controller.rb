@@ -51,10 +51,10 @@ class InfoController < ApplicationController
     if raw_url
       @asset = GraphGist.new(url: raw_url)
 
-      placed = @asset.place_updated_url
+      @asset.place_updated_url
     end
 
-    if raw_url && placed
+    if raw_url && @asset.valid?
       @model_slug = 'graph_gists'
       render 'graph_starter/assets/show'
     else
