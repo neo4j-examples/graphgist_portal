@@ -4,9 +4,9 @@ h2 Edit #{resource_name.to_s.humanize}
   = devise_error_messages!
 
   .field
-    = f.label :email
+    = f.label :name
 
-    = f.email_field :email, autofocus: true
+    = f.text_field :name, autofocus: true
 
   .field
     = f.label :twitter_username
@@ -16,6 +16,26 @@ h2 Edit #{resource_name.to_s.humanize}
     - else
       = f.email_field :twitter_username
 
+  h3 Information for the GraphGist Challenge
+
+  .field
+    = f.label :email
+
+    = f.email_field :email
+
+  .field
+    label
+      | T-Shirt size
+      = select_tag 'user[person][tshirt_size]', options_for_select(['', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'Other'], @user.person.tshirt_size), class: 'ui fluid dropdown selection'
+
+  .field
+    label
+      | T-Shirt size (other)
+      = text_field_tag 'user[person][tshirt_size_other]', @user.person.tshirt_size_other, placeholder: 'T-Shirt details, e.g. Women M'
+
+
+  javascript:
+    $('.dropdown').dropdown();
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div Currently waiting confirmation for: #{resource.unconfirmed_email}
