@@ -33,9 +33,9 @@ class User
   index :remember_token
 
   ## Recoverable
-  #property :reset_password_token
-  #index :reset_password_token
-  #property :reset_password_sent_at, type:   DateTime
+  # property :reset_password_token
+  # index :reset_password_token
+  # property :reset_password_sent_at, type:   DateTime
 
   ## Trackable
   property :sign_in_count, type: Integer, default: 0
