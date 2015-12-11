@@ -33,9 +33,9 @@ class User
   index :remember_token
 
   ## Recoverable
-  property :reset_password_token
-  index :reset_password_token
-  property :reset_password_sent_at, type:   DateTime
+  #property :reset_password_token
+  #index :reset_password_token
+  #property :reset_password_sent_at, type:   DateTime
 
   ## Trackable
   property :sign_in_count, type: Integer, default: 0
@@ -83,9 +83,9 @@ class User
   # property :authentication_token, type: String, :null => true, :index => :exact
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # :recoverable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:twitter, :github]
   def self.find_by_provider_and_uid(provider, uid)
     all.find_by(provider: provider, uid: uid)
