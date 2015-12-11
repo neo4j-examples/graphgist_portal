@@ -2,6 +2,10 @@ a.ui.item href="#{main_app.about_path}" What is a GraphGist?
 a.ui.item href="#{main_app.submit_graphgist_path}" Submit a GraphGist
 a.ui.item href="/challenge/index.html" style="color: red; font-weight: bold" GraphGist Challenge!
 
+- if flash['notice'] && flash['notice'].match(/Signed out successfully/)
+  javascript:
+    current_user = null;
+
 .right.menu
   /- if current_user && current_user.admin?
     a.ui.item href="#{graph_starter.groups_path}" Groups

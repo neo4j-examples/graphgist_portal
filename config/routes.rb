@@ -11,7 +11,10 @@ Rails.application.routes.draw do
 
   get 'submit_graphgist' => 'info#submit_graphgist'
   get 'preview_graphgist' => 'info#preview_graphgist'
-  post 'create_graphgist' => 'info#create_graphgist'
+
+  authenticated do
+    post 'create_graphgist' => 'info#create_graphgist'
+  end
 
   get 'render_graphgist' => 'info#render_graphgist'
 
