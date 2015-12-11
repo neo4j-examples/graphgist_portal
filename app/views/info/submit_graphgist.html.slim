@@ -16,7 +16,7 @@
 
 
       #preview-button.ui.button Preview
-      = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
+      = submit_tag 'Create', id: 'create-button', class: 'ui disabled primary button'
 
 
   #iframe-spinner.ui.active.centered.large.loader
@@ -35,9 +35,18 @@
       $('#title-field').show()
       if title.length > 0
         $('#title-field input').val title
+        $('#create-button').removeClass 'disabled'
       else
         $('#title-field input').val ''
+        $('#create-button').addClass 'disabled'
 
+    $('#title').keyup ->
+      title = $('#title').val()
+
+      if title.replace(/\s+/, '').length is 0
+        $('#create-button').addClass 'disabled'
+      else
+        $('#create-button').removeClass 'disabled'
 
   iframe onload="window.iframe_loaded()"
 
