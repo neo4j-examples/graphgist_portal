@@ -4,10 +4,10 @@ require './lib/graph_gist_tools'
 RSpec.describe GraphGistTools do
   use_vcr_cassette 'graph_gist', record: :new_episodes
 
-  describe '#place_updated_url' do
+  describe '#place_current_url' do
     let(:graph_gist_id) { nil }
     let(:graph_gist) { GraphGist.new(url: url) }
-    before { graph_gist.place_updated_url }
+    before { graph_gist.place_current_url }
 
     subject { graph_gist }
 

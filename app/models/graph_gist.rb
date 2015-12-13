@@ -13,8 +13,8 @@ class GraphGist < GraphStarter::Asset
 
   property :asciidoc, type: String
   validates :asciidoc, presence: true
-  property :html, type: String
-  validates :html, presence: true
+  property :raw_html, type: String
+  validates :raw_html, presence: true
 
   property :status, type: String, default: 'candidate'
   enumerable_property :status, %w(live disabled candidate)
@@ -40,11 +40,11 @@ class GraphGist < GraphStarter::Asset
 
   category_associations :author, :industries, :use_cases
 
-  body_property :html
+  body_property :raw_html
 
-  before_validation :place_updated_url, if: :url_changed?
+  before_validation :place_current_url, if: :url_changed?
 
-  def place_updated_url
+  def place_current_url
     place_url(url)
     return if !raw_url.present?
 
@@ -67,10 +67,10 @@ class GraphGist < GraphStarter::Asset
 
     document = asciidoctor_document
 
-    self.html = SANITIZER.sanitize(document.convert,
+    self.raw_html = SANITIZER.sanitize(document.convert,
                                    tags: VALID_HTML_TAGS,
                                    attributes: VALID_HTML_ATTRIBUTES)
-    self.html += GraphGistTools.metadata_html(document)
+    self.raw_html += GraphGistTools.metadata_html(document)
 
     self.title = document.doctitle if document.doctitle.present?
 
@@ -86,6 +86,14 @@ class GraphGist < GraphStarter::Asset
     self.url = new_url
 
     self.raw_url = GraphGistTools.raw_url_for(url) if url.present?
+  end
+
+  def html
+    if status == 'candidate'
+      self.place_current_url
+    end
+
+    self.raw_html
   end
 
   class << self

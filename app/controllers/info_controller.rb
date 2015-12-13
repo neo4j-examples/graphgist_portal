@@ -41,7 +41,7 @@ class InfoController < ApplicationController
   def preview_graphgist
     @graphgist = GraphGist.new(url: params[:graph_gist] ? params[:graph_gist][:url] : params[:url])
 
-    @graphgist.place_updated_url
+    @graphgist.place_current_url
 
     @hide_menu = true
   end
@@ -51,7 +51,7 @@ class InfoController < ApplicationController
     if raw_url
       @asset = GraphGist.new(url: raw_url)
 
-      @asset.place_updated_url
+      @asset.place_current_url
     end
 
     if raw_url && @asset.valid?
