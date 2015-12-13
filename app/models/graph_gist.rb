@@ -68,8 +68,8 @@ class GraphGist < GraphStarter::Asset
     document = asciidoctor_document
 
     self.raw_html = SANITIZER.sanitize(document.convert,
-                                   tags: VALID_HTML_TAGS,
-                                   attributes: VALID_HTML_ATTRIBUTES)
+                                       tags: VALID_HTML_TAGS,
+                                       attributes: VALID_HTML_ATTRIBUTES)
     self.raw_html += GraphGistTools.metadata_html(document)
 
     self.title = document.doctitle if document.doctitle.present?
@@ -89,9 +89,7 @@ class GraphGist < GraphStarter::Asset
   end
 
   def html
-    if status == 'candidate'
-      self.place_current_url
-    end
+    place_current_url if status == 'candidate'
 
     self.raw_html
   end
