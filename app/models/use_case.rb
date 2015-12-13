@@ -3,7 +3,7 @@ class UseCase < GraphStarter::Asset
   property :name, type: String
   property :for_challenge
 
-#  scope :for_challenge, -> { where(for_challenge: true) }
+  #  scope :for_challenge, -> { where(for_challenge: true) }
 
   has_many :in, :graph_gists, origin: :use_cases
 end
