@@ -39,7 +39,7 @@ class InfoController < ApplicationController
   end
 
   def preview_graphgist
-    @graphgist = GraphGist.new(url: params[:url])
+    @graphgist = GraphGist.new(url: params[:graph_gist] ? params[:graph_gist][:url] : params[:url])
 
     @graphgist.place_updated_url
 
@@ -65,14 +65,20 @@ class InfoController < ApplicationController
   end
 
   def create_graphgist # rubocop: disable Metrics/AbcSize
-    @graphgist = GraphGist.new(url: params[:url], status: 'candidate')
+    Neo4j::Transaction.run do
+      @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category))
 
-    @graphgist.author = current_user.person
-    @graphgist.creators << current_user
+      # Grrr...
+      industries, use_cases, challenge_category = params[:graph_gist].values_at(:industries, :use_cases, :challenge_category)
+      @graphgist.industries = Industry.where(uuid: industries.uniq) unless industries.nil?
+      @graphgist.use_cases = UseCase.where(uuid: use_cases.uniq) unless use_cases.nil?
+      @graphgist.challenge_category = UseCase.find(challenge_category) unless challenge_category.nil?
 
-    return render text: "Could not create GraphGist: #{@graphgist.errors.messages.inspect}" if !@graphgist.save
+      @graphgist.author = current_user.person
+      @graphgist.creators << current_user
+    end
 
-    @graphgist.update_attribute(:title, params[:title])
+    return render text: "Could not create GraphGist: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
 
     redirect_to graph_starter.asset_path(id: @graphgist.id, model_slug: 'graph_gists')
   end

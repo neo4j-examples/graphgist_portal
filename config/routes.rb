@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'about' => 'info#about'
 
   get 'submit_graphgist' => 'info#submit_graphgist'
+  get 'submit_challenge_entry' => 'info#submit_challenge_entry'
+
   get 'preview_graphgist' => 'info#preview_graphgist'
 
   authenticated do

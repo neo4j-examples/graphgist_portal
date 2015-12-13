@@ -1,0 +1,35 @@
+p
+  |
+    Welcome to the GraphGist Challenge (<a href="/challenge/index.html">rules and conditions</a>)!
+    Enter the URL for your entry below and click "Preview".
+    When you are ready to submit the entry be sure to log in via Twitter or GitHub first.
+p
+  |
+    Submit as many entries as you would like.
+    For each entry, choose the category in which the submission will be judged as well as any other categories it fits within
+
+p Good luck and may the graph be with you!
+
+- content_for :graphgist_submission_form do
+  .three.fields
+    .field
+      label Challenge Judging Category (Required)
+      = select_tag 'graph_gist[challenge_category]', options_for_select(UseCase.where(for_challenge: true).pluck(:name, :uuid)), include_blank: 'Please select', required: true, class: 'ui fluid dropdown'
+
+    .field
+      label Industries
+      = select_tag 'graph_gist[industries]', options_for_select(Industry.all.pluck(:name, :uuid)), include_blank: 'Please select', multiple: true, class: 'ui fluid dropdown'
+
+    .field
+      label Use Cases
+      = select_tag 'graph_gist[use_cases]', options_for_select(UseCase.all.pluck(:name, :uuid)), include_blank: 'Please select', multiple: true, class: 'ui fluid dropdown'
+
+
+  javascript:
+    $('.dropdown').dropdown();
+
+= render partial: 'graphgist_submission'
+
+
+
+

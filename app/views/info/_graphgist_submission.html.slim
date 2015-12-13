@@ -1,0 +1,68 @@
+= form_tag create_graphgist_path
+  .ui.form method="get" 
+    .two.fields
+      .field
+        label URL
+        = text_field_tag 'graph_gist[url]'
+
+      .field#title-field
+        label Title (Required)
+        = text_field_tag 'graph_gist[title]', nil, required: true
+
+    = yield :graphgist_submission_form
+
+    #preview-button.ui.button Preview
+
+    = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
+
+    - if !current_user
+      strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to create a GraphGist
+
+
+#iframe-spinner.ui.active.centered.large.loader
+
+coffee:
+  $('#preview-button').click ->
+    $('#iframe-spinner').show();
+    $('iframe').attr('src', '/preview_graphgist?url=' + $('#graph_gist_url').val())
+
+  window.iframe_loaded = ->
+    $('#iframe-spinner').hide();
+
+  #  title = $('iframe').contents().find('#graphgist-title').text()
+  #  title = title.replace(/^\s*/, '').replace(/\s+$/, '')
+
+  #  $('#title-field').show()
+  #  if title.length > 0
+  #    $('#title-field input').val title
+  #    $('#create-button').removeClass 'disabled' if current_user?
+  #  else
+  #    $('#title-field input').val ''
+  #    $('#create-button').addClass 'disabled'
+
+  #$('#graph_gist_title').keyup ->
+  #  title = $('#graph_gist_title').val()
+
+  #  if title.replace(/\s+/, '').length is 0
+  #    $('#create-button').addClass 'disabled'
+  #  else
+  #    $('#create-button').removeClass 'disabled' if current_user?
+
+iframe onload="window.iframe_loaded()"
+
+scss:
+  iframe {
+    width: 100%;
+    height: 1000px;
+    margin-top: 1em;
+    border: 1px solid #999;
+  }
+
+  #iframe-spinner {
+    display: none;
+    left: 45%;
+    position: absolute;
+    top: 60%;
+  }
+
+

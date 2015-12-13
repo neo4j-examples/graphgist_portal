@@ -36,6 +36,8 @@ class GraphGist < GraphStarter::Asset
   has_many :out, :industries, type: :FOR_INDUSTRY
   has_many :out, :use_cases, type: :FOR_USE_CASE
 
+  has_one :out, :challenge_category, type: :FOR_CHALLENGE_CATEGORY, model_class: :UseCase
+
   category_associations :author, :industries, :use_cases
 
   body_property :html
