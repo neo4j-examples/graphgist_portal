@@ -44,6 +44,8 @@ class InfoController < ApplicationController
     @graphgist.place_current_url
 
     @hide_menu = true
+
+    @no_ui_container = true
   end
 
   def show_from_graphgist_id
