@@ -198,6 +198,7 @@ function GraphGist($, options) {
         });
         var number = 0;
 
+        // Can probably drop this.  Prism stuff
         $('code', $content).each(function (index, el) {
             var $el = $(el);
             if ($el.hasClass('language-cypher')) {
@@ -234,7 +235,13 @@ function GraphGist($, options) {
             }
         });
 
-        //CodeMirror.colorize();
+        $('pre code.language-cypher').addClass('cm-s-neo');
+
+        var code_els = $('pre code.language-cypher').toArray();
+        for (var i in code_els) {
+          var code_el = code_els[i];
+          CodeMirror.runMode($(code_el).text(), 'cypher', code_el);
+        }
 
         $('table').addClass('table'); // bootstrap formatting
 

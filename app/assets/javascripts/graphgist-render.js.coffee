@@ -11,9 +11,9 @@
 #= require base64
 #= require mutate.min
 
-#= require prism
-#= require prism-cypher
-
+#= require codemirror/runmode/runmode-standalone
+#= require codemirror/runmode/colorize
+#= require codemirror/mode/cypher
 
 # Transform ASCIIdoc HTML output to match Semantic UI expectations
 $('.sect1').addClass('ui container')
