@@ -1,16 +1,17 @@
-- if @graphgist.valid?
-  h1#graphgist-title = @graphgist.title
+div style="padding: 1em"
+  - if @graphgist.valid?
+    h1#graphgist-title = @graphgist.title
 
-  = render partial: 'graph_gists/render', locals: {graphgist: @graphgist}
-- else
-  .ui.error.message
-    i.close.icon
-    - if @graphgist.raw_url.blank?
-      .header The URL specified was not recognized
-    - else
-      .header There were some errors with your submission:
+    = render partial: 'graph_gists/render', locals: {graphgist: @graphgist}
+  - else
+    .ui.error.message
+      i.close.icon
+      - if @graphgist.raw_url.blank?
+        .header The URL specified was not recognized
+      - else
+        .header There were some errors with your submission:
 
-      ui.list
-        - @graphgist.errors.messages.each do |field, errors|
-          - errors.each do |error|
-            li #{field} #{error}
+        ui.list
+          - @graphgist.errors.messages.each do |field, errors|
+            - errors.each do |error|
+              li #{field} #{error}
