@@ -33,6 +33,13 @@ RSpec.describe GraphGistTools do
       let_context url: 'https://gist.github.com/patbaumgartner/8139605' do
         it { should eq 'https://gist.githubusercontent.com/patbaumgartner/8139605/raw/c5a8c8476f9b68508ed2a15c0603ee72fc8cd189/Single%20Malt%20Scotch%20Whisky%20GraphGist.adoc' }
       end
+
+      let_context url: 'https://gist.github.com/cheerfulstoic/ba9e1c2225aa5259b10e' do
+        it { should eq 'https://gist.githubusercontent.com/cheerfulstoic/ba9e1c2225aa5259b10e/raw/d456edc4e351da09f6b46a160b0cff3e4484a52e/graph_gist_template.adoc' }
+      end
+      let_context url: 'https://gist.github.com/cheerfulstoic/ba9e1c2225aa5259b10e/edit' do
+        it { should eq 'https://gist.githubusercontent.com/cheerfulstoic/ba9e1c2225aa5259b10e/raw/d456edc4e351da09f6b46a160b0cff3e4484a52e/graph_gist_template.adoc' }
+      end
     end
 
     describe 'gist.neo4j.org' do
