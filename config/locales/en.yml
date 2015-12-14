@@ -25,5 +25,7 @@ en:
       models:
         user:
           attributes:
+            slug:
+              taken: has been taken
             email:
               taken: has been taken
