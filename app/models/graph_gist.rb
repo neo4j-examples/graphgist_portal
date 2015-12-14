@@ -28,6 +28,7 @@ class GraphGist < GraphStarter::Asset
 
   display_properties :url, :created_at
 
+  hidden_json_properties :raw_html
 
   property :featured, type: Boolean
 
@@ -43,6 +44,8 @@ class GraphGist < GraphStarter::Asset
   body_property :raw_html
 
   before_validation :place_current_url, if: :url_changed?
+
+  json_methods :html
 
   def place_current_url
     place_url(url)
