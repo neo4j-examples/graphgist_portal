@@ -22,4 +22,3 @@ Then(/^JSON is returned having a key '([^']+)' which contains '([^']+)'$/) do |k
   data = JSON.parse(@response.body)
   expect(data[key]).to include(text)
 end
-
