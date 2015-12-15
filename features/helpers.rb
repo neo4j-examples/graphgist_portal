@@ -17,3 +17,9 @@ end
 Then(/^A page with "([^"]*)" is returned$/) do |text|
   expect(@response.body).to include(text)
 end
+
+Then(/^JSON is returned having a key '([^']+)' which contains '([^']+)'$/) do |key, text|
+  data = JSON.parse(@response.body)
+  expect(data[key]).to include(text)
+end
+
