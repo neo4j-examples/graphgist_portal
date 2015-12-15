@@ -21,4 +21,15 @@ Feature: Renders gists by ID
     When The URL http://neo4j.com/graphgist/https%3A%2F%2Fgist.githubusercontent.com%2Frvanbruggen%2Fc82d0a68d32cf3067706%2Fraw%2Fe05fa4ff92c1822acac87593f058a06f0798f141%2FMiddle%2520East%2520GraphGist.adoc is visited
     Then A page with "Friend-or-Foe Relations in the Middle East" is returned
 
+  Scenario:
+    When The URL http://neo4j.com/graphgist/bad_graphgist_id is visited
+    Then A page with "Could not load GraphGist" is returned
+    Then A page with "That gist was not found or not available" is returned
+
+  # Gist has multiple files
+  Scenario:
+    When The URL http://neo4j.com/graphgist/b2110dd44b5a4b7f8a8e is visited
+    Then A page with "Could not load GraphGist" is returned
+    Then A page with "That gist was not found or not available" is returned
+
 
