@@ -5,4 +5,4 @@ module RailsGraphgistPortal
   end
 end
 
-RailsGraphgistPortal.host = 'http://graphgist-portal.herokuapp.com'
+RailsGraphgistPortal.host = 'http://portal.graphgist.org'
