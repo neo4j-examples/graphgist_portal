@@ -51,7 +51,7 @@ a.edit-query {
 a.resize-toggle {
     position: absolute;
     right: 0;
-    bottom: -39px;
+    bottom: -50px;
 }
 
 a.show-console-toggle {
@@ -90,12 +90,12 @@ span.resize-vertical-handle {
     left: 0;
 }
 
-#console-wrapper, p.console {
-    height: 23em;
-}
-
 #console-wrapper {
     position: relative;
+    z-index: -2;
+}
+#console-wrapper, p.console {
+    height: 23em;
 }
 
 #console {
