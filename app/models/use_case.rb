@@ -1,7 +1,7 @@
 # Use case model
 class UseCase < GraphStarter::Asset
   property :name, type: String
-  property :for_challenge
+  property :for_challenge, type: Boolean
 
   #  scope :for_challenge, -> { where(for_challenge: true) }
 
