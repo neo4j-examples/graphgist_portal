@@ -7,7 +7,6 @@ class GraphGist < GraphStarter::Asset
 
   property :title
   property :url, type: String, constraint: :unique
-  validates :url, uniqueness: {message: 'already in use'}
   property :raw_url, type: String
   validates :raw_url, presence: {message: 'URL could not be resolved'}
 
@@ -59,7 +58,16 @@ class GraphGist < GraphStarter::Asset
   after_create :notify_admins_about_creation
 
   def notify_admins_about_creation
-    GraphGistMailer.notify_admins_about_creation(self).deliver_now
+    # GraphGistMailer.notify_admins_about_creation(self).deliver_now
+  end
+
+  def url_is_duplicate?
+    self.class.url_is_duplicate?(url)
+  end
+
+
+  def self.url_is_duplicate?(url)
+    !!find_by(url: url)
   end
 
   SANITIZER = Rails::Html::WhiteListSanitizer.new

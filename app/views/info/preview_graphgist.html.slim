@@ -1,5 +1,10 @@
 div style="padding: 1em"
   - if @graphgist.valid?
+    - if @graphgist.url_is_duplicate?
+      .ui.error.message
+        i.close.icon
+        .header WARNING: The URL for this Gist is already in the database
+
     h1#graphgist-title = @graphgist.title
 
     = render partial: 'graph_gists/render', locals: {graphgist: @graphgist}
