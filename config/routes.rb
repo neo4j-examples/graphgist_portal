@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     post 'create_graphgist' => 'info#create_graphgist'
   end
 
+  get 'challenge_graphgists' => 'info#challenge_graphgists'
+
   get 'render_graphgist' => 'info#render_graphgist'
 
   get 'graph_gists/by_graphgist_id/*id(.:format)' => 'info#show_from_graphgist_id'

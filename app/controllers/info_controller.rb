@@ -25,6 +25,10 @@ class InfoController < ApplicationController
   end
 
 
+  def challenge_graphgists
+    @graph_gists = GraphGist.as(:gist).challenge_category.pluck(:gist)
+  end
+
 
   def about
   end
