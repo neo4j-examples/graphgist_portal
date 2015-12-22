@@ -53,6 +53,8 @@ class InfoController < ApplicationController
 
     @graphgist.place_current_url
 
+    @warn_of_preview = true
+
     render 'preview_graphgist'
   end
 

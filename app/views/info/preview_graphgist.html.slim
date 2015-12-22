@@ -1,6 +1,7 @@
 div style="padding: 1em"
-  .ui.warning.message
-    .header THIS GRAPHGIST IS A PREVIEW
+  - if @warn_of_preview
+    .ui.warning.message
+      .header THIS GRAPHGIST IS A PREVIEW
 
   - if @graphgist.valid?
     - if @graphgist.url_is_duplicate?
