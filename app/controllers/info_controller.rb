@@ -39,7 +39,7 @@ class InfoController < ApplicationController
   end
 
   def preview_graphgist
-    @graphgist = GraphGist.new(url: params[:graph_gist] ? params[:graph_gist][:url] : params[:url])
+    @graphgist = GraphGist.new(url: params[:graph_gist] ? params[:graph_gist][:url] : params[:url], title: 'Preview')
 
     @graphgist.place_current_url
 
