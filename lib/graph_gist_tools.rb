@@ -47,8 +47,8 @@ module GraphGistTools
 
   def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     case url.strip
-    when %r{^https?://gist\.github\.com/([^/]+/)?([^/]+)/?(edit)?$}
-      url_from_github_graphgist_api($2)
+    when %r{^https?://gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?$}
+      url_from_github_graphgist_api($2, ($3 && $3.size == 40) ? $3 : nil)
 
     when %r{^https?://gist\.neo4j\.org/\?(.+)$}
       raw_url_for_graphgist_id($1)
@@ -129,9 +129,9 @@ module GraphGistTools
     data['download_url']
   end
 
-  def self.url_from_github_graphgist_api(id)
+  def self.url_from_github_graphgist_api(id, revision = nil)
     begin
-      url = "https://api.github.com/gists/#{id}"
+      url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
       data = JSON.load(open(url, github_api_headers).read)
     rescue OpenURI::HTTPError
       puts "WARNING: Error trying to fetch: #{url}"

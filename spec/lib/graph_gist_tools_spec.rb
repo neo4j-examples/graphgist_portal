@@ -40,6 +40,12 @@ RSpec.describe GraphGistTools do
       let_context url: 'https://gist.github.com/cheerfulstoic/ba9e1c2225aa5259b10e/edit' do
         it { should eq 'https://gist.githubusercontent.com/cheerfulstoic/ba9e1c2225aa5259b10e/raw/d456edc4e351da09f6b46a160b0cff3e4484a52e/graph_gist_template.adoc' }
       end
+
+      describe 'Revisions' do
+        let_context url: 'https://gist.github.com/dhimmel/f69730d8bdfb880c15ed/a6d42b952462aedad14003d6c0422b586a7a3c14' do
+          it { should eq 'https://gist.githubusercontent.com/dhimmel/f69730d8bdfb880c15ed/raw/272c4985cea9bfe86f88da84d79f893f899bb02c/cypher-edge-swap.adoc' }
+        end
+      end
     end
 
     describe 'gist.neo4j.org' do

@@ -3842,4 +3842,214 @@ http_interactions:
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
   recorded_at: Mon, 14 Dec 2015 06:51:59 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/dhimmel/f69730d8bdfb880c15ed/a6d42b952462aedad14003d6c0422b586a7a3c14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 22 Dec 2015 03:26:27 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Set-Cookie:
+      - _gh_sess=eyJzZXNzaW9uX2lkIjoiOGQxOTk2MGVhZmVkNjg1NmQ1N2QyNjAyNGEzMmE0MzAiLCJfY3NyZl90b2tlbiI6Ii9tbExMbStabjRmczhHVDRZeE03L2tFODhsRkg4SGw5TllwVmlDVjRYOTQ9In0%3D--c57afd2d0297539433768d4769b0989d5ffa0aed;
+        path=/; secure; HttpOnly
+      X-Request-Id:
+      - e68f95413edcb4a1447fc304e3766f64
+      X-Runtime:
+      - '0.053322'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - b9c2a2d2339d471239b174dbbc6d8be2
+      X-Github-Request-Id:
+      - AB04F892:2F44:23CE259F:5678C2E2
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 22 Dec 2015 03:26:27 GMT
+- request:
+    method: get
+    uri: https://api.github.com/gists/f69730d8bdfb880c15ed/a6d42b952462aedad14003d6c0422b586a7a3c14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 22 Dec 2015 03:29:17 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '57'
+      X-Ratelimit-Reset:
+      - '1450755441'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Last-Modified:
+      - Tue, 22 Dec 2015 01:30:11 GMT
+      Etag:
+      - W/"816c83cae087d7558408b10a1c93f622"
+      Vary:
+      - Accept
+      - Accept-Encoding
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 593010132f82159af0ded24b4932e109
+      X-Github-Request-Id:
+      - AB04F892:1D260:12D5796C:5678C38C
+    body:
+      encoding: ASCII-8BIT
+      string: '{"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/a6d42b952462aedad14003d6c0422b586a7a3c14","forks_url":"https://api.github.com/gists/f69730d8bdfb880c15ed/forks","commits_url":"https://api.github.com/gists/f69730d8bdfb880c15ed/commits","id":"f69730d8bdfb880c15ed","git_pull_url":"https://gist.github.com/f69730d8bdfb880c15ed.git","git_push_url":"https://gist.github.com/f69730d8bdfb880c15ed.git","html_url":"https://gist.github.com/f69730d8bdfb880c15ed","files":{"cypher-edge-swap.adoc":{"filename":"cypher-edge-swap.adoc","type":"text/plain","language":"AsciiDoc","raw_url":"https://gist.githubusercontent.com/dhimmel/f69730d8bdfb880c15ed/raw/272c4985cea9bfe86f88da84d79f893f899bb02c/cypher-edge-swap.adoc","size":5581,"truncated":false,"content":"=
+        Degree-Preserving Edge-Swap\n:author: Daniel Himmelstein\n:twitter: @dhimmel\n:neo4j-version:
+        2.3\n:style: red:Node(name)\n\n== Background\n\nWe designed a hetnet for drug
+        repurposing that link:http://doi.org/10.15363/thinklab.d102[contains] 50 thousand
+        nodes (of 10 labels) and 3 million relationships (of 27 types). And we''ve
+        link:http://doi.org/10.15363/thinklab.d112[chosen neo4j] for handling network
+        storage and interaction.\n\nIn the past, link:https://doi.org/10.1371/journal.pcbi.1004259#article1.body1.sec2.sec6.p1[we''ve
+        used] randomized edge swaps to permute the newtork. In other words, we shuffle
+        network relationships in a way that preserves node degree but destroys relationship
+        specificity. Using this method, we can see whether the signals we observe
+        are due to _uninteresting_ degree effects or _meaningful_ relationships.\n\nRandomization
+        by edge swapping is an link:https://networkx.github.io/documentation/latest/reference/generated/networkx.algorithms.swap.double_edge_swap.html[established
+        operation] on homonets. However, we must be careful when extending the concept
+        to networks with directionality and multiple relationship types. When swapping
+        directed relationships, we should maintain directionality, so that post-permutation
+        the in and out-degrees of each node remain unchanged. Next, we should only
+        swap relationships of the same type. In some instances we may want to permute
+        the entire network by going through each rel_type, but in other cases we may
+        only want to distrub a single relationship type at a time.\n\nPreviousely,
+        we permuted hetnets using our link:https://github.com/dhimmel/hetio/blob/1aa1964f92881c54da652cda0c1162ee6e4664b9/hetio/permute.py[python
+        module]. Now we would like to implement hetnet permutation by randomized edge
+        swaps in cypher.\n\n=== Create the graph\n\nBelow for an example, we create
+        a directed homonet.\n\n//hide\n[source,cypher]\n----\nCREATE\n // create nodes\n
+        (n1:Node {name: ''n1''}),\n (n2:Node {name: ''n2''}),\n (n3:Node {name: ''n3''}),\n
+        (n4:Node {name: ''n4''}),\n (n5:Node {name: ''n5''}),\n (n6:Node {name: ''n6''}),\n
+        // create relationships\n (n1)-[:REL {id: 0}]->(n2),\n (n3)-[:REL {id: 1}]->(n4),\n
+        (n5)-[:REL {id: 2}]->(n6),\n (n5)-[:REL {id: 3}]->(n2),\n (n6)-[:REL {id:
+        4}]->(n2)\n----\n\n//graph\n\n=== Node degree table\n\n//hide\n[source,cypher]\n----\nMATCH
+        (n:Node)\nRETURN\n n.name AS name,\n size((n)<-[:REL]-()) AS in_degree,\n
+        size((n)-[:REL]->()) AS out_degree\n----\n\n//table\n\n=== The Hunger method\n\nMichael
+        Hunger got us starting by suggesting a method (see his link:https://twitter.com/mesirii/status/677273902247231489[tweet]
+        and link:http://jexp.github.io/graphgist/?dropbox-14493611%2Fedge_swap_cypher.adoc[graphgist]).
+        Hunger''s example initiates the query by choosing a random node. We modified
+        his solution to initiate with selecting a random relationship, since we''re
+        interested in randomized relationships and thus want each relationship to
+        have a similar chance of being randomized at any given iteration. The Hunger
+        method below performs a single swap (iteration):\n\n//output\n[cypher]\n----\n//
+        Retrieve a random relationship\nMATCH (u)-[r1:REL]->(v)\n WITH * ORDER BY
+        rand() LIMIT 1\n// Retrieve a second random relationship that is eligible
+        for swapping\nMATCH (x)-[r2:REL]->(y)\n WHERE u <> x AND v <> y\n AND NOT
+        exists((u)-[:REL]->(x))\n AND NOT exists((v)-[:REL]->(y))\n WITH * ORDER BY
+        rand() LIMIT 1\n// Execute the swap\nDELETE r1, r2\nCREATE (u)-[:REL]->(x)\nCREATE
+        (v)-[:REL]->(y)\n----\n\nThe above method picks a random relationship from
+        all relationships. Then all other relationships are identified that are eligible
+        for a swap, and a random one is chosen. This method works, but will not scale
+        well.\n\n=== Optimized methods\n\nSearching through all relationships in order
+        to choose a single random relationship is inneficient. Instead we can generate
+        random indexes to choose two random relationships. Once we have the index,
+        we need quick relationship lookup. This can be done using using relationships
+        IDs or a link:http://neo4j.com/docs/2.3.1/query-constraints.html[constraint]
+        on a relationship property. The ID method is desirable because we don''t have
+        to create any relationship properties. However, since we''re deleting and
+        creating relationships, IDs are subject to change and must therefore be tracked.\n\nOnce
+        we have two random indexes, we can do a swap. The query below uses the ID
+        method and swaps relationships with IDs `2` and `5`:\n\n//output\n[source,cypher]\n----\nMATCH
+        (u)-[r1:REL]-(v)\nMATCH (x)-[r2:REL]-(y)\nWHERE id(r1) = 1 AND id(r2) = 3\nAND
+        u <> x AND v <> y\nAND NOT exists((u)-[:REL]->(x))\nAND NOT exists((v)-[:REL]->(y))\nWITH
+        * LIMIT 1\nDELETE r1, r2\nCREATE (u)-[nr1:REL]->(x)\nCREATE (v)-[nr2:REL]->(y)\nRETURN
+        id(nr1), id(nr2)\n----\n\n//graph\n\n== Questions\n\n1. Is there a way to
+        transfer the properties of a deleted relationship to a new relationship?\n2.
+        Can relationships have constrained properties (`UNIQUE` if possible), so we
+        can quickly lookup edges based on random integers? The following command fails
+        `CREATE CONSTRAINT ON ()-[r:REL]-() ASSERT exists(r.id)` despite a similar
+        link:http://neo4j.com/docs/2.3.1/query-constraints.html#constraints-create-relationship-property-existence-constraint[example]
+        in the documentation.\n3. Is there a way to modify the query above, so that
+        if no swap is performed the IDs of the input relationships are returned?\n4.
+        In the previous query, I added `WITH * LIMIT 1` since multiple rows were being
+        returned. Why are multiple rows returned? \n5. Will it be possible to write
+        a cypher loop to repeatedly perform swaps?\n\nAny help answering these questions
+        will be much appreciated!"}},"public":true,"created_at":"2015-12-18T21:10:19Z","updated_at":"2015-12-22T01:30:11Z","description":"Randomized
+        edge swaps in cypher","comments":0,"user":null,"comments_url":"https://api.github.com/gists/f69730d8bdfb880c15ed/comments","owner":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"forks":[],"history":[{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"a6d42b952462aedad14003d6c0422b586a7a3c14","committed_at":"2015-12-22T00:05:14Z","change_status":{"total":4,"additions":2,"deletions":2},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/a6d42b952462aedad14003d6c0422b586a7a3c14"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"f0c1e99d5655ec020d82a71d4bed2a8a38238fa0","committed_at":"2015-12-22T00:03:06Z","change_status":{"total":4,"additions":2,"deletions":2},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/f0c1e99d5655ec020d82a71d4bed2a8a38238fa0"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"f31b0497f4a6c7681141429731fdd0f5b752e88a","committed_at":"2015-12-21T23:57:49Z","change_status":{"total":12,"additions":7,"deletions":5},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/f31b0497f4a6c7681141429731fdd0f5b752e88a"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"ae28f9fb87a1fa0f2cd95618d26aa00f62ec7b7e","committed_at":"2015-12-21T22:42:50Z","change_status":{"total":38,"additions":23,"deletions":15},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/ae28f9fb87a1fa0f2cd95618d26aa00f62ec7b7e"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"9a787886467d8a21177eb2a5144103716ed4e6e9","committed_at":"2015-12-20T00:08:23Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/9a787886467d8a21177eb2a5144103716ed4e6e9"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"4008af6a8cfeaf1be19c8b58c0f1880894be696c","committed_at":"2015-12-19T22:16:04Z","change_status":{"total":4,"additions":2,"deletions":2},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/4008af6a8cfeaf1be19c8b58c0f1880894be696c"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"9f768bb15ca0ba990c20b5c3d55e5b82d4409f7f","committed_at":"2015-12-19T21:38:30Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/9f768bb15ca0ba990c20b5c3d55e5b82d4409f7f"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"22dc71835f2ea172d9e2d96451c11eaa76ef9dcc","committed_at":"2015-12-19T21:36:22Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/22dc71835f2ea172d9e2d96451c11eaa76ef9dcc"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"8191f0d9369c0eee8c07bd2b9da8ca2f684ca723","committed_at":"2015-12-19T20:35:36Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/8191f0d9369c0eee8c07bd2b9da8ca2f684ca723"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"bc2ad7bfe25ba998dd683191b45b18757beb240e","committed_at":"2015-12-19T02:17:59Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/bc2ad7bfe25ba998dd683191b45b18757beb240e"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"bf5f3feb6fb047894a3f17e8cc77c5a587463281","committed_at":"2015-12-19T02:16:44Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/bf5f3feb6fb047894a3f17e8cc77c5a587463281"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"5d1314f53c9b9ab87b76252849465917dc2a4748","committed_at":"2015-12-19T02:14:09Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/5d1314f53c9b9ab87b76252849465917dc2a4748"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"6ce93dafe024bd4a3665af915b60db43be5fab97","committed_at":"2015-12-19T02:12:58Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/6ce93dafe024bd4a3665af915b60db43be5fab97"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"43e159332c6ead16b1526a34c080413f139327a9","committed_at":"2015-12-19T01:57:45Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/43e159332c6ead16b1526a34c080413f139327a9"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"c6fbaad37d2af9add2646e0ed864b22d09426d26","committed_at":"2015-12-19T01:47:57Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/c6fbaad37d2af9add2646e0ed864b22d09426d26"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"7541990bf6a8a13a9f76db3f7d024fd451e9af45","committed_at":"2015-12-19T01:43:37Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/7541990bf6a8a13a9f76db3f7d024fd451e9af45"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"24e5ae79df62048a1618677dc4540b3c00616e07","committed_at":"2015-12-19T01:43:21Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/24e5ae79df62048a1618677dc4540b3c00616e07"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"ca935af78b635a8143c18d787d4c35451b6a6464","committed_at":"2015-12-19T00:57:59Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/ca935af78b635a8143c18d787d4c35451b6a6464"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"267ef784e1e0f76c91ea096093bdbd17d28dc2ed","committed_at":"2015-12-19T00:54:46Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/267ef784e1e0f76c91ea096093bdbd17d28dc2ed"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"ddd98d625e7ec74d73bfd185eb450250fd8a1887","committed_at":"2015-12-19T00:53:58Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/ddd98d625e7ec74d73bfd185eb450250fd8a1887"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"01a5420f27cd08fb08bb4adaf3a1e48e76012ccd","committed_at":"2015-12-18T23:54:27Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/01a5420f27cd08fb08bb4adaf3a1e48e76012ccd"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"eb423bbb2ce7300a0a65d6f521dc0ae891a7e341","committed_at":"2015-12-18T23:30:20Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/eb423bbb2ce7300a0a65d6f521dc0ae891a7e341"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"a1f41f0d0061f4fb02c99b818d71efcb034d5e79","committed_at":"2015-12-18T23:30:07Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/a1f41f0d0061f4fb02c99b818d71efcb034d5e79"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"19b32d74cf1c19047c02c5f3ee311ed34b7f5ede","committed_at":"2015-12-18T23:28:35Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/19b32d74cf1c19047c02c5f3ee311ed34b7f5ede"},{"user":{"login":"dhimmel","id":1117703,"avatar_url":"https://avatars.githubusercontent.com/u/1117703?v=3","gravatar_id":"","url":"https://api.github.com/users/dhimmel","html_url":"https://github.com/dhimmel","followers_url":"https://api.github.com/users/dhimmel/followers","following_url":"https://api.github.com/users/dhimmel/following{/other_user}","gists_url":"https://api.github.com/users/dhimmel/gists{/gist_id}","starred_url":"https://api.github.com/users/dhimmel/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/dhimmel/subscriptions","organizations_url":"https://api.github.com/users/dhimmel/orgs","repos_url":"https://api.github.com/users/dhimmel/repos","events_url":"https://api.github.com/users/dhimmel/events{/privacy}","received_events_url":"https://api.github.com/users/dhimmel/received_events","type":"User","site_admin":false},"version":"eb727ad10f929bbac30e7a27811b85f59580c3ff","committed_at":"2015-12-18T21:10:19Z","change_status":{},"url":"https://api.github.com/gists/f69730d8bdfb880c15ed/eb727ad10f929bbac30e7a27811b85f59580c3ff"}],"truncated":false}'
+    http_version: 
+  recorded_at: Tue, 22 Dec 2015 03:29:18 GMT
 recorded_with: VCR 2.9.3
