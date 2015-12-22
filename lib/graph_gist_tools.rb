@@ -48,7 +48,7 @@ module GraphGistTools
   def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     case url.strip
     when %r{^https?://gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?$}
-      url_from_github_graphgist_api($2, ($3 && $3.size == 40) ? $3 : nil)
+      url_from_github_graphgist_api($2, ($3.to_s.size == 40) ? $3 : nil)
 
     when %r{^https?://gist\.neo4j\.org/\?(.+)$}
       raw_url_for_graphgist_id($1)
