@@ -2,7 +2,10 @@
   .ui.form method="get" 
     .two.fields
       .field
-        label URL
+        label
+          | URL
+          |  
+          a#open-preview style="display: none; cursor: pointer" Open preview in new page
         = text_field_tag 'graph_gist[url]'
 
       .field#title-field
@@ -28,6 +31,17 @@ coffee:
 
   window.iframe_loaded = ->
     $('#iframe-spinner').hide();
+
+  $('#open-preview').click ->
+    url = $('#graph_gist_url').val().replace(/^\s*/, '').replace(/\s+$/, '')
+
+    window.open('/graph_gists/by_url?url=' + url, '_blank')
+
+  $('#graph_gist_url').keyup ->
+    if $('#graph_gist_url').val().replace(/\s+/, '').length > 0
+      $('#open-preview').show()
+    else
+      $('#open-preview').hide()
 
   #  title = $('iframe').contents().find('#graphgist-title').text()
   #  title = title.replace(/^\s*/, '').replace(/\s+$/, '')

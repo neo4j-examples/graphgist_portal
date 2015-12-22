@@ -48,6 +48,14 @@ class InfoController < ApplicationController
     @no_ui_container = true
   end
 
+  def show_from_url
+    @graphgist = GraphGist.new(url: params[:url], title: 'Preview')
+
+    @graphgist.place_current_url
+
+    render 'preview_graphgist'
+  end
+
   def show_from_graphgist_id
     raw_url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
     if raw_url

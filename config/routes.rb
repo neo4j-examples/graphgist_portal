@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   get 'graph_gists/by_graphgist_id/*id(.:format)' => 'info#show_from_graphgist_id'
   get 'graph_gists/by_graphgist_id(.:format)' => 'info#show_from_graphgist_id'
+  get 'graph_gists/by_url' => 'info#show_from_url'
   # Deprecated:
   get 'show_from_graphgist_id/:id(.:format)' => 'info#show_from_graphgist_id'
 
