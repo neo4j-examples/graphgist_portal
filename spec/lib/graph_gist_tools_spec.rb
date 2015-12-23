@@ -166,6 +166,9 @@ RSpec.describe GraphGistTools do
       let_context id: 'ba9e1c2225aa5259b10e' do
         it { should eq 'https://gist.githubusercontent.com/cheerfulstoic/ba9e1c2225aa5259b10e/raw/d456edc4e351da09f6b46a160b0cff3e4484a52e/graph_gist_template.adoc' }
       end
+      let_context id: '8666304' do
+        it { should eq 'https://gist.githubusercontent.com/cskardon/8666304/raw/753a1291ce6e533565a8c010eeef0857e99e8343/Wikitrie.txt' }
+      end
 
       # More than one file in a Gist
       let_context id: 'd788e117129c3730a042' do
