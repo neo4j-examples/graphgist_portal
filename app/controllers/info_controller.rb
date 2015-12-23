@@ -65,7 +65,7 @@ class InfoController < ApplicationController
   def show_from_graphgist_id
     raw_url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
     if raw_url
-      @asset = GraphGist.new(url: raw_url)
+      @asset = GraphGist.new(url: raw_url, title: 'Preview')
 
       @asset.place_current_url
     end
@@ -74,7 +74,7 @@ class InfoController < ApplicationController
       @model_slug = 'graph_gists'
       render 'graph_starter/assets/show'
     else
-      render text: 'Invalid GraphGist ID', status: :bad_request
+      render text: "Invalid GraphGist ID (#{@asset.errors.messages.inspect})", status: :bad_request
     end
   rescue GraphGistTools::InvalidGraphGistIDError => e
     render text: e.message, status: :bad_request
