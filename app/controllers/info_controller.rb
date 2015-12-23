@@ -74,7 +74,7 @@ class InfoController < ApplicationController
       @model_slug = 'graph_gists'
       render 'graph_starter/assets/show'
     else
-      render text: "Invalid GraphGist ID (#{@asset.errors.messages.inspect})", status: :bad_request
+      render text: "Invalid GraphGist ID (#{@asset && @asset.errors.messages.inspect})", status: :bad_request
     end
   rescue GraphGistTools::InvalidGraphGistIDError => e
     render text: e.message, status: :bad_request
