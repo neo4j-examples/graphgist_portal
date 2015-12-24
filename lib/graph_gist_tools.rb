@@ -28,8 +28,8 @@ module GraphGistTools
   def self.asciidoc_document(asciidoc_text)
     text = asciidoc_text.dup
     COMMENT_REPLACEMENTS.each do |tag, replacement|
-      prefix = nil
-      prefix = "\n\n[subs=\"attributes\"]\n" if [:graph_result, :graph].include?(tag)
+      prefix = [:graph_result, :graph].include?(tag) ? "\n\n[subs=\"attributes\"]\n" : nil
+
       text.gsub!(Regexp.new(%r{^//\s*#{tag}}, 'gm'), "#{prefix}++++\n#{replacement}\n++++\n")
     end
 
@@ -49,7 +49,7 @@ module GraphGistTools
     %r{^(https?://)(?:[^:]+:[^@]+@)?#{url_host_and_path}$}
   end
 
-  def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+  def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
     case url.strip
     when url_regexp(%r{gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?})
       url_from_github_graphgist_api($3, ($4.to_s.size == 40) ? $4 : nil)
@@ -127,28 +127,24 @@ module GraphGistTools
   end
 
   def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
-    begin
-      url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
-      data = JSON.load(open(url, github_api_headers).read)
-    rescue OpenURI::HTTPError
-      puts "WARNING: Error trying to fetch: #{url}"
-      return nil
-    end
+    url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
+    data = JSON.load(open(url, github_api_headers).read)
 
     data['download_url']
+  rescue OpenURI::HTTPError
+    puts "WARNING: Error trying to fetch: #{url}"
+    return nil
   end
 
   def self.url_from_github_graphgist_api(id, revision = nil)
-    begin
-      url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
-      data = JSON.load(open(url, github_api_headers).read)
-    rescue OpenURI::HTTPError
-      puts "WARNING: Error trying to fetch: #{url}"
-      return nil
-    end
+    url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
+    data = JSON.load(open(url, github_api_headers).read)
 
     fail InvalidGraphGistIDError, 'Gist has more than one file!' if data['files'].size > 1
 
     data['files'].to_a[0][1]['raw_url']
+  rescue OpenURI::HTTPError
+    puts "WARNING: Error trying to fetch: #{url}"
+    return nil
   end
 end
