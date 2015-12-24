@@ -4187,4 +4187,468 @@ http_interactions:
         query a bit more obvious (or so _I_ think :))"}},"public":true,"created_at":"2014-01-28T11:46:32Z","updated_at":"2015-08-29T13:55:43Z","description":"Wikitrie","comments":0,"user":null,"comments_url":"https://api.github.com/gists/8666304/comments","owner":{"login":"cskardon","id":1875805,"avatar_url":"https://avatars.githubusercontent.com/u/1875805?v=3","gravatar_id":"","url":"https://api.github.com/users/cskardon","html_url":"https://github.com/cskardon","followers_url":"https://api.github.com/users/cskardon/followers","following_url":"https://api.github.com/users/cskardon/following{/other_user}","gists_url":"https://api.github.com/users/cskardon/gists{/gist_id}","starred_url":"https://api.github.com/users/cskardon/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/cskardon/subscriptions","organizations_url":"https://api.github.com/users/cskardon/orgs","repos_url":"https://api.github.com/users/cskardon/repos","events_url":"https://api.github.com/users/cskardon/events{/privacy}","received_events_url":"https://api.github.com/users/cskardon/received_events","type":"User","site_admin":false},"forks":[],"history":[{"user":{"login":"cskardon","id":1875805,"avatar_url":"https://avatars.githubusercontent.com/u/1875805?v=3","gravatar_id":"","url":"https://api.github.com/users/cskardon","html_url":"https://github.com/cskardon","followers_url":"https://api.github.com/users/cskardon/followers","following_url":"https://api.github.com/users/cskardon/following{/other_user}","gists_url":"https://api.github.com/users/cskardon/gists{/gist_id}","starred_url":"https://api.github.com/users/cskardon/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/cskardon/subscriptions","organizations_url":"https://api.github.com/users/cskardon/orgs","repos_url":"https://api.github.com/users/cskardon/repos","events_url":"https://api.github.com/users/cskardon/events{/privacy}","received_events_url":"https://api.github.com/users/cskardon/received_events","type":"User","site_admin":false},"version":"0282a1183f75ab8d51b9775ae57677bca78af6d3","committed_at":"2014-01-28T11:46:32Z","change_status":{"total":180,"additions":180,"deletions":0},"url":"https://api.github.com/gists/8666304/0282a1183f75ab8d51b9775ae57677bca78af6d3"}],"truncated":false}'
     http_version: 
   recorded_at: Wed, 23 Dec 2015 08:25:34 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/galliva/ca811daa580aee95bd07
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:10:57 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Set-Cookie:
+      - _gh_sess=eyJzZXNzaW9uX2lkIjoiM2YwOTU3ODM1YzE0MDUzNmIzYmJjNDQwNTg3OTFlMDIiLCJfY3NyZl90b2tlbiI6IlE1RnVDZngxZ1JKMFF6UGZDUnpUT0NlbE5YSjJxalZOUFNxTEovU3lWMzg9In0%3D--e75c48a677ef569cec5bff6466426f43a745a984;
+        path=/; secure; HttpOnly
+      X-Request-Id:
+      - 3abf9fd805f79c2001a34994caeda9c0
+      X-Runtime:
+      - '0.071736'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - cbc5fb89a0e5c9db5298b4b976ca7aca
+      X-Github-Request-Id:
+      - 77517C55:448A:25021B99:567BA890
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:10:58 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/ca811daa580aee95bd07
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:10:58 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 302 Found
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      Location:
+      - https://gist.github.com/galliva/ca811daa580aee95bd07
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      X-Request-Id:
+      - 4660a55fd6a91f4358334511f48c6390
+      X-Runtime:
+      - '0.009224'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - cbc5fb89a0e5c9db5298b4b976ca7aca
+      X-Github-Request-Id:
+      - 77517C55:4488:193621B5:567BA892
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:11:00 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/roquec/8176106
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:11:00 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Set-Cookie:
+      - _gh_sess=eyJzZXNzaW9uX2lkIjoiZmI4NmFjNjg1MzhjMmIwZmU4YmY4YTEyOWJiYTk5YjIiLCJfY3NyZl90b2tlbiI6Im1WOXZCNHVKZ1pZSG9RMVUxSjFWWjlkOHdWeW4ydERXa2hzUjVpaU1pSWs9In0%3D--60c04e42a51c897f69e76179b587f0e8addc9bb1;
+        path=/; secure; HttpOnly
+      X-Request-Id:
+      - f3c8b735196e5b6971df7fe8ee8dfdd1
+      X-Runtime:
+      - '0.073800'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 1868c9f28a71d80b2987f48dbd1824a0
+      X-Github-Request-Id:
+      - 77517C55:4487:12596AC9:567BA893
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:11:01 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/patbaumgartner/8139605
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:11:01 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Set-Cookie:
+      - _gh_sess=eyJzZXNzaW9uX2lkIjoiODE4ZGNhODBlNjYwYzYzNTI4MDZlMWRmNzIwODE3MWMiLCJfY3NyZl90b2tlbiI6IklHUWNOTW02M2NFRUpiMGdhZnRUdXJkUElITXlleEFrd1FDSFdYbXd0RTA9In0%3D--ae869b2592346af0186c25666675c6d03dffddd1;
+        path=/; secure; HttpOnly
+      X-Request-Id:
+      - 28df0e8e29e3a9fd64a00efbe30b4e5c
+      X-Runtime:
+      - '0.064410'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 9835a984a05caa405eb61faaa1546741
+      X-Github-Request-Id:
+      - 77517C55:448C:29B3353E:567BA894
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:11:03 GMT
+- request:
+    method: head
+    uri: https://gist.github.com/cheerfulstoic/ba9e1c2225aa5259b10e
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:11:05 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      - X-PJAX
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Set-Cookie:
+      - _gh_sess=eyJzZXNzaW9uX2lkIjoiYzAzNDk0ZWZjYjAxZTEwMzViOTgxNjE5MzExNmE0NmUiLCJfY3NyZl90b2tlbiI6ImtKWXU5YW90aDg4ZU5IaGZHTyt4ZXYzM0lLY2hzUVloMVdGS2hQVzUrN0U9In0%3D--6fa0f10b9ecda6ca27e3a75dd41fb9dcf62ae2bc;
+        path=/; secure; HttpOnly
+      X-Request-Id:
+      - ac2b52888c9829e277f2660816f0d868
+      X-Runtime:
+      - '0.043579'
+      Content-Security-Policy:
+      - 'default-src *; base-uri ''self''; connect-src ''self'' live.github.com wss://live.github.com
+        uploads.github.com status.github.com api.github.com www.google-analytics.com
+        api.braintreegateway.com client-analytics.braintreegateway.com github-cloud.s3.amazonaws.com;
+        font-src assets-cdn.github.com; form-action ''self'' github.com gist.github.com;
+        frame-src ''self'' render.githubusercontent.com gist.github.com www.youtube.com
+        player.vimeo.com checkout.paypal.com; img-src ''self'' data: assets-cdn.github.com
+        identicons.github.com www.google-analytics.com checkout.paypal.com collector.githubapp.com
+        *.githubusercontent.com *.gravatar.com *.wp.com; media-src ''none''; object-src
+        assets-cdn.github.com; script-src assets-cdn.github.com; style-src ''self''
+        ''unsafe-inline'' ''unsafe-eval'' assets-cdn.github.com'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Public-Key-Pins:
+      - max-age=300; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=";
+        includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 50b06cef3698e972f044d7dc2cb41530
+      X-Github-Request-Id:
+      - 77517C55:448C:29B33BEE:567BA898
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:11:07 GMT
+- request:
+    method: get
+    uri: https://api.github.com/gists/?8176106
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:13:15 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 404 Not Found
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '56'
+      X-Ratelimit-Reset:
+      - '1450946863'
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 77517C55:134EF:707BD09:567BA91A
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:13:17 GMT
+- request:
+    method: get
+    uri: https://api.github.com/gists/?github-kbastani/gists//meta/TimeScaleEventMetaModel.adoc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Thu, 24 Dec 2015 08:13:17 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 404 Not Found
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '55'
+      X-Ratelimit-Reset:
+      - '1450946863'
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 77517C55:134ED:3988321:567BA91C
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
+    http_version: 
+  recorded_at: Thu, 24 Dec 2015 08:13:19 GMT
 recorded_with: VCR 2.9.3

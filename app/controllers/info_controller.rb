@@ -43,17 +43,13 @@ class InfoController < ApplicationController
   end
 
   def preview_graphgist
-    #require 'pry'
-    #binding.pry
     url = params[:graph_gist] ? params[:graph_gist][:url] : params[:url]
 
     authenticate_with_http_basic do |username, password|
-      if username.present? && password.present?
-        url = URI(url).tap do |uri|
-          uri.user = username
-          uri.password = password
-        end.to_s
-      end
+      url = URI(url).tap do |uri|
+        uri.user = CGI.escape username
+        uri.password = CGI.escape password
+      end.to_s
     end
 
     @graphgist = GraphGist.new(url: url, title: 'Preview')
@@ -64,7 +60,7 @@ class InfoController < ApplicationController
 
     @no_ui_container = true
   rescue GraphGistTools::BasicAuthRequiredError
-    request_http_basic_authentication
+    request_http_basic_authentication(Base64.encode64(url).chomp)
   end
 
   def show_from_url

@@ -45,32 +45,36 @@ module GraphGistTools
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do
   #     it { should eq 'https://raw.githubusercontent.com/neo4j-examples/graphgists/master/fraud/bank-fraud-detection.adoc' }
 
+  def self.url_regexp(url_host_and_path)
+    %r{^(https?://)(?:[^:]+:[^@]+@)?#{url_host_and_path}$}
+  end
+
   def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     case url.strip
-    when %r{^https?://gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?$}
-      url_from_github_graphgist_api($2, ($3.to_s.size == 40) ? $3 : nil)
+    when url_regexp(%r{gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?})
+      url_from_github_graphgist_api($3, ($4.to_s.size == 40) ? $4 : nil)
 
-    when %r{^https?://gist\.neo4j\.org/\?(.+)$}
-      raw_url_for_graphgist_id($1)
+    when url_regexp(%r{gist\.neo4j\.org/\?(.+)})
+      raw_url_for_graphgist_id($2)
 
-    when %r{^https?://graphgist.neo4j.com/#!/gists/([^/]+)/?$}
-      id = $1
+    when url_regexp(%r{graphgist.neo4j.com/#!/gists/([^/]+)/?})
+      id = $2
       raw_url_for_graphgist_id(id) if id && !id.match(/[0-9a-f]{32}/)
 
-    when %r{^https?://(www\.)?github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)/?$}
-      raw_url_from_github_api($2, $3, $5, $4)
+    when url_regexp(%r{(www\.)?github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)/?})
+      raw_url_from_github_api($3, $4, $6, $5)
 
-    when %r{^https?://(www\.)?dropbox\.com/s/([^/]+)/([^\?]+)(\?dl=(0|1))?$}
-      "https://www.dropbox.com/s/#{$2}/#{$3}?dl=1"
+    when url_regexp(%r{(www\.)?dropbox\.com/s/([^/]+)/([^\?]+)(\?dl=(0|1))?})
+      "https://www.dropbox.com/s/#{$3}/#{$4}?dl=1"
 
-    when %r{^https?://docs.google.com/document/d/([^\/]+)(/edit)?$}
-      "https://docs.google.com/document/u/0/export?format=txt&id=#{$1}"
+    when url_regexp(%r{docs.google.com/document/d/([^\/]+)(/edit)?})
+      "https://docs.google.com/document/u/0/export?format=txt&id=#{$2}"
 
-    when %r{^(https?://[^/]*etherpad[^/]*/([^/]+/)*)p/([^/]+)/?$}
-      "#{$1}p/#{$3}/export/txt"
+    when url_regexp(%r{([^/]*etherpad[^/]*/([^/]+/)*)p/([^/]+)/?})
+      "#{$1}#{$2}p/#{$4}/export/txt"
 
-    when %r{^https?://(www.)?pastebin.com/([^/]+)/?$}
-      "http://pastebin.com/raw.php?i=#{$2}"
+    when url_regexp(%r{(www.)?pastebin.com/([^/]+)/?})
+      "http://pastebin.com/raw.php?i=#{$3}"
 
     else
       url if url_returns_text_content_type?(url)
@@ -83,7 +87,7 @@ module GraphGistTools
     http_connection = Faraday.new url: url
     result = http_connection.head url
 
-    raise BasicAuthRequiredError if result.status == 401 && result['www-authenticate']
+    fail BasicAuthRequiredError if result.status == 401 && result['www-authenticate']
 
     [200, 302].include?(result.status) && result.headers['content-type'].match(%r{^text/})
   rescue URI::InvalidURIError, Faraday::ConnectionFailed
