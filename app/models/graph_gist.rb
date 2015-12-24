@@ -118,7 +118,13 @@ class GraphGist < GraphStarter::Asset
     end
 
     def data_from_url(url)
-      open(url).read
+      uri = URI(url)
+
+      conn = Faraday.new("#{uri.scheme}://#{uri.host}:#{uri.port}")
+      if uri.user.present? && uri.password.present?
+        conn.basic_auth(uri.user, uri.password)
+      end
+      conn.get(uri.path).body
     rescue OpenURI::HTTPError
       nil
     end
