@@ -33,7 +33,16 @@ module GraphGistTools
       text.gsub!(Regexp.new(%r{^//\s*#{tag}}, 'gm'), "#{prefix}++++\n#{replacement}\n++++\n")
     end
 
-    Asciidoctor.load(text, attributes: ASCIIDOC_ATTRIBUTES)
+    text = replace_doc_with_macro(text)
+    Asciidoctor.load(text, attributes: ASCIIDOC_ATTRIBUTES).tap do |doc|
+      doc.convert # Why do I need to do this?  No idea...
+      doc.set_attribute('toc', 'macro')
+      doc.set_attribute('toc-placement', 'macro')
+    end
+  end
+
+  def self.replace_doc_with_macro(text)
+    text.gsub(/^\s*:toc:.*$/, 'toc::[]')
   end
 
   def self.metadata_html(asciidoc_doc)
@@ -52,7 +61,7 @@ module GraphGistTools
   def self.raw_url_for(url) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
     case url.strip
     when url_regexp(%r{gist\.github\.com/([^/]+/)?([^/]+)/?(edit|[0-9a-f]{40})?/?})
-      url_from_github_graphgist_api($3, ($4.to_s.size == 40) ? $4 : nil)
+      GitHub.url_from_gist_api($3, ($4.to_s.size == 40) ? $4 : nil)
 
     when url_regexp(%r{gist\.neo4j\.org/\?(.+)})
       raw_url_for_graphgist_id($2)
@@ -62,7 +71,7 @@ module GraphGistTools
       raw_url_for_graphgist_id(id) if id && !id.match(/[0-9a-f]{32}/)
 
     when url_regexp(%r{(www\.)?github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)/?})
-      raw_url_from_github_api($3, $4, $6, $5)
+      GitHub.raw_url_from_api($3, $4, $6, $5)
 
     when url_regexp(%r{(www\.)?dropbox\.com/s/([^/]+)/([^\?]+)(\?dl=(0|1))?})
       "https://www.dropbox.com/s/#{$3}/#{$4}?dl=1"
@@ -105,14 +114,14 @@ module GraphGistTools
       _, host, path = id.match(%r{^(https?://[^/]+)/(.+)$}).to_a
       host + '/' + URI.encode(URI.decode(path))
     else
-      url_from_github_graphgist_api(id)
+      GitHub.url_from_gist_api(id)
     end
   end
 
   def self.raw_url_for_provider(id)
     case id
     when %r{^github-([^/]*)/([^/]*)/(.*)$}
-      raw_url_from_github_api($1, $2, $3)
+      GitHub.raw_url_from_api($1, $2, $3)
     when /^dropbox(s?)-(.*)$/
       "https://dl.dropboxusercontent.com/#{$1.empty? ? 'u' : 's'}/#{$2}"
     when /^copy-(.*)$/
@@ -121,30 +130,31 @@ module GraphGistTools
   end
 
 
+  module GitHub
+    def self.api_headers
+      ENV['GITHUB_TOKEN'] ? {'Authorization' => "token #{ENV['GITHUB_TOKEN']}"} : {}
+    end
 
-  def self.github_api_headers
-    ENV['GITHUB_TOKEN'] ? {'Authorization' => "token #{ENV['GITHUB_TOKEN']}"} : {}
-  end
+    def self.raw_url_from_api(owner, repo, path, branch = 'master')
+      url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
+      data = JSON.load(open(url, api_headers).read)
 
-  def self.raw_url_from_github_api(owner, repo, path, branch = 'master')
-    url = "https://api.github.com/repos/#{owner}/#{repo}/contents/#{path}?ref=#{branch}"
-    data = JSON.load(open(url, github_api_headers).read)
+      data['download_url']
+    rescue OpenURI::HTTPError
+      puts "WARNING: Error trying to fetch: #{url}"
+      return nil
+    end
 
-    data['download_url']
-  rescue OpenURI::HTTPError
-    puts "WARNING: Error trying to fetch: #{url}"
-    return nil
-  end
+    def self.url_from_gist_api(id, revision = nil)
+      url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
+      data = JSON.load(open(url, api_headers).read)
 
-  def self.url_from_github_graphgist_api(id, revision = nil)
-    url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
-    data = JSON.load(open(url, github_api_headers).read)
+      fail InvalidGraphGistIDError, 'Gist has more than one file!' if data['files'].size > 1
 
-    fail InvalidGraphGistIDError, 'Gist has more than one file!' if data['files'].size > 1
-
-    data['files'].to_a[0][1]['raw_url']
-  rescue OpenURI::HTTPError
-    puts "WARNING: Error trying to fetch: #{url}"
-    return nil
+      data['files'].to_a[0][1]['raw_url']
+    rescue OpenURI::HTTPError
+      puts "WARNING: Error trying to fetch: #{url}"
+      return nil
+    end
   end
 end
