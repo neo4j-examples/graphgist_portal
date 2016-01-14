@@ -172,9 +172,7 @@ RSpec.describe GraphGistTools do
 
       # More than one file in a Gist
       let_context id: 'd788e117129c3730a042' do
-        it 'should raise an exception' do
-          expect { subject }.to raise_error GraphGistTools::InvalidGraphGistIDError, /Gist has more than one file/
-        end
+        it { should eq 'https://gist.githubusercontent.com/jexp/d788e117129c3730a042/raw/30d6c9f31fb9dd47dc272adbee5f4efdec404d5e/load_csv_article.adoc' }
       end
     end
 

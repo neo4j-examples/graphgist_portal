@@ -149,7 +149,7 @@ module GraphGistTools
       url = "https://api.github.com/gists/#{id}#{'/' + revision if revision}"
       data = JSON.load(open(url, api_headers).read)
 
-      fail InvalidGraphGistIDError, 'Gist has more than one file!' if data['files'].size > 1
+      fail InvalidGraphGistIDError, 'Gist has no files!' if data['files'].blank?
 
       data['files'].to_a[0][1]['raw_url']
     rescue OpenURI::HTTPError
