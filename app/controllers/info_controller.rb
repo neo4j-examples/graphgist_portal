@@ -76,7 +76,7 @@ class InfoController < ApplicationController
 
     render 'preview_graphgist'
   rescue GraphGistTools::InvalidGraphGistIDError => e
-    render text: e.message, status: :bad_request    
+    render text: e.message, status: :bad_request
   end
 
   def show_from_graphgist_id
