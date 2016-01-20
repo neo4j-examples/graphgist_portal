@@ -1,5 +1,7 @@
 class InfoController < ApplicationController
   def featured_graphgists
+    @title = 'Home'
+
     @featured_graphgists = apply_associations(GraphGist.only_featured).to_a
     @featured_page = true
   end
@@ -31,6 +33,7 @@ class InfoController < ApplicationController
 
 
   def about
+    @title = 'What is a GraphGist?'
   end
 
   def graphgist_recommendations
@@ -40,6 +43,11 @@ class InfoController < ApplicationController
   end
 
   def submit_graphgist
+    @title = 'Submit a GraphGist'
+  end
+
+  def submit_challenge_entry
+    @title = 'Submit a GraphGist'
   end
 
   def preview_graphgist
