@@ -11,7 +11,10 @@ RSpec.describe GraphGistTools do
     let(:graph_gist_attributes) { {} }
     let(:graph_gist) { GraphGist.new(graph_gist_attributes.merge(url: url)) }
 
-    subject { graph_gist.place_current_url; graph_gist }
+    subject do
+      graph_gist.place_current_url
+      graph_gist
+    end
 
     let_context url: 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' do
       its(:raw_url) { should eq 'https://dl.dropboxusercontent.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0' }

@@ -73,28 +73,38 @@ class GraphGist < GraphStarter::Asset
   SANITIZER = Rails::Html::WhiteListSanitizer.new
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id src href class style data-style graph-mode)
+
   def place_asciidoc(asciidoc_text)
     self.asciidoc = asciidoc_text
 
     document = asciidoctor_document
 
+    place_attributes_from_document!(document)
+
+    place_associations_from_document!(document)
+  end
+
+  def asciidoctor_document
+    GraphGistTools.asciidoc_document(asciidoc)
+  end
+
+  def place_attributes_from_document!(document)
     self.raw_html = SANITIZER.sanitize(document.convert,
                                        tags: VALID_HTML_TAGS,
                                        attributes: VALID_HTML_ATTRIBUTES)
+
     self.raw_html += GraphGistTools.metadata_html(document)
 
     self.title ||= document.doctitle if document.doctitle.present?
+  end
 
+  def place_associations_from_document!(document)
     if url = document.attributes['thumbnail']
       self.image = GraphStarter::Image.create(source: URI.parse(url), original_url: url)
     end
 
     twitter, author = document.attributes.values_at('twitter', 'author')
     self.author ||= Person.find_or_create({twitter_username: Person.standardized_twitter_username(twitter)}, name: author) if twitter
-  end
-
-  def asciidoctor_document
-    GraphGistTools.asciidoc_document(asciidoc)
   end
 
   def place_url(new_url)
