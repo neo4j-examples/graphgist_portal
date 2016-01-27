@@ -83,7 +83,11 @@ class GraphGist < GraphStarter::Asset
                                        attributes: VALID_HTML_ATTRIBUTES)
     self.raw_html += GraphGistTools.metadata_html(document)
 
-    self.title = document.doctitle if document.doctitle.present?
+    self.title ||= document.doctitle if document.doctitle.present?
+
+    if url = document.attributes['thumbnail']
+      self.image = GraphStarter::Image.create(source: URI.parse(url), original_url: url)
+    end
 
     twitter, author = document.attributes.values_at('twitter', 'author')
     self.author ||= Person.find_or_create({twitter_username: Person.standardized_twitter_username(twitter)}, name: author) if twitter
