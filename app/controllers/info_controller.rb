@@ -143,4 +143,13 @@ class InfoController < ApplicationController
   def render_graphgist_js
     render layout: false
   end
+
+  # For externally testing that the app is up
+  def monitor
+    if GraphGist.first
+      render text: 'OK', status: :ok
+    else
+      render text: 'SERVICE UNAVAILABLE', status: :service_unavailable
+    end
+  end
 end
