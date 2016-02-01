@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class InfoController < ApplicationController
   def featured_graphgists
     @title = 'Home'
@@ -32,7 +33,7 @@ class InfoController < ApplicationController
   end
 
   def refresh_graphgist
-    fail "Must be an admin user" if !current_user.admin?
+    fail 'Must be an admin user' if !current_user.admin?
 
     graph_gist = GraphGist.find(params[:id])
     graph_gist.place_current_url
@@ -153,3 +154,4 @@ class InfoController < ApplicationController
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

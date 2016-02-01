@@ -9,6 +9,6 @@ class GraphGistMailer < ApplicationMailer
          subject: "[New GraphGist] #{@graphgist.title}"
   end
 
-  def thanks_for_submission(graphgist, user)
+  def thanks_for_submission(_graphgist, _user)
   end
 end
