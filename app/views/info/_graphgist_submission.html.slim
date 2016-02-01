@@ -43,24 +43,7 @@ coffee:
     else
       $('#open-preview').hide()
 
-  #  title = $('iframe').contents().find('#graphgist-title').text()
-  #  title = title.replace(/^\s*/, '').replace(/\s+$/, '')
-
-  #  $('#title-field').show()
-  #  if title.length > 0
-  #    $('#title-field input').val title
-  #    $('#create-button').removeClass 'disabled' if current_user?
-  #  else
-  #    $('#title-field input').val ''
-  #    $('#create-button').addClass 'disabled'
-
-  #$('#graph_gist_title').keyup ->
-  #  title = $('#graph_gist_title').val()
-
-  #  if title.replace(/\s+/, '').length is 0
-  #    $('#create-button').addClass 'disabled'
-  #  else
-  #    $('#create-button').removeClass 'disabled' if current_user?
+  $('#create-button').addClass 'disabled' if !current_user?
 
 iframe onload="window.iframe_loaded()"
 
