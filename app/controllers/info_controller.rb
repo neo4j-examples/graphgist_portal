@@ -126,6 +126,8 @@ class InfoController < ApplicationController
 
       @graphgist.author = current_user.person
       @graphgist.creators << current_user
+
+      # GraphGistMailer.thanks_for_submission(@graphgist, current_user).deliver_now
     end
 
     return render text: "Could not create GraphGist: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
