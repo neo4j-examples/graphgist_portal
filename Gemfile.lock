@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: 53cc7d63786c6bdabc12cac402b164b24d0ea8f2
+  revision: ec3d6758a1d3a974f8550d32d8853f6b7f7e5582
   specs:
     graph_starter (0.15.6)
       babosa (= 1.0.2)
@@ -42,9 +42,9 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_attr (0.8.5)
-      activemodel (>= 3.0.2, < 5.0)
-      activesupport (>= 3.0.2, < 5.0)
+    active_attr (0.9.0)
+      activemodel (>= 3.0.2, < 5.1)
+      activesupport (>= 3.0.2, < 5.1)
     activejob (4.2.5.1)
       activesupport (= 4.2.5.1)
       globalid (>= 0.3.0)
@@ -414,7 +414,7 @@ GEM
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.0.0)
+    sprockets-rails (3.0.1)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
