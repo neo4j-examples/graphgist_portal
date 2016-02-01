@@ -58,7 +58,7 @@ class GraphGist < GraphStarter::Asset
   after_create :notify_admins_about_creation
 
   def notify_admins_about_creation
-    # GraphGistMailer.notify_admins_about_creation(self).deliver_now
+    GraphGistMailer.notify_admins_about_creation(self).deliver_now if Rails.env.production?
   end
 
   def url_is_duplicate?
