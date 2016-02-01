@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get 'preview_graphgist' => 'info#preview_graphgist'
 
+  get 'refresh_graphgist' => 'info#refresh_graphgist'
+
   authenticated do
     post 'create_graphgist' => 'info#create_graphgist'
   end

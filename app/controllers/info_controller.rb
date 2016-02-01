@@ -31,6 +31,15 @@ class InfoController < ApplicationController
     @graph_gists = GraphGist.as(:gist).challenge_category.pluck(:gist)
   end
 
+  def refresh_graphgist
+    fail "Must be an admin user" if !current_user.admin?
+
+    graph_gist = GraphGist.find(params[:id])
+    graph_gist.place_current_url
+    graph_gist.save
+
+    redirect_to graph_starter.asset_path(model_slug: :graph_gists, id: params[:id])
+  end
 
   def about
     @title = 'What is a GraphGist?'
