@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: de9558fe923d94a5ee30b1acfc103875100d65b1
+  revision: 76ffee432fc7b0d7e9f75f0b06fca7da90701bf2
   specs:
     graph_starter (0.15.6)
       babosa (= 1.0.2)
