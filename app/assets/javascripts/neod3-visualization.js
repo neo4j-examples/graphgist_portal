@@ -25,7 +25,7 @@ function Neod3Renderer() {
 
     var serializer = null;
 
-    var $downloadSvgLink = $('<a href="#" class="btn btn-success visualization-download" target="_blank"><i class="ui large download icon"></i> Download SVG</a>').hide().click(function () {
+    var $downloadSvgLink = $('<a href="#" class="btn btn-success visualization-download" target="_blank"><i class="ui large download icon fi-download"></i> Download SVG</a>').hide().click(function () {
         $downloadSvgLink.hide();
     });
     var downloadSvgLink = $downloadSvgLink[0];
@@ -224,7 +224,7 @@ function Neod3Renderer() {
         function getFunctions() {
             var funcs = {};
             if (blobSupport && (URLSupport || msBlobSupport)) {
-                funcs['ui large download icon'] = {'title': 'Save as SVG', 'func':saveToSvg};
+                funcs['ui large download icon fi-download'] = {'title': 'Save as SVG', 'func':saveToSvg};
             }
             return funcs;
         }

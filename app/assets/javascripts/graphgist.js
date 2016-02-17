@@ -26,8 +26,8 @@ function GraphGist($, options) {
     }
     var HAS_ERRORS = false;
     var $WRAPPER = $('<div class="query-wrapper" />');
-    var COLLAPSE_ICON = 'ui large compress icon';
-    var EXPAND_ICON = 'ui large expand icon';
+    var COLLAPSE_ICON = 'ui large compress icon fi-arrows-compress';
+    var EXPAND_ICON = 'ui large expand icon fi-arrows-expand';
     var $QUERY_OK_LABEL = $('<span class="label label-success query-info">Test run OK</span>');
     var $QUERY_ERROR_LABEL = $('<span class="label label-important query-info">Test run Error</span>');
     var $TOGGLE_BUTTON = $('<span data-toggle="tooltip"><i class="' + COLLAPSE_ICON + '"></i></span>');
@@ -38,7 +38,7 @@ function GraphGist($, options) {
     var VISUALIZATION_HEIGHT = 400;
     var $TABLE_CONTAINER = $('<div/>').addClass('result-table');
     var DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
-    var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon" title="Toggle fullscreen mode"></i></div>');
+    var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand" title="Toggle fullscreen mode"></i></div>');
     var $I = $('<i/>');
 
     var DEFAULT_VERSION = '2.3';
