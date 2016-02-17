@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: ec3d6758a1d3a974f8550d32d8853f6b7f7e5582
+  revision: 6cb9a2b0c0f33325bb83dd413e0931d4630eca87
   specs:
     graph_starter (0.15.6)
       babosa (= 1.0.2)
@@ -253,7 +253,7 @@ GEM
       multi_json
       neo4j-rake_tasks (>= 0.3.0)
       net-http-persistent
-    neo4j-rake_tasks (0.4.0)
+    neo4j-rake_tasks (0.4.2)
       colored
       httparty
       os
