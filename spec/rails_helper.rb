@@ -30,6 +30,7 @@ module DeleteDbHelpers
   end
 end
 
+# Helpers for testing API endpoints
 module ApiHelper
   def json_response_body
     @json_response_body ||= JSON.parse(response.body, symbolize_names: true)
