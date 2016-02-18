@@ -30,8 +30,15 @@ module DeleteDbHelpers
   end
 end
 
+module ApiHelper
+  def json_response_body
+    @json_response_body ||= JSON.parse(response.body, symbolize_names: true)
+  end
+end
+
 RSpec.configure(&:infer_spec_type_from_file_location!)
 
 RSpec.configure do |config|
   config.include DeleteDbHelpers
+  config.include ApiHelper
 end
