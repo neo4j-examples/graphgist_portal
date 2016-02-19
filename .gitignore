@@ -14,4 +14,6 @@
 
 db/neo4j
 
+config/neo4j.yml
+
 .env*
