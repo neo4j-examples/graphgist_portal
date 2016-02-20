@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /*.css
 Allow: /*.js
+Allow: /*.gif
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.woff
 Disallow: /
