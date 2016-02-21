@@ -205,18 +205,41 @@ div.visualization.fullscreen > a.visualization-download {
 }
 
 div.result-table {
-    .dataTables_filter input {
-        display: inline-block;
+  .dataTables_filter {
+    margin: 1em 0;
+
+    input {
+      margin-left: 0.5em;
+      display: inline-block;
     }
+  }
 
 
-    table {
-      clear: both;
-    }
+  table {
+    clear: both;
+  }
 
-    table.dataTable td {
-      padding: 0.5em 0.8em;
+  table.dataTable td {
+    padding: 0.5em 0.8em;
+  }
+
+  .dataTables_paginate {
+    padding: 10px 0;
+
+    .paginate_button {
+      border: 1px solid #AAA;
+      margin: 5px;
+      padding: 2px;
+      font-weight: bold;
+      border-radius: 4px;
+      background-color: #F8F8F8;
+
+      &:hover {
+        background-color: #FFF;
+        border: 1px solid black;
+      }
     }
+  }
 }
 
 div.visualization > svg {
