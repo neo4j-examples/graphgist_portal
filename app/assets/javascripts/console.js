@@ -19,7 +19,7 @@ function CypherConsole(config, ready) {
     var $IFRAME_WRAPPER = $('<div/>').attr('id', 'console-wrapper');
     var RESIZE_OUT_ICON = 'ui expand icon';
     var RESIZE_IN_ICON = 'ui large compress icon';
-    var $RESIZE_BUTTON = $('<a class="resize-toggle ui icon green button"><i class="' + RESIZE_OUT_ICON + '"></i></a>');
+    var $RESIZE_BUTTON = $('<a class="resize-toggle ui icon green button fi-arrows-expand"><i class="' + RESIZE_OUT_ICON + '"></i></a>');
     var $RESIZE_VERTICAL_BUTTON = $('<span class="resize-vertical-handle ui-resizable-handle ui-resizable-s"><span/></span>');
     var $PLAY_BUTTON = $('<a class="run-query ui green icon button" data-toggle="tooltip" title="Execute in the console." href="#"><i class="ui play icon"></i></a>');
     var $EDIT_BUTTON = $('<a class="edit-query ui icon button" data-toggle="tooltip" title="Edit in the console." href="#"><i class="ui edit icon"></i></a>');
@@ -119,6 +119,7 @@ function CypherConsole(config, ready) {
                 $contentMoveSelector.css('margin-top', 0);
                 $iframeWrapper.resizable('option', 'alsoResize', $context);
                 $gistForm.css('margin-right', 0);
+                document.body.scrollTop  = $iframeWrapper.offset().top - 100
             }
         });
         var $resizeIcon = $('i', $resizeButton);
