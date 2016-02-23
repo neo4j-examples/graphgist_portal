@@ -69,6 +69,12 @@ function GraphGist($, options) {
 
     return({renderContent: renderContent});
 
+    function querySearchParams() {
+      var searchParams = {};
+      location.search.substr(1).split("&").forEach(function(item) {searchParams[item.split("=")[0]] = item.split("=")[1]});
+      return searchParams;
+    }
+
     function renderContent() {
         //var version;
         //var $meta = $('#metadata', $content);
@@ -79,6 +85,10 @@ function GraphGist($, options) {
         var version = postProcessPage();
 
         var consoleUrl = CONSOLE_VERSIONS[version in CONSOLE_VERSIONS ? version : DEFAULT_VERSION];
+
+        if (querySearchParams()['use_test_console_server'] === 'true') {
+          consoleUrl = 'http://neo4j-console-test.herokuapp.com/'
+        }
         CypherConsole({'url': consoleUrl, contentId: content_id}, function (conslr) {
             consolr = conslr;
             executeQueries(function () {
