@@ -47,6 +47,8 @@ gem 'devise-neo4j'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
+gem 'redis-rails'
+
 gem 'rubocop'
 
 gem 'mandrill_dm'

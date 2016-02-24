@@ -60,5 +60,7 @@ module GraphgistPortal
     config.neo4j.record_timestamps = true
 
     config.action_mailer.delivery_method = :mandrill
+
+    config.cache_store = :redis_store, ENV['REDIS_URL']
   end
 end

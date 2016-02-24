@@ -7,6 +7,38 @@ class InfoController < ApplicationController
     @featured_page = true
   end
 
+  CONSOLE_HOSTS = {
+    '1.9' => 'neo4j-console-19.herokuapp.com',
+    '2.0' => 'neo4j-console-20.herokuapp.com',
+    '2.1' => 'neo4j-console-21.herokuapp.com',
+    '2.2' => 'neo4j-console-22.herokuapp.com',
+    '2.3' => 'neo4j-console-23.herokuapp.com',
+  };
+
+  def graph_gist_query_session_id
+    session_id = SecureRandom.uuid
+    last_cache_keys[session_id] = nil
+
+    render text: session_id
+  end
+
+  # gist_load_session given when loading gist?
+  # GET /graph_gists/:graphgist_id/query?gist_load_session=something&neo4j_version=2.3&cypher=string
+  def graph_gist_query
+    last_cache_key = last_cache_keys.fetch(params[:gist_load_session])
+
+    cache_key = "#{last_cache_key}#{params[:graphgist_id]}#{Base64.encode64(params[:cypher])}"
+    response_body = Rails.cache.fetch(cache_key) do
+      host = CONSOLE_HOSTS[params[:neo4j_version]] || CONSOLE_HOSTS[CONSOLE_HOSTS.keys.sort_by(&:to_f).last]
+
+      type = last_cache_key ? 'cypher' : 'init'
+      Faraday.post("http://#{host}/console/#{type}", params[:cypher], 'X-Session': params[:gist_load_session]).body
+    end
+
+    last_cache_keys[params[:gist_load_session]] = cache_key
+
+    render text: response_body
+  end
 
   def associations
     return @associations if @associations.present?
@@ -152,6 +184,13 @@ class InfoController < ApplicationController
     else
       render text: 'SERVICE UNAVAILABLE', status: :service_unavailable
     end
+  end
+
+
+  private
+
+  def last_cache_keys
+    session[:last_cache_keys] ||= {}
   end
 end
 # rubocop:enable Metrics/ClassLength

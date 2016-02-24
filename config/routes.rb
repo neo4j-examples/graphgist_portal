@@ -36,6 +36,9 @@ Rails.application.routes.draw do
 
   get 'graph_gists/.json' => 'graph_starter/assets#show'
 
+  get 'graph_gists/query_session_id' => 'info#graph_gist_query_session_id'
+  get 'graph_gists/:graphgist_id/query' => 'info#graph_gist_query'
+
   get 'render_graphgist_js' => 'info#render_graphgist_js'
 
   devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}

@@ -45,11 +45,10 @@ module LetContextHelpers
   # When a String is specified that becomes the context description
   # If String isn't specified, Hash#inspect becomes the context description
   def let_context(*args, &block)
-    classes = args.map(&:class)
     context_string, hash =
-      case classes
+      case args.map(&:class)
       when [String, Hash] then ["#{args[0]} #{args[1]}", args[1]]
-      when [Hash] then args + args
+      when [Hash] then [args[0].inspect, args[0]]
       end
 
     context(context_string) do
