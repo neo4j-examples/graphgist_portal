@@ -27,11 +27,13 @@ class InfoController < ApplicationController
   def graph_gist_query
     cache_key = "#{last_cache_key}#{params[:graphgist_id]}#{Base64.encode64(params[:cypher])}"
 
+    result = Rails.cache.fetch(cache_key) do
+      fetch_query(*params.values_at(:cypher, :neo4j_version, :gist_load_session))
+    end
+
     last_cache_keys[params[:gist_load_session]] = cache_key
 
-    render text: Rails.cache.fetch(cache_key) do
-      fetch_query(params.values_at(:cypher, :neo4j_version, :gist_load_session))
-    end
+    render text: result
   end
 
   def fetch_query(cypher, neo4j_version, gist_load_session)

@@ -134,7 +134,7 @@ class GraphGist < GraphStarter::Asset
     def data_from_url(url)
       uri = URI(url)
 
-      connection_from_uri(uri).get(uri.path + '?' + uri.query).body.force_encoding('UTF-8')
+      connection_from_uri(uri).get("#{uri.path}?#{uri.query}").body.force_encoding('UTF-8')
     rescue OpenURI::HTTPError
       nil
     end
