@@ -143,6 +143,10 @@ RSpec.describe GraphGistTools do
       let_context url: 'https://docs.google.com/document/d/1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw' do
         it { should eq 'https://docs.google.com/document/u/0/export?format=txt&id=1mWWQ8bp6-q_D4SOpcfhmQ4fKaNsfQDtx5zxTu3D2uIw' }
       end
+
+      let_context url: 'https://docs.google.com/a/neotechnology.com/document/export?format=txt&id=1V2YypL7AdrifdTKJBB0bhCboIN5QkxdJtNbtViYMBfk&token=AC4w5Vh2kjx7dZjZYKHKFrD9dhEwIqoc6g%3A1456364482149' do
+        it { should eq 'https://docs.google.com/a/neotechnology.com/document/export?format=txt&id=1V2YypL7AdrifdTKJBB0bhCboIN5QkxdJtNbtViYMBfk&token=AC4w5Vh2kjx7dZjZYKHKFrD9dhEwIqoc6g%3A1456364482149' }
+      end
     end
 
     describe 'non-text responses' do
