@@ -138,7 +138,7 @@ class GraphGist < GraphStarter::Asset
       if uri.user.present? && uri.password.present?
         conn.basic_auth(uri.user, uri.password)
       end
-      conn.get(uri.path).body.force_encoding('UTF-8')
+      conn.get(uri.path + '?' + uri.query).body.force_encoding('UTF-8')
     rescue OpenURI::HTTPError
       nil
     end
