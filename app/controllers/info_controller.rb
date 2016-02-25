@@ -12,8 +12,8 @@ class InfoController < ApplicationController
     '2.0' => 'neo4j-console-20.herokuapp.com',
     '2.1' => 'neo4j-console-21.herokuapp.com',
     '2.2' => 'neo4j-console-22.herokuapp.com',
-    '2.3' => 'neo4j-console-23.herokuapp.com',
-  };
+    '2.3' => 'neo4j-console-23.herokuapp.com'
+  }
 
   def graph_gist_query_session_id
     session_id = SecureRandom.uuid

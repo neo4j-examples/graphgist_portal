@@ -119,6 +119,5 @@ RSpec.describe InfoController, type: :controller do
       make_query_request('MATCH (n:Person) RETURN n', session_b_id)
       expect(response.body).to eq('OK')
     end
-
   end
 end
