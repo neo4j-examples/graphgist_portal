@@ -27,7 +27,7 @@
 coffee:
   $('#preview-button').click ->
     $('#iframe-spinner').show();
-    $('iframe').attr('src', '/preview_graphgist?url=' + $('#graph_gist_url').val())
+    $('iframe').attr('src', '/preview_graphgist?url=' + encodeURIComponent($('#graph_gist_url').val()))
 
   window.iframe_loaded = ->
     $('#iframe-spinner').hide();
@@ -35,7 +35,7 @@ coffee:
   $('#open-preview').click ->
     url = $('#graph_gist_url').val().replace(/^\s*/, '').replace(/\s+$/, '')
 
-    window.open('/graph_gists/by_url?url=' + url, '_blank')
+    window.open('/graph_gists/by_url?url=' + encodeURIComponent(url), '_blank')
 
   $('#graph_gist_url').keyup ->
     if $('#graph_gist_url').val().replace(/\s+/, '').length > 0
