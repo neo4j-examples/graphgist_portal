@@ -9,7 +9,7 @@ RSpec.describe InfoController, type: :controller do
     let(:graph_gist) { create(:graph_gist) }
     let(:neo4j_version_param) { '2.3' }
 
-    def get_graphgist_session_id
+    def request_graphgist_session_id
       get(:graph_gist_query_session_id)
       response.body
     end
@@ -31,8 +31,8 @@ RSpec.describe InfoController, type: :controller do
 
     let(:default_faraday_result) { double('default faraday result', body: 'OK') }
 
-    let(:session_a_id) { get_graphgist_session_id }
-    let(:session_b_id) { get_graphgist_session_id }
+    let(:session_a_id) { request_graphgist_session_id }
+    let(:session_b_id) { request_graphgist_session_id }
 
     let_context neo4j_version_param: '2.1' do
       it 'uses the correct URL' do
