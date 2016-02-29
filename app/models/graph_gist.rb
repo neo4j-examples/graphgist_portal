@@ -123,9 +123,7 @@ class GraphGist < GraphStarter::Asset
     def build_from_url(url)
       asciidoc_text = nil
 
-      t = Benchmark.realtime do
-        asciidoc_text = data_from_url(url)
-      end
+      t = Benchmark.realtime { asciidoc_text = data_from_url(url) }
       Rails.logger.debug "Retrieved #{url} in #{t.round(1)}s"
 
       new(asciidoc: asciidoc_text, private: false)
