@@ -140,7 +140,10 @@ class GraphGist < GraphStarter::Asset
     end
 
     def connection_from_uri(uri)
-      Faraday.new("#{uri.scheme}://#{uri.host}:#{uri.port}").tap do |conn|
+      Faraday.new("#{uri.scheme}://#{uri.host}:#{uri.port}") do |b|
+        b.use FaradayMiddleware::FollowRedirects
+        b.adapter :net_http
+      end.tap do |conn|
         conn.basic_auth(uri.user, uri.password) if uri.user.present? && uri.password.present?
       end
     end
