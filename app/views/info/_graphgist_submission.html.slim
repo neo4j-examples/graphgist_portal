@@ -19,7 +19,7 @@
     = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
 
     - if !current_user
-      strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to create a GraphGist
+      strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to submit a GraphGist to the portal
 
 
 #iframe-spinner.ui.active.centered.large.loader
