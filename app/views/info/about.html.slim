@@ -24,7 +24,7 @@ div style="font-size: 1.4rem"
 
   p GraphGists work like any AsciiDoc document, but they allow you to insert special comments to define how data from Neo4j can be displayed and interacted with.
 
-  p First define a block of <a href="http://neo4j.com/developer/cypher-query-language/">Cypher</a> code to setup the database:
+  p First define a block of <a href="http://neo4j.com/developer/cypher-query-language/">Cypher</a> code to setup the database, this block can also use LOAD CSV. Please use a educational graph size (around 150 nodes and rels):
 
   pre
     |
@@ -32,10 +32,11 @@ div style="font-size: 1.4rem"
       //hide
       [source,cypher]
       ----
-      CREATE (:Database {name:'Neo4j'})-[:SUPPORTS]->(:Language {name:'Cypher'})
+      CREATE (neo:Database {name:'Neo4j'})
+      CREATE (neo)-[:SUPPORTS]->(:Language {name:'Cypher'})
       ----
 
-  p You can then make queries to the data and output them as a table and/or a graph:
+  p You can then describe the use-cases, run their queries on the data and output results as a table and/or a graph:
 
   div
     pre style="float: left"
@@ -43,7 +44,7 @@ div style="font-size: 1.4rem"
         [source,cypher]
         ----
         MATCH (db:Database)-[:SUPPORTS]->(language:Language)
-        RETURN db.name, collect(language.name)
+        RETURN db.name as db, collect(language.name) as languages
         ----
 
         //table
@@ -52,24 +53,23 @@ div style="font-size: 1.4rem"
       |
         [source,cypher]
         ----
-        MATCH (:Database)-[rel:SUPPORTS]->(:Language)
-        RETURN rel
+        MATCH (d:Database)-[rel:SUPPORTS]->(l:Language)
+        RETURN d,l
         ----
 
         //graph_result
 
 
-  p You can fork <a href="https://gist.github.com/cheerfulstoic/ba9e1c2225aa5259b10e">this GraphGist template</a> to have something to start working with.
+  p You can fork <a href="https://gist.github.com/jexp/a56f7e7587ce5ed97561">this GraphGist template</a> to have something to start working with.
 
   p
     |
       A reader can explore your GraphGist to read and understand your domain.  A live console is also inserted into GraphGists so that readers can even try out their own queries
       We want to encourage you to model a domain that you know or like and describe it interactively in a GraphGist.
 
-  / Need to replace this!
   /p
     |
-      To learn about interesting existing models created by other Neo4j users browse the impressive collection.
+      To learn about interesting existing models created by other Neo4j users browse the <a href="http://neo4j.com/graphgists/">impressive collection</a>.
 
   h2 How do I create a GraphGist?
 
@@ -78,8 +78,8 @@ div style="font-size: 1.4rem"
     . Whiteboard a good example graph model.
     . Determine interesting use-cases.
     . Create Cypher statements for setup and query-use-cases.
-    . Write a good description and create a useful model picture (using a tool like link:http://gliffy.com[Gliffy] or link:http://www.apcjones.com/arrows/#[Arrows]).
-    . Compose it all nicely in your AsciiDoc-GraphGist-file (see link:http://neo4j.com/graphgist/5956246[this GraphGist]).
+    . Write a good description and create a useful model picture (using a tool like link:http://gliffy.com[Gliffy] or link:http://www.apcjones.com/arrows/#[Arrows] or Neo4j Browser).
+    . Compose it all nicely in your AsciiDoc-GraphGist-file (see link:https://github.com/neo4j-contrib/graphgist/blob/master/gists/syntax.adoc[this syntax documentation]).
     . Store it as a link:https://gist.github.com/[GitHub Gist]
     . Submit the URL on the link:/submit_challenge_entry[submission page]
 
@@ -89,12 +89,12 @@ div style="font-size: 1.4rem"
 
   /p
     |
-      There have been two GraphGist challenges so far and we are currently holding another.  Check out our <a href="/challenge/index.html">2015/2016 Winter Challenge</a>!
+      There have been three GraphGist competitions so far.  Check out our most recent <a href="/challenge/index.html">2015/2016 Winter Challenge</a>!
 
   /p
     |
       The best way gathering great graph models is to ask your community.
-      That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.
+      That's why we already ran several challenges to find interesting ideas for GraphGists with tremendous results.
 
   /p
     asciidoc:
