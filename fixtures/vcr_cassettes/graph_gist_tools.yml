@@ -4708,4 +4708,166 @@ http_interactions:
       string: ''
     http_version: 
   recorded_at: Thu, 25 Feb 2016 01:59:20 GMT
+- request:
+    method: get
+    uri: https://api.github.com/gists/16549b5300c1532e6ea8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Mon, 29 Feb 2016 03:21:12 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '53'
+      X-Ratelimit-Reset:
+      - '1456719587'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Vary:
+      - Accept
+      - Accept-Encoding
+      Etag:
+      - W/"419d77e3777f86e67265f9f3ac47dc9c"
+      Last-Modified:
+      - Sun, 28 Feb 2016 06:46:16 GMT
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - dc1ce2bfb41810a06c705e83b388572d
+      X-Github-Request-Id:
+      - A1CA488B:3F85:16A74C1:56D3B927
+    body:
+      encoding: ASCII-8BIT
+      string: '{"url":"https://api.github.com/gists/16549b5300c1532e6ea8","forks_url":"https://api.github.com/gists/16549b5300c1532e6ea8/forks","commits_url":"https://api.github.com/gists/16549b5300c1532e6ea8/commits","id":"16549b5300c1532e6ea8","git_pull_url":"https://gist.github.com/16549b5300c1532e6ea8.git","git_push_url":"https://gist.github.com/16549b5300c1532e6ea8.git","html_url":"https://gist.github.com/16549b5300c1532e6ea8","files":{"importing_neo4jknowledgegraph
+        v2.cql":{"filename":"importing_neo4jknowledgegraph v2.cql","type":"text/plain","language":"SQL","raw_url":"https://gist.githubusercontent.com/rvanbruggen/16549b5300c1532e6ea8/raw/64c54319d1af80d03be44edc37aeabbfefd88613/importing_neo4jknowledgegraph%20v2.cql","size":905,"truncated":false,"content":"//Neo4j
+        Knowledge Graph\ncreate index on :Resource(name);\ncreate index on :Resource(comments);\n\n//All
+        in one statement\nload csv with headers from \"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmerge (r:Resource {name: csv.What, url: csv.Where, comments: csv.Comments})\nwith
+        csv\nmerge (a:Author {name: csv.Who})\nwith csv\nmatch (r:Resource {name:
+        csv.What}), (a:Author {name: csv.Who})\nmerge (a)-[:CREATED]->(r)\nwith csv,a,r\nmerge
+        (a)-[:CREATED]->(r)\nwith csv.What as Resource, csv.Tags as row\nunwind row
+        as text\nwith Resource, [w in split(text,\", \") | trim(w)] as words\nunwind
+        range(0,size(words)-2) as idx\nMATCH (r:Resource {name: Resource})\nMERGE
+        (t1:Tag {name:words[idx]})\nMERGE (t2:Tag {name:words[idx+1]})\nMERGE (r)-[:TAGGED_AS]->(t1)\nMERGE
+        (r)-[:TAGGED_AS]->(t2);"},"importing_neo4jknowledgegraph.cql":{"filename":"importing_neo4jknowledgegraph.cql","type":"text/plain","language":"SQL","raw_url":"https://gist.githubusercontent.com/rvanbruggen/16549b5300c1532e6ea8/raw/2b27377ca49d9e0ce3277c46f97be43cc02eb312/importing_neo4jknowledgegraph.cql","size":1870,"truncated":false,"content":"//Neo4j
+        Knowledge Graph\ncreate index on :Resource(name);\ncreate index on :Resource(comments);\n\n//load
+        the resource\n// file:///neo4jknowledge.csv\" as csv\nload csv with headers
+        from \"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmerge (r:Resource {name: csv.What, url: csv.Where, comments: csv.Comments});\n\n//load
+        the Authors\n// load csv with headers from \"file:///neo4jknowledge.csv\"
+        as csv\nload csv with headers from \"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmerge (a:Author {name: csv.Who});\n\n//load the people\n// load csv
+        with headers from \"file:///neo4jknowledge.csv\" as csv\nload csv with headers
+        from\n\"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmatch (a:Author {name: csv.Who}), (r:Resource {name: csv.What})\nmerge
+        (a)-[:CREATED]->(r);\n\n//Tag the resources\n// load csv with headers from
+        \"file:///neo4jknowledge.csv\" as csv\nload csv with headers from\n\"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmatch (a:Author {name: csv.Who}), (r:Resource {name: csv.What})\nmerge
+        (a)-[:CREATED]->(r)\nwith csv.What as Resource, csv.Tags as row\nunwind row
+        as text\nwith Resource, [w in split(text,\", \") | trim(w)] as words\nunwind
+        range(0,size(words)-2) as idx\nMATCH (r:Resource {name: Resource})\nMERGE
+        (t1:Tag {name:words[idx]})\nMERGE (t2:Tag {name:words[idx+1]})\nMERGE (r)-[:TAGGED_AS]->(t1)\nMERGE
+        (r)-[:TAGGED_AS]->(t2);"},"neo4jknowledgegraph.graphgist":{"filename":"neo4jknowledgegraph.graphgist","type":"text/plain","language":null,"raw_url":"https://gist.githubusercontent.com/rvanbruggen/16549b5300c1532e6ea8/raw/9e5545d7b13a15ed3b9b8c02b0b896a2b7962952/neo4jknowledgegraph.graphgist","size":5411,"truncated":false,"content":":author:
+        Rik Van Bruggen\n:twitter: @rvanbruggen\n:style: red:Tag(name), silver:Resource(name),
+        yellow:Author(name)\n\n\n= The Neo4j Knowledge Graph =\n\nOur friends of http://www.neueda.com[Neueda]
+        have been doing more and more work with http://www.neo4j.com[Neo4j]. One of
+        the artefacts of that work (see https://github.com/Neueda4j[their github repo]
+        for more info) has been an unbelievably wonderful page called https://github.com/Neueda4j/awesome-neo4j[Awesome
+        Neo4j]. This is a webpage with links and other resources that can be useful
+        for people doing Neo4j projects - whether you are looking for tips and tricks,
+        developer resources, language bindings, frameworks, visualization solutions,
+        graph algorithm components, etc... all kinds of links are on this page...
+        Truly great work of all the https://github.com/Neueda4j/awesome-neo4j/graphs/contributors[Contributors].
+        And inspiring at that.\n\n== A Google Sheet as the main repository ==\nBased
+        on that work, I have tried to add some additional links that I use/know about
+        on a regular basis. Since I am not a developer, my goto-place for documenting/sharing
+        information is not a github page, but a  https://docs.google.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/edit?usp=sharing[google
+        sheet with all the data].\n\nSo what I wanted to do in this Gist is to provide
+        a \"graph\" version of that page. Essentially what you have there are three
+        things\n* Resources: all kinds of interesting artefacts, produced by Neo4j
+        or by the community\n* Authors: individuals or organisations that have been
+        contributing items to the\n* Tags: I have tried to categorise and tag the
+        different resources with a number of different tags.\n\n\nThat sheet, I can
+        very easily https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0[download
+        as a CSV file] - and so this Graphgist will actually pull data from that Google
+        sheet in real time, and create a graph(gist) out of it. If and when I update
+        the sheet, this GraphGist will automagically update itself too. Nice!\n\n==
+        The Neo4j Knowledge Graph''s Current Graph Model ==\n\nHere''s what the model
+        looks like (generated using a http://blog.bruggen.com/2015/03/hidden-graphgems-revisited-22-meta-graph.html[meta-graph]
+        of course):\n\nimage::https://lh3.googleusercontent.com/-cR4_97H2iao/VtHKbI-9ojI/AAAAAAABZno/P5EzWWIrfCE/s800-Ic42/Screen%252520Shot%2525202016-02-27%252520at%25252013.16.53.png[]\n\nVery
+        simple - but it''s so much nicer when you can make it interactive and load
+        it into Neo4j. Let''s do that. Let''s load that data into this graphgist.\n\n//setup\n//hide\n[source,cypher]\n----\nload
+        csv with headers from \"https://docs.google.com/a/neotechnology.com/spreadsheets/d/1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc/export?format=csv&id=1X6DpFZoS01V1crgRED4dRz2UkbiYR8FJMPf9xey9Lwc&gid=0\"
+        as csv\nmerge (r:Resource {name: csv.What, url: csv.Where, comments: csv.Comments})\nwith
+        csv\nmerge (a:Author {name: csv.Who})\nwith csv\nmatch (r:Resource {name:
+        csv.What}), (a:Author {name: csv.Who})\nmerge (a)-[:CREATED]->(r)\nwith csv,a,r\nmerge
+        (a)-[:CREATED]->(r)\nwith csv.What as Resource, csv.Tags as row\nunwind row
+        as text\nwith Resource, [w in split(text,\", \") | trim(w)] as words\nunwind
+        range(0,size(words)-2) as idx\nMATCH (r:Resource {name: Resource})\nMERGE
+        (t1:Tag {name:words[idx]})\nMERGE (t2:Tag {name:words[idx+1]})\nMERGE (r)-[:TAGGED_AS]->(t1)\nMERGE
+        (r)-[:TAGGED_AS]->(t2);\n----\n\nLet''s take a look at what we have now:\n\n//graph\n\nOk
+        - so that looks like a big fat hairball. Not very useful. So let''s try to
+        soom in a bit, and run a simple query over our graph: let''s find a couple
+        of episodes and see what they are connected to...\n\n[source,cypher]\n----\nMATCH
+        p = ((a:Author)--(r:Resource)--(t:Tag))\nreturn p\nlimit 25\n----\n\nand here''s
+        a sample of the graph:\n\n//graph_result\n\nLet''s do another query:\n\n[source,cypher]\n----\nMATCH
+        (t:Tag)--(r:Resource)--(a:Author)\nwhere a.name contains \"Rik\" or a.name
+        contains \"Max\"\nreturn t,r,a\n----\n\nand display the result\n\n//graph_result\n\nNow
+        it gets even nicer when we take a look at some of the resource specifics,
+        and immediately render the URLs:\n\n[source,cypher]\n----\nMATCH (r:Resource)--(a:Author)\nwhere
+        a.name contains \"Rik\" or a.name contains \"Max\"\nreturn distinct a.name
+        as Author, r.name as Resource, r.url as URL, r.comments as Description\norder
+        by Author;\n----\n\n//table\n\nAnd finally, we can of course also find some
+        paths between tags:\n\n[source,cypher]\n----\nmatch (t1:Tag {name:\"book\"}),
+        (t2:Tag {name:\"blog\"}),\np = allshortestpaths ( (t1)-[*]-(t2))\nreturn p\nlimit
+        10\n----\n\nand then we get this lovely ring:\n\n//graph_result\n\n\n= Just
+        a start... =\nThere are so many other things that we could look at. Use the
+        console below to explore if you are interested in more. As always the https://gist.github.com/rvanbruggen/16549b5300c1532e6ea8#file-importing_neo4jknowledgegraph-v2-cql[load
+        script is on github].\n\n//console\n\nI hope this gist was interesting for
+        you, and that we will see each other soon.\n\nThis gist was created by link:mailto:rik@neotechnology.com[Rik
+        Van Bruggen]\n\n* link:http://blog.bruggen.com[My Blog]\n* link:http://blog.bruggen.com/p/podcast_13.html[the
+        Graphistania Neo4j Graph Database Podcast]\n* link:http://learningneo4j.net[My
+        Book]\n* link:http://twitter.com/rvanbruggen[On Twitter]\n* link:http://be.linkedin.com/in/rikvanbruggen/[On
+        LinkedIn]\n"}},"public":true,"created_at":"2016-02-27T16:04:19Z","updated_at":"2016-02-28T06:46:16Z","description":"Neo4j
+        Knowledge Graph","comments":0,"user":null,"comments_url":"https://api.github.com/gists/16549b5300c1532e6ea8/comments","owner":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"forks":[],"history":[{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"85424b21e487e4210ce992d0d3331c4b0f33c456","committed_at":"2016-02-28T06:46:16Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/85424b21e487e4210ce992d0d3331c4b0f33c456"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"cf79263dd2707dbfd71527d3902a0ca7d7ae3cc3","committed_at":"2016-02-28T06:42:41Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/cf79263dd2707dbfd71527d3902a0ca7d7ae3cc3"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"36fb89860b65beddfbfd92c989bbeaa3485f3357","committed_at":"2016-02-28T06:41:04Z","change_status":{"total":3,"additions":2,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/36fb89860b65beddfbfd92c989bbeaa3485f3357"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"c4cae0b52bc26324078e716887f32cad3ed6c943","committed_at":"2016-02-28T06:39:11Z","change_status":{"total":2,"additions":1,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/c4cae0b52bc26324078e716887f32cad3ed6c943"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"7570c623ebebfa1773bbe94dd3c805f62979ff82","committed_at":"2016-02-28T06:37:13Z","change_status":{"total":4,"additions":2,"deletions":2},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/7570c623ebebfa1773bbe94dd3c805f62979ff82"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"20c2b3e26e682a1626db55f75dd542c78acf8459","committed_at":"2016-02-28T06:34:55Z","change_status":{"total":4,"additions":3,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/20c2b3e26e682a1626db55f75dd542c78acf8459"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"aeb2ea4562b98804b6a8dbe692a94fdde6084c1b","committed_at":"2016-02-28T06:29:29Z","change_status":{},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/aeb2ea4562b98804b6a8dbe692a94fdde6084c1b"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"1b18bf5eef2366c4188b9c2ce24a46910ee1db60","committed_at":"2016-02-28T06:25:26Z","change_status":{"total":17,"additions":14,"deletions":3},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/1b18bf5eef2366c4188b9c2ce24a46910ee1db60"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"2c39dc3f4e1f65aaea36a2bd5578b5586af1758d","committed_at":"2016-02-27T16:42:50Z","change_status":{"total":7,"additions":6,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/2c39dc3f4e1f65aaea36a2bd5578b5586af1758d"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"77af4b5a01e8abd224069a50542c30bfba875b63","committed_at":"2016-02-27T16:42:08Z","change_status":{"total":6,"additions":5,"deletions":1},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/77af4b5a01e8abd224069a50542c30bfba875b63"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"b9e64d1cf89e977c2108517f748468902a03c932","committed_at":"2016-02-27T16:38:06Z","change_status":{},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/b9e64d1cf89e977c2108517f748468902a03c932"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"eafe07bcfa4a2c489f07b0d18e605e3014538a1e","committed_at":"2016-02-27T16:22:18Z","change_status":{},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/eafe07bcfa4a2c489f07b0d18e605e3014538a1e"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"48354285f337923d699b1b01bccdccee0e1b3ebf","committed_at":"2016-02-27T16:16:59Z","change_status":{},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/48354285f337923d699b1b01bccdccee0e1b3ebf"},{"user":{"login":"rvanbruggen","id":2995654,"avatar_url":"https://avatars.githubusercontent.com/u/2995654?v=3","gravatar_id":"","url":"https://api.github.com/users/rvanbruggen","html_url":"https://github.com/rvanbruggen","followers_url":"https://api.github.com/users/rvanbruggen/followers","following_url":"https://api.github.com/users/rvanbruggen/following{/other_user}","gists_url":"https://api.github.com/users/rvanbruggen/gists{/gist_id}","starred_url":"https://api.github.com/users/rvanbruggen/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rvanbruggen/subscriptions","organizations_url":"https://api.github.com/users/rvanbruggen/orgs","repos_url":"https://api.github.com/users/rvanbruggen/repos","events_url":"https://api.github.com/users/rvanbruggen/events{/privacy}","received_events_url":"https://api.github.com/users/rvanbruggen/received_events","type":"User","site_admin":false},"version":"1133eb7e580c5e7c49ee791dba5666607ac1b453","committed_at":"2016-02-27T16:04:19Z","change_status":{},"url":"https://api.github.com/gists/16549b5300c1532e6ea8/1133eb7e580c5e7c49ee791dba5666607ac1b453"}],"truncated":false}'
+    http_version: 
+  recorded_at: Mon, 29 Feb 2016 03:21:12 GMT
 recorded_with: VCR 2.9.3

@@ -91,13 +91,8 @@ function GraphGist($, options) {
         }
         CypherConsole({'url': consoleUrl, contentId: content_id}, function (conslr) {
             consolr = conslr;
-            executeQueries(function () {
-                initConsole(function () {
-                    renderGraphs();
-                    renderTables();
-                }, function () {
-                    postProcessRendering();
-                });
+            consolr.establishSession().done(function () {
+              executeQueries(function () { renderGraphs(); renderTables() }, postProcessRendering)
             });
         });
     }
@@ -287,7 +282,7 @@ function GraphGist($, options) {
         }
     }
 
-    function executeQueries(callbackAfter) {
+    function executeQueries(final_success, always) {
         var statements = [];
         var $wrappers = [];
         var receivedResults = 0;
@@ -299,9 +294,8 @@ function GraphGist($, options) {
             statements.push(statement);
             $wrappers.push($wrapper);
         });
-        console.log({'statements.length': statements.length});
         if (statements.length > 0) {
-            consolr.query(statements, success, error);
+            consolr.query(statements, success, error, final_success, always);
         } else {
             postProcessRendering();
         }
@@ -313,9 +307,6 @@ function GraphGist($, options) {
             createQueryResultButton($QUERY_OK_LABEL, $wrapper, data.result, !showOutput);
             $wrapper.data('visualization', data['visualization']);
             $wrapper.data('data', data);
-            if (callbackAfter && receivedResults === statements.length) {
-                callbackAfter();
-            }
         }
 
         function error(data, resultNo) {
@@ -323,9 +314,6 @@ function GraphGist($, options) {
             receivedResults++;
             var $wrapper = $wrappers[resultNo];
             createQueryResultButton($QUERY_ERROR_LABEL, $wrapper, data.error, false);
-            if (callbackAfter && receivedResults === statements.length) {
-                callbackAfter();
-            }
         }
     }
 

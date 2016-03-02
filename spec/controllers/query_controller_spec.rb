@@ -1,15 +1,43 @@
 require 'rails_helper'
 
-RSpec.describe InfoController, type: :controller do
+RSpec.describe QueryController, type: :controller do
   before { delete_db }
 
-  use_vcr_cassette 'info_controller', record: :new_episodes
+  use_vcr_cassette 'query_controller', record: :new_episodes
+
+  let(:expected_host) { 'neo4j-console-23.herokuapp.com' }
+  let(:original_secure_random_uuid_method) { SecureRandom.method(:uuid) }
+
+  let(:default_connection) do
+    double(:default_connection).tap do |default_connection|
+      allow(Faraday).to receive(:default_connection)
+        .and_return(default_connection)
+    end
+  end
+
+  describe 'graph_gist_query_session_id' do
+    it 'should return a SecureRandom.uuid and make a request to the console app' do
+      expect(SecureRandom).to receive(:uuid).exactly(1).times.and_return('the-id')
+      expect(default_connection).to receive(:post)
+        .with("http://#{expected_host}/console/init", '', 'X-Session': 'the-id')
+        .exactly(1).times
+
+      get(:graph_gist_query_session_id)
+    end
+  end
 
   describe 'graph_gist_query' do
-    let(:graph_gist) { create(:graph_gist) }
+    let(:graph_gist) { create(:graph_gist, cached: true) }
     let(:neo4j_version_param) { '2.3' }
 
     def request_graphgist_session_id
+      uuid = original_secure_random_uuid_method.call
+      allow(SecureRandom).to receive(:uuid).and_return(uuid)
+
+      expect(default_connection).to receive(:post)
+        .with("http://#{expected_host}/console/init", '', 'X-Session': uuid)
+        .exactly(1).times
+
       get(:graph_gist_query_session_id)
       response.body
     end
@@ -22,14 +50,7 @@ RSpec.describe InfoController, type: :controller do
           cypher: cypher)
     end
 
-    let(:default_connection) do
-      double(:default_connection).tap do |default_connection|
-        allow(Faraday).to receive(:default_connection)
-          .and_return(default_connection)
-      end
-    end
-
-    let(:default_faraday_result) { double('default faraday result', body: 'OK') }
+    let(:default_faraday_result) { double('default faraday result', body: 'OK', status: 200) }
 
     let(:session_a_id) { request_graphgist_session_id }
     let(:session_b_id) { request_graphgist_session_id }
@@ -37,7 +58,7 @@ RSpec.describe InfoController, type: :controller do
     let_context neo4j_version_param: '2.1' do
       it 'uses the correct URL' do
         expect(default_connection).to receive(:post)
-          .with('http://neo4j-console-21.herokuapp.com/console/init', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+          .with('http://neo4j-console-21.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
           .and_return(default_faraday_result)
           .exactly(1).times
 
@@ -54,7 +75,7 @@ RSpec.describe InfoController, type: :controller do
 
     it 'caches the the inital query' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/init', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
         .and_return(default_faraday_result)
         .exactly(1).times
 
@@ -65,9 +86,9 @@ RSpec.describe InfoController, type: :controller do
       expect(response.body).to eq('OK')
     end
 
-    it 'switches to cypher after init' do
+    it 'caches two queries' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/init', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
         .and_return(default_faraday_result)
         .exactly(1).times
 
@@ -90,12 +111,12 @@ RSpec.describe InfoController, type: :controller do
 
     it 'does not cache if earlier queries change' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/init', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
         .and_return(default_faraday_result)
         .exactly(1).times
 
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/init', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id)
         .and_return(default_faraday_result)
         .exactly(1).times
 

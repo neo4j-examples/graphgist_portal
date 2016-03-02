@@ -20,6 +20,8 @@ class GraphGist < GraphStarter::Asset
 
   has_one :in, :author, type: :WROTE, model_class: :Person
 
+  property :cached, type: Boolean
+
   property :legacy_id, type: String
   property :legacy_neo_id, type: Integer
   property :legacy_poster_image, type: String
