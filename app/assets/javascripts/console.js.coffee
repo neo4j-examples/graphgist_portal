@@ -172,7 +172,7 @@ window.CypherConsole = (config, ready) ->
 
   return
 
-Consolr = (consoleWindow, gistId) ->
+window.Consolr = (consoleWindow, gistId) ->
   sessionId = undefined
 
   establishSession = ->
