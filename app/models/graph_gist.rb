@@ -1,6 +1,7 @@
 require 'graph_gist_tools'
 require 'open-uri'
 
+# rubocop:disable ClassLength
 class GraphGist < GraphStarter::Asset
   has_image
   rated
