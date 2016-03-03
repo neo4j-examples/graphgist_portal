@@ -181,6 +181,8 @@ GEM
       guard (~> 2.0)
       rubocop (~> 0.20)
     hashie (3.4.3)
+    heroku-deflater (0.6.2)
+      rack (>= 1.4.5)
     http (0.9.8)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -506,6 +508,7 @@ DEPENDENCIES
   graph_starter!
   guard-rspec
   guard-rubocop
+  heroku-deflater
   jbuilder (~> 2.0)
   jquery-rails
   mandrill_dm
