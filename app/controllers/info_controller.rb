@@ -7,6 +7,10 @@ class InfoController < ApplicationController
     @featured_page = true
   end
 
+  def live_graphgists
+    @live_graphgists = apply_associations(GraphGist.only_live).to_a
+  end
+
   CONSOLE_HOSTS = {
     '1.9' => 'neo4j-console-19.herokuapp.com',
     '2.0' => 'neo4j-console-20.herokuapp.com',

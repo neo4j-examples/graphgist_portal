@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
+  get 'live_graph_gists/.json' => 'info#live_graphgists'
   get 'graph_gists/.json' => 'graph_starter/assets#show'
 
   get 'graph_gists/query_session_id' => 'info#graph_gist_query_session_id'
