@@ -203,4 +203,3 @@ class InfoController < ApplicationController
     session[:last_cache_keys] ||= {}
   end
 end
-# rubocop:enable Metrics/ClassLength
