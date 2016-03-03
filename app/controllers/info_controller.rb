@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class InfoController < ApplicationController
   def featured_graphgists
     @title = 'Home'
