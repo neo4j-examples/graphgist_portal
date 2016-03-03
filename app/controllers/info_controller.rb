@@ -7,7 +7,7 @@ class InfoController < ApplicationController
   end
 
   def live_graphgists
-    @live_graphgists = apply_associations(GraphGist.only_live.where(['categories.slug = ?', 'sports-and-recreation']).to_a
+    @live_graphgists = apply_associations(GraphGist.only_live).where(['categories.slug = ?', 'sports-and-recreation']).to_a
   end
 
   CONSOLE_HOSTS = {
