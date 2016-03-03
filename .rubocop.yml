@@ -77,3 +77,7 @@ Style/DoubleNegation:
 # This is sometimes really nice
 Style/MultilineBlockChain:
   Enabled: false
+
+# Classes don't need restricted to 100 lines
+ClassLength:
+  Max: 250 
