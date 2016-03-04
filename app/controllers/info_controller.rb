@@ -8,7 +8,7 @@ class InfoController < ApplicationController
 
   def live_graphgists
     var = :asset
-    @live_graphgists = apply_associations(model_class.all(var).for_category(var, params[:category]).where(status: 'live')).to_a
+    @live_graphgists = apply_associations(for_category(GraphGists.only_live, params[:category]).where(status: 'live')).to_a
   end
 
   CONSOLE_HOSTS = {
