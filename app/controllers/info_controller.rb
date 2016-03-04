@@ -8,10 +8,7 @@ class InfoController < ApplicationController
 
   def live_graphgists
     var = :asset
-    scope = apply_associations(GraphGist.only_live)
-    scope = scope.for_category(var, params[:category]) if params[:category].present?
-
-    @live_graphgists = scope.to_a
+    @live_graphgists = apply_associations((GraphGist.only_live).for_category(var, params[:category])).to_a
   end
 
   CONSOLE_HOSTS = {
