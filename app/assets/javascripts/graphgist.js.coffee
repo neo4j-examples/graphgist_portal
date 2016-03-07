@@ -71,7 +71,8 @@ window.GraphGist = ($, options) ->
     if querySearchParams()['use_test_console_server'] == 'true'
       consoleUrl = 'http://neo4j-console-test.herokuapp.com/'
     CypherConsole {
-      'url': consoleUrl
+      url: consoleUrl
+      neo4j_version: version
       contentId: content_id
     }, (conslr) ->
       consolr = conslr
