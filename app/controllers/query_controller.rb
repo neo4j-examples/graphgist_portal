@@ -63,7 +63,7 @@ class QueryController < ApplicationController
       result = Faraday.post(url, cypher, 'X-Session': session_id)
     end
 
-    Rails.logger.info "Request to #{url} took #{time.round(3)}s"
+    Rails.logger.info "  Request to #{url} took #{(time * 1000.0).round(1)}ms"
 
     result
   end
