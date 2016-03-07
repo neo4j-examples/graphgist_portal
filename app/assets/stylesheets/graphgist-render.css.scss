@@ -90,14 +90,6 @@ span.resize-vertical-handle {
     left: 0;
 }
 
-#console-wrapper {
-    position: relative;
-    z-index: -2;
-}
-#console-wrapper, p.console {
-    height: 23em;
-}
-
 #console {
     height: 100%;
     width: 100%;
@@ -105,14 +97,19 @@ span.resize-vertical-handle {
 }
 
 #console-wrapper {
+    position: relative;
     left: 0;
     top: 0;
     width: 99.7%;
-    z-index: 1000;
+    z-index: 0;
 
     &.fixed-console {
         position: fixed;
     }
+}
+
+#console-wrapper, p.console {
+    height: 23em;
 }
 
 #console-label {
@@ -291,6 +288,12 @@ div.visualization > svg {
 
 .cm-s-neo .cm-keyword {
     text-transform: uppercase;
+}
+
+#gist-body.cached {
+  .console, .show-console-toggle {
+    display: none;
+  }
 }
 
 /**
