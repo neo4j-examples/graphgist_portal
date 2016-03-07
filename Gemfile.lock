@@ -268,6 +268,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
+    newrelic_rpm (3.15.0.314)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     notiffany (0.0.8)
@@ -514,6 +515,7 @@ DEPENDENCIES
   mandrill_dm
   mathjax-rails
   meta_request
+  newrelic_rpm
   omniauth-github
   omniauth-twitter
   pry
