@@ -1,10 +1,13 @@
-# rubocop:disable Metrics/ClassLength
 class InfoController < ApplicationController
   def featured_graphgists
     @title = 'Home'
 
     @featured_graphgists = apply_associations(GraphGist.only_featured).to_a
     @featured_page = true
+  end
+
+  def live_graphgists
+    @live_graphgists = apply_associations(GraphGist.only_live.for_category('asset', params[:category])).to_a
   end
 
   def associations
@@ -153,4 +156,3 @@ class InfoController < ApplicationController
     end
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -35,6 +35,8 @@ class GraphGist < GraphStarter::Asset
 
   scope :only_featured, -> { where(featured: true) }
 
+  scope :only_live, -> { where(status: 'live') }
+
   has_many :out, :industries, type: :FOR_INDUSTRY
   has_many :out, :use_cases, type: :FOR_USE_CASE
 
