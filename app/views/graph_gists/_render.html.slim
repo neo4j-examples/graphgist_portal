@@ -10,6 +10,16 @@ script type="text/x-mathjax-config;executed=true"
       }
     })
 
+#console-template.ui.form
+  .fields
+    .fourteen.wide.field
+      input name="cypher" placeholder="Use Cypher here to query the dataset"
+
+    .two.wide.field
+      .ui.submit.button.run Run
+
+  .result
+    Test
 
 = stylesheet_link_tag    'graphgist-render', media: 'all', 'data-turbolinks-track' => true
 

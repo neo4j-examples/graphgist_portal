@@ -29,6 +29,7 @@ window.CypherConsole = (config, ready) ->
   consoleUrl = config.url
   neo4j_version = config.neo4j_version
 
+
   addConsole = ($context, gistId, ready) ->
     url = getUrl('none', 'none', '\n\nUse the play/edit buttons to run the queries!')
     $iframe = $IFRAME.clone().attr('src', url)
@@ -36,9 +37,10 @@ window.CypherConsole = (config, ready) ->
       iframeWindow = $iframe[0].contentWindow
       return if !iframeWindow
 
-      consolr = new Consolr(iframeWindow, gistId)
-      if ready
-        ready consolr
+      consolr = new Consolr(iframeWindow, gistId, neo4j_version)
+
+      ready?(consolr)
+
       window.setTimeout (->
         try
           if iframeWindow.location and iframeWindow.location.href
@@ -152,7 +154,7 @@ window.CypherConsole = (config, ready) ->
     url + '&no_root=true'
 
   createConsole = (ready, elementClass, contentId) ->
-    if $('code.language-cypher').length > 0
+    if $('code.language-cypher').length
       $element = $('p.' + elementClass).first()
       if $element.length != 1
         #no console defined in the document
@@ -173,37 +175,57 @@ window.CypherConsole = (config, ready) ->
 
   return
 
-window.Consolr = (consoleWindow, gistId) ->
+window.Consolr = (consoleWindow, gistId, neo4j_version) ->
   sessionId = undefined
-  cached = !!$('#gist-body.cached').length
+  query_queue = []
+  currently_querying = false
 
   establishSession = ->
     $.get('/graph_gists/query_session_id', neo4j_version: neo4j_version).done (result) -> sessionId = result
 
   init = (params, success, error, data) ->
 
+
   query = (queries, success, error, final_success, always, call_id = 0) ->
     if queries.length
-      if cached
-        $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: queries[0]).done (result) ->
-          data = JSON.parse(result)
+      $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: queries[0]).done (result) ->
+        data = JSON.parse(result)
 
-          (if data.error then error else success)(data, call_id)
+        (if data.error then error else success)(data, call_id)
 
-          query(queries[1..-1], success, error, final_success, always, call_id + 1)
-        .fail ->
-          always()
-      else
-        consoleWindow.postMessage(queries[0], '*');
-
+        query(queries[1..-1], success, error, final_success, always, call_id + 1)
+      .fail ->
+        always()
     else
+      $('#console-template').show()
       final_success()
       always()
 
-  receiveMessage = ->
-    debugger
+  process_query_queue = (final_success, always) ->
+    return if currently_querying
 
-  consoleWindow.addEventListener 'message', receiveMessage, false
+    currently_querying = true
+    {cypher, $element, success, error} = query_queue.shift()
+
+    $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher).done (result) ->
+      data = JSON.parse(result)
+
+      (if data.error then error else success)(data, $element)
+
+      if query_queue.length
+        currently_querying = false
+        process_query_queue()
+      else
+        $('#console-template').show()
+        final_success()
+        always()
+        currently_querying = false
+
+
+  query = (cypher, $element, success, error, final_success, always) ->
+    query_queue.push {cypher, $element, success, error}
+
+    process_query_queue(final_success, always)
 
   {
     establishSession: establishSession

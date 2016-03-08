@@ -296,6 +296,15 @@ div.visualization > svg {
   }
 }
 
+#console-template {
+  display: none;
+
+  .result {
+    height: 500px;
+    border: 1px solid red;
+  }
+}
+
 /**
  * Part taken from: prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)

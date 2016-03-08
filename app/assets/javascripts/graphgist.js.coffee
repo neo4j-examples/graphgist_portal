@@ -22,6 +22,7 @@ window.GraphGist = ($, options) ->
   $TOGGLE_BUTTON = $('<span data-toggle="tooltip"><i class="' + COLLAPSE_ICON + '"></i></span>')
   $QUERY_TOGGLE_BUTTON = $TOGGLE_BUTTON.clone().addClass('query-toggle').attr('title', 'Show/hide query.')
   $RESULT_TOGGLE_BUTTON = $TOGGLE_BUTTON.clone().addClass('result-toggle').attr('title', 'Show/hide result.')
+  $RESULT_BOX = $('<div class="result-box"><i class="ui share alternate icon"></div>')
   $QUERY_MESSAGE = $('<pre/>').addClass('query-message')
   $VISUALIZATION = $('<div/>').addClass('visualization')
   VISUALIZATION_HEIGHT = 400
@@ -76,12 +77,8 @@ window.GraphGist = ($, options) ->
       contentId: content_id
     }, (conslr) ->
       consolr = conslr
-      consolr.establishSession().done ->
-        executeQueries (->
-          renderGraphs()
-          renderTables()
-          return
-        ), postProcessRendering
+      consolr.establishSession?().done ->
+        executeQueries (->), postProcessRendering
         return
       return
     return
@@ -158,19 +155,19 @@ window.GraphGist = ($, options) ->
     $footer.prepend '<i class="icon-cogs"></i> Uses Neo4j Version <a target="_blank" href="http://docs.neo4j.org/chunked/' + version + '/cypher-query-lang.html">' + version + '</a> '
     $('h2[id]').css(cursor: 'pointer').click ->
       window.location.href = window.location.href.replace(/($|#.+?$)/, '#' + $(this).attr('id'))
-      return
+
     processMathJAX()
     findQuery 'span.hide-query', $content, (codeElement) ->
       $(codeElement.parentNode).addClass 'hide-query'
-      return
+
     findQuery 'span.setup', $content, (codeElement) ->
       $(codeElement.parentNode).addClass 'setup-query'
-      return
+
     findQuery 'span.query-output', $content, (codeElement) ->
       $(codeElement.parentNode).data 'show-output', true
-      return
+
     number = 0
-    # Can probably drop this.  Prism stuff
+    # Can maybe drop this.  Prism stuff
     $('code', $content).each (index, el) ->
       $el = $(el)
       if $el.hasClass('language-cypher')
@@ -181,7 +178,9 @@ window.GraphGist = ($, options) ->
         $parent.prepend '<h5>Query ' + number + '</h5>'
         $el.wrap($WRAPPER).each ->
           $el.parent().data 'query', $el.text()
-          return
+
+        $RESULT_BOX.clone().insertAfter($el.parents('pre.language-cypher'))
+
         $toggleQuery = $QUERY_TOGGLE_BUTTON.clone()
         $parent.append $toggleQuery
         $toggleQuery.click ->
@@ -196,13 +195,7 @@ window.GraphGist = ($, options) ->
         if $parent.hasClass('hide-query')
           $wrapper = $toggleQuery.prevAll('div.query-wrapper').first()
           toggler $wrapper, $toggleQuery, 'hide'
-      else if $el.hasClass('sql')
-        $el.attr 'data-lang', 'sql'
-      else if $el.hasClass('java')
-        $el.attr 'data-lang', 'java'
-      else if $el.hasClass('xml')
-        $el.attr 'data-lang', 'xml'
-      return
+
     $('pre code.language-cypher').addClass 'cm-s-neo'
     code_els = $('pre code.language-cypher').toArray()
     for i of code_els
@@ -240,39 +233,33 @@ window.GraphGist = ($, options) ->
     return
 
   executeQueries = (final_success, always) ->
-    statements = []
-    $wrappers = []
-    receivedResults = 0
 
-    success = (data, resultNo) ->
-      receivedResults++
-      $wrapper = $wrappers[resultNo]
-      showOutput = $wrapper.parent().data('show-output')
-      createQueryResultButton $QUERY_OK_LABEL, $wrapper, data.result, !showOutput
-      $wrapper.data 'visualization', data['visualization']
-      $wrapper.data 'data', data
+    success = (data, $element) ->
+      showOutput = $element.parent().data('show-output')
+      createQueryResultButton $QUERY_OK_LABEL, $element, data.result, !showOutput
+      $element.data 'visualization', data['visualization']
+      $element.data 'data', data
+      renderTable($element, data)
       return
 
-    error = (data, resultNo) ->
+    error = (data, $element) ->
       HAS_ERRORS = true
-      receivedResults++
-      $wrapper = $wrappers[resultNo]
-      createQueryResultButton $QUERY_ERROR_LABEL, $wrapper, data.error, false
+      createQueryResultButton $QUERY_ERROR_LABEL, $element, data.error, false
       return
 
-    $('div.query-wrapper').each (index, element) ->
-      $wrapper = $(element)
-      number = index + 1
-      $wrapper.data 'number', number
-      statement = $wrapper.data('query')
-      statements.push statement
-      $wrappers.push $wrapper
-      return
-    if statements.length > 0
-      consolr.query statements, success, error, final_success, always
-    else
-      postProcessRendering()
-    return
+    $elements = $('div.query-wrapper')
+    $elements.each (index, element) ->
+      $element = $(element)
+      statement = $element.data('query')
+
+      consolr.query statement, $element, success, error, final_success, always
+
+    always() if !$elements.length
+
+
+  $('#console-template .run').click ->
+    cypher = $('#console-template .cypher').val()
+
 
   getSetupQuery = ->
     queries = []
@@ -290,6 +277,8 @@ window.GraphGist = ($, options) ->
         return
       return
     if queries.length == 0 then undefined else queries.join(';\n')
+
+  most_recent_visulization_number = 0
 
   renderGraphs = ->
     counter = 0
@@ -310,31 +299,22 @@ window.GraphGist = ($, options) ->
           else
             expand()
             $('body').keydown keyHandler
-          return
 
         expand = ->
           $visContainer.addClass 'fullscreen'
           $visContainer.height '100%'
-          if 'expand' of subscriptions
-            subscriptions.expand()
-          return
+          subscriptions.expand?()
 
         contract = ->
           $visContainer.removeClass 'fullscreen'
           $visContainer.height 400
-          if 'contract' of subscriptions
-            subscriptions.contract()
-          return
+          subscriptions.contract?()
 
         sizeChange = ->
-          if 'sizeChange' of subscriptions
-            subscriptions.sizeChange()
-          return
+          subscriptions.sizeChange?()
 
         keyHandler = (event) ->
-          if 'which' of event and event.which == 27
-            contract()
-          return
+          contract() if 'which' of event and event.which == 27
 
         if visualization
           rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style)
@@ -353,12 +333,15 @@ window.GraphGist = ($, options) ->
       $heading.remove()
       $visContainer.height VISUALIZATION_HEIGHT
       performVisualizationRendering()
-      return
-    return
+
+  renderGraph = ($element, data) ->
+    most_recent_visulization_number++
+    $visContainer = $VISUALIZATION.clone().attr('id', "graph-visualization-#{counter}")
+    $element.parents('.content').find('.result-box').append($visContainer)
 
   handleSelection = (data, show_result_only) ->
-    if !show_result_only
-      return data
+    return data if !show_result_only
+
     nodes = []
     links = []
     i = undefined
@@ -385,22 +368,13 @@ window.GraphGist = ($, options) ->
       links: links
     }
 
-  ###
-   function renderVersal(id,visualization) {
-   var myChart = new GraphVisualizer($("#"+id), window.ColorManager(), 840, 300);
-   myChart.draw(visualization, true);
-   }
-  ###
+  renderTable = ($element, data) ->
+    $tableContainer = $element.parents('.content').find('.result-box').append($TABLE_CONTAINER.clone())
 
-  renderTables = ->
-    findPreviousQueryWrapper 'h5.result-table', $content, ($heading, $wrapper) ->
-      $tableContainer = $TABLE_CONTAINER.clone().insertAfter($heading)
-      $heading.remove()
-      # text('The results of query ' + $wrapper.data('number'));
-      if !renderTable($tableContainer, $wrapper.data('data'))
-        $tableContainer.text('Couldn\'t render the result table.').addClass 'alert-error'
-      return
-    return
+    # cypher.datatable
+    if !window.renderTable($tableContainer, data)
+      $tableContainer.text('Couldn\'t render the result table.').addClass 'alert-error'
+
 
   replaceNewlines = (str) ->
     str.replace /\\n/g, '&#013;'
@@ -410,15 +384,12 @@ window.GraphGist = ($, options) ->
     $button = $RESULT_TOGGLE_BUTTON.clone()
     $wrapper.after($label).after $button
     $message = $QUERY_MESSAGE.clone().text(replaceNewlines(message))
-    if hide
-      toggler $message, $button, 'hide'
-    else
-      toggler $message, $button, 'show'
-    $button.click ->
-      toggler $message, $button
-      return
+
+    toggler $message, $button, (if hide then 'hide' else 'show')
+
+    $button.click -> toggler $message, $button
+
     $wrapper.after $message
-    return
 
   toggler = ($target, button, action) ->
     $icon = $('i', button)
@@ -450,10 +421,10 @@ window.GraphGist = ($, options) ->
   findPreviousQueryWrapperSearch = ($container, $selected, operation) ->
     done = false
     done = findQueryWrapper($container, $selected, operation)
-    if done
-      return true
+    return true if done
+
     $newContainer = $container.prev()
-    if $newContainer.length > 0
+    if $newContainer.length
       return findPreviousQueryWrapperSearch($newContainer, $selected, operation)
     else
       $up = $container.parent()
