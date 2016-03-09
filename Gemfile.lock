@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: 988de0985c87eadae500a42ef378f76d45ea3da7
+  revision: 3959b6b492255a236e7996d3bd65160be80ffd2a
   specs:
     graph_starter (0.16.1)
       babosa (= 1.0.2)
@@ -236,7 +236,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.2.0)
-    neo4j (6.0.6)
+    neo4j (6.0.7)
       active_attr (~> 0.8)
       activemodel (~> 4)
       activesupport (~> 4)
