@@ -19,4 +19,3 @@ GraphStarter.configure do |config|
 
   config.default_image_style = :medium
 end
-
