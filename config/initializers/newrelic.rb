@@ -5,4 +5,3 @@ if defined?(NewRelic)
     NewRelic::Agent::Datastores.notice_statement(payload[:cypher], finish - start)
   end
 end
-
