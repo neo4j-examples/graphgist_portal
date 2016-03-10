@@ -9,8 +9,6 @@ require 'faraday'
 require 'nokogiri'
 
 def url_working?(url)
-  puts "Checking #{url}"
-
   response = Faraday.head(url)
 
   response && response.status == 200
@@ -24,27 +22,14 @@ def url_from_path(path, uri)
   end
 end
 
-def hrefs_from_text(text, &block)
-  Nokogiri::HTML(text).xpath('//a').map { |a| a.attributes['href'].value }.select(&block)
-end
-
-def verify_page_links(url, &block)
+def page_hrefs(url, &block)
   require 'nokogiri'
 
   response = Faraday.get(url)
 
   return [url] if response.status != 200
 
-  link_urls = hrefs_from_text(response.body, &block).map { |path| url_from_path(path, URI(url)) }
-
-  failed_urls = []
-
-  puts "Checking #{link_urls.size} gist paths..."
-  Parallel.each(link_urls, in_threads: 8) do |link_url|
-    failed_urls << link_url if !url_working?(link_url)
-  end
-
-  failed_urls
+  Nokogiri::HTML(response.body).xpath('//a').map { |a| a.attributes['href'].value }.select(&block)
 end
 
 task :spider_verify, [:host] do |_t, args|
@@ -55,20 +40,28 @@ task :spider_verify, [:host] do |_t, args|
 
   host = args[:host]
 
+  urls_to_verify = %w(/about /submit_graphgist /users/sign_in /featured_graphgists.json)
+
+  gist_urls = []
+  gist_urls += page_hrefs(host) { |href| href.match(%r{/graph_gists/[^/]+}) }
+  gist_urls += page_hrefs(File.join(host, '/graph_gists')) { |href| href.match(%r{/graph_gists/[^/]+}) }
+  gist_urls.uniq!
+
+  urls_to_verify += gist_urls
+  urls_to_verify += gist_urls.map { |url| url + '.json' }
+
+  # Preview page
+  urls_to_verify << 'http://portal.graphgist.org/graph_gists/by_url?url=https%3A%2F%2Fgist.github.com%2Fcheerfulstoic%2F449393e2d1b6806112f1'
+
+  urls_to_verify.map! { |string| url_from_path(string, URI(host)) }
+
   failed_urls = []
+  semaphore = Mutex.new
+  puts "Checking #{urls_to_verify.size} urls..."
+  Parallel.each(urls_to_verify, in_threads: 8) do |url_to_verify|
+    semaphore.synchronize { puts "Checking #{url_to_verify}" }
 
-  failed_urls += verify_page_links(host) do |href|
-    href.match(%r{/graph_gists/[^/]+})
-  end
-
-  failed_urls += verify_page_links(File.join(host, '/graph_gists')) do |href|
-    href.match(%r{/graph_gists/[^/]+})
-  end
-
-  %w(/about /submit_graphgist /users/sign_in).each do |path|
-    url = File.join(host, path)
-
-    failed_urls << url if !url_working?(url)
+    failed_urls << url_to_verify if !url_working?(url_to_verify)
   end
 
   if failed_urls.empty?
