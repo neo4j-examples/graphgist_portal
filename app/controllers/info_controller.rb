@@ -85,7 +85,6 @@ class InfoController < ApplicationController
   end
 
   def about
-    fail 'oau'
     @title = 'What is a GraphGist?'
   end
 
