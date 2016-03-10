@@ -55,7 +55,7 @@ gem 'rubocop'
 
 gem 'mandrill_dm'
 
-gem 'rollbar', '~> 2.6.0'
+gem 'rollbar', '~> 2.8.1'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -369,7 +369,7 @@ GEM
       redis (>= 2.2)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rollbar (2.6.3)
+    rollbar (2.8.3)
       multi_json
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
@@ -520,7 +520,7 @@ DEPENDENCIES
   rails_12factor
   rake (~> 10.5)
   redis-rails
-  rollbar (~> 2.6.0)
+  rollbar (~> 2.8.1)
   rspec-expectations
   rspec-its
   rspec-rails
