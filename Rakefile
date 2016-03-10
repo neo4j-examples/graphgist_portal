@@ -24,37 +24,36 @@ def url_from_path(path, uri)
   end
 end
 
-def verify_page_links(url)
-  require 'nokogiri'
+def hrefs_from_text(text, &block)
+  Nokogiri::HTML(text).xpath('//a').map { |a| a.attributes['href'].value }.select(&block)
+end
 
-  uri = URI(url)
+def verify_page_links(url, &block)
+  require 'nokogiri'
 
   response = Faraday.get(url)
 
   return [url] if response.status != 200
 
-  doc = Nokogiri::HTML(response.body)
-
-  gist_paths = doc.xpath('//a').map {|a| a.attributes['href'].value }.select do |href|
-    yield href
-  end
+  link_urls = hrefs_from_text(response.body, &block).map { |path| url_from_path(path, URI(url)) }
 
   failed_urls = []
 
-  puts "Checking #{gist_paths.size} gist paths..."
-  Parallel.each(gist_paths, in_threads: 8) do |path|
-    link_url = url_from_path(path, uri)
+  puts "Checking #{link_urls.size} gist paths..."
+  Parallel.each(link_urls, in_threads: 8) do |link_url|
     failed_urls << link_url if !url_working?(link_url)
   end
 
   failed_urls
 end
 
-task :spider_verify do
+task :spider_verify, [:host] do |_t, args|
+  args.with_defaults(host: 'http://portal.graphgist.org')
+
   require 'faraday'
   require 'parallel'
 
-  host = 'http://portal.graphgist.org'
+  host = args[:host]
 
   failed_urls = []
 
@@ -73,11 +72,10 @@ task :spider_verify do
   end
 
   if failed_urls.empty?
-    puts "All paths check out!"
+    puts 'All paths check out!'
   else
-    puts "The following paths returned non-200 statuses:"
+    puts 'The following paths returned non-200 statuses:'
     puts failed_urls
     exit(false)
   end
 end
-
