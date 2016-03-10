@@ -86,6 +86,7 @@ class InfoController < ApplicationController
 
   def about
     @title = 'What is a GraphGist?'
+    fail 'foeuou'
   end
 
   def graphgist_recommendations
