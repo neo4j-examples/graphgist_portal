@@ -240,7 +240,6 @@ window.GraphGist = ($, options) ->
       $element.data 'visualization', data['visualization']
       $element.data 'data', data
       renderTable($element, data)
-      renderGraph($element, data)
       return
 
     error = (data, $element) ->
@@ -329,63 +328,16 @@ window.GraphGist = ($, options) ->
           $visContainer.mutate 'width', sizeChange
         else
           $visContainer.text('There is no graph to render.').addClass 'alert-error'
-
+        return
 
       $heading.remove()
       $visContainer.height VISUALIZATION_HEIGHT
       performVisualizationRendering()
 
   renderGraph = ($element, data) ->
-    console.log 'renderGraph'
     most_recent_visulization_number++
-    id = "graph-visualization-#{most_recent_visulization_number}"
-    $visContainer = $VISUALIZATION.clone().attr('id', id)
+    $visContainer = $VISUALIZATION.clone().attr('id', "graph-visualization-#{counter}")
     $element.parents('.content').find('.result-box').append($visContainer)
-
-    # TODO: Set style!
-
-    $visContainer.height VISUALIZATION_HEIGHT
-
-    fullscreenClick = ->
-      if $visContainer.hasClass('fullscreen')
-        $('body').unbind 'keydown', keyHandler
-        contract()
-      else
-        expand()
-        $('body').keydown keyHandler
-
-    expand = ->
-      $visContainer.addClass 'fullscreen'
-      $visContainer.height '100%'
-      subscriptions.expand?()
-
-    contract = ->
-      $visContainer.removeClass 'fullscreen'
-      $visContainer.height 400
-      subscriptions.contract?()
-
-    sizeChange = ->
-      subscriptions.sizeChange?()
-
-    keyHandler = (event) ->
-      contract() if 'which' of event and event.which == 27
-
-    if data
-      $element.data('visualization', data)
-      rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style)
-      subscriptions = if 'subscriptions' of rendererHooks then rendererHooks['subscriptions'] else {}
-      actions = if 'actions' of rendererHooks then rendererHooks['actions'] else {}
-      $visualizationIcons = $VISUALIZATION_ICONS.clone().appendTo($visContainer)
-      $visualizationIcons.children('i.fullscreen-icon').click fullscreenClick
-      for iconName of actions
-        actionData = actions[iconName]
-        $I.clone().addClass(iconName).attr('title', actionData.title).appendTo($visualizationIcons).click actionData.func
-      $visContainer.mutate 'width', sizeChange
-    else
-      $visContainer.text('There is no graph to render.').addClass 'alert-error'
-
-
-
 
   handleSelection = (data, show_result_only) ->
     return data if !show_result_only
