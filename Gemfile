@@ -22,6 +22,8 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'rake', '~> 10.5'
+
 gem 'dotenv-rails', github: 'bkeepers/dotenv', require: 'dotenv/rails-now'
 
 if ENV['DEBUG_SERVER']
@@ -53,7 +55,7 @@ gem 'rubocop'
 
 gem 'mandrill_dm'
 
-gem 'rollbar', '~> 2.6.0'
+gem 'rollbar', '~> 2.8.1'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -72,6 +74,8 @@ group :development, :test do
 end
 
 gem 'twitter'
+
+gem 'parallel', require: false
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

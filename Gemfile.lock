@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: 988de0985c87eadae500a42ef378f76d45ea3da7
+  revision: b50a61f35e5319004062fddca64ce1ff187d1a8a
   specs:
     graph_starter (0.16.1)
       babosa (= 1.0.2)
@@ -238,7 +238,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.2.0)
-    neo4j (6.0.6)
+    neo4j (6.0.7)
       active_attr (~> 0.8)
       activemodel (~> 4)
       activesupport (~> 4)
@@ -303,6 +303,7 @@ GEM
       activesupport (>= 3.2.0)
       cocaine (~> 0.5.5)
       mime-types
+    parallel (1.6.1)
     parser (2.2.3.0)
       ast (>= 1.1, < 3.0)
     powerpack (0.1.1)
@@ -372,7 +373,7 @@ GEM
       redis (>= 2.2)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rollbar (2.6.3)
+    rollbar (2.8.3)
       multi_json
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
@@ -518,13 +519,15 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-github
   omniauth-twitter
+  parallel
   pry
   puma
   rails (~> 4.2.4)
   rails-html-sanitizer
   rails_12factor
+  rake (~> 10.5)
   redis-rails
-  rollbar (~> 2.6.0)
+  rollbar (~> 2.8.1)
   rspec-expectations
   rspec-its
   rspec-rails

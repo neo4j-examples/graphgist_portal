@@ -16,4 +16,6 @@ GraphStarter.configure do |config|
   config.editable_properties = {
     GraphGist: %w(title url featured status)
   }
+
+  config.default_image_style = :medium
 end
