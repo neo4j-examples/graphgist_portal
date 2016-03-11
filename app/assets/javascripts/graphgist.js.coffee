@@ -22,11 +22,9 @@ window.GraphGist = ($, options) ->
   $TOGGLE_BUTTON = $('<span data-toggle="tooltip"><i class="' + COLLAPSE_ICON + '"></i></span>')
   $QUERY_TOGGLE_BUTTON = $TOGGLE_BUTTON.clone().addClass('query-toggle').attr('title', 'Show/hide query.')
   $RESULT_TOGGLE_BUTTON = $TOGGLE_BUTTON.clone().addClass('result-toggle').attr('title', 'Show/hide result.')
-  $RESULT_BOX = $('<div class="result-box"><i class="ui share alternate icon"></div>')
   $QUERY_MESSAGE = $('<pre/>').addClass('query-message')
   $VISUALIZATION = $('<div/>').addClass('visualization')
   VISUALIZATION_HEIGHT = 400
-  $TABLE_CONTAINER = $('<div/>').addClass('result-table')
   DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
   $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand" title="Toggle fullscreen mode"></i></div>')
   $I = $('<i/>')
@@ -79,9 +77,6 @@ window.GraphGist = ($, options) ->
       consolr = conslr
       consolr.establishSession?().done ->
         executeQueries (->), postProcessRendering
-        return
-      return
-    return
 
   postProcessRendering = ->
     #$('span[data-toggle="tooltip"]').tooltip({'placement': 'left'});
@@ -179,8 +174,6 @@ window.GraphGist = ($, options) ->
         $el.wrap($WRAPPER).each ->
           $el.parent().data 'query', $el.text()
 
-        $RESULT_BOX.clone().insertAfter($el.parents('pre.language-cypher'))
-
         $toggleQuery = $QUERY_TOGGLE_BUTTON.clone()
         $parent.append $toggleQuery
         $toggleQuery.click ->
@@ -210,18 +203,13 @@ window.GraphGist = ($, options) ->
 
     success = (data) ->
       consolr.input ''
-      if callback
-        callback()
-      if always
-        always()
-      return
+      callback?()
+      always?()
 
     error = (data) ->
       HAS_ERRORS = true
       console.log 'Error during INIT: ', data
-      if always
-        always()
-      return
+      always?()
 
     consolr.init {
       'init': 'none'
@@ -230,7 +218,6 @@ window.GraphGist = ($, options) ->
       'viz': 'none'
       'no_root': true
     }, success, error
-    return
 
   executeQueries = (final_success, always) ->
 
@@ -239,8 +226,12 @@ window.GraphGist = ($, options) ->
       createQueryResultButton $QUERY_OK_LABEL, $element, data.result, !showOutput
       $element.data 'visualization', data['visualization']
       $element.data 'data', data
-      renderTable($element, data)
-      return
+
+      $table_element = $element.parents('.listingblock').nextUntil('.listingblock', '.result-table')
+      renderTable($table_element, data) if $table_element?.length
+
+      $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
+      renderGraph($visualization_element, data) if $visualization_element?.length
 
     error = (data, $element) ->
       HAS_ERRORS = true
@@ -334,10 +325,61 @@ window.GraphGist = ($, options) ->
       $visContainer.height VISUALIZATION_HEIGHT
       performVisualizationRendering()
 
-  renderGraph = ($element, data) ->
+  renderGraph = ($visualization_element, data) ->
+    console.log 'renderGraph'
     most_recent_visulization_number++
-    $visContainer = $VISUALIZATION.clone().attr('id', "graph-visualization-#{counter}")
-    $element.parents('.content').find('.result-box').append($visContainer)
+    id = "graph-visualization-#{most_recent_visulization_number}"
+    $visContainer = $VISUALIZATION.clone().attr('id', id)
+
+    style = $visualization_element.attr('data-style')
+    # show_result_only = $visualization_element.attr('graph-mode')?.indexOf('result') != -1
+    show_result_only = $visualization_element.attr('graph-mode') and $visualization_element.attr('graph-mode').indexOf('result') != -1
+
+    selectedVisualization = handleSelection(data.visualization, show_result_only)
+
+    $visualization_element.replaceWith($visContainer)
+
+    $visContainer.height VISUALIZATION_HEIGHT
+
+    fullscreenClick = ->
+      if $visContainer.hasClass('fullscreen')
+        $('body').unbind 'keydown', keyHandler
+        contract()
+      else
+        expand()
+        $('body').keydown keyHandler
+
+    expand = ->
+      $visContainer.addClass 'fullscreen'
+      $visContainer.height '100%'
+      subscriptions.expand?()
+
+    contract = ->
+      $visContainer.removeClass 'fullscreen'
+      $visContainer.height 400
+      subscriptions.contract?()
+
+    sizeChange = ->
+      subscriptions.sizeChange?()
+
+    keyHandler = (event) ->
+      contract() if 'which' of event and event.which == 27
+
+    if data
+      $visualization_element.data('visualization', data)
+      rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style)
+      subscriptions = if 'subscriptions' of rendererHooks then rendererHooks['subscriptions'] else {}
+      actions = if 'actions' of rendererHooks then rendererHooks['actions'] else {}
+      $visualizationIcons = $VISUALIZATION_ICONS.clone().appendTo($visContainer)
+      $visualizationIcons.children('i.fullscreen-icon').click fullscreenClick
+      for iconName of actions
+        actionData = actions[iconName]
+        $I.clone().addClass(iconName).attr('title', actionData.title).appendTo($visualizationIcons).click actionData.func
+      $visContainer.mutate 'width', sizeChange
+    else
+      $visContainer.text('There is no graph to render.').addClass 'alert-error'
+
+
 
   handleSelection = (data, show_result_only) ->
     return data if !show_result_only
@@ -368,12 +410,14 @@ window.GraphGist = ($, options) ->
       links: links
     }
 
-  renderTable = ($element, data) ->
-    $tableContainer = $element.parents('.content').find('.result-box').append($TABLE_CONTAINER.clone())
+  $TABLE_CONTAINER = $('<div/>').addClass('result-table')
 
+  renderTable = ($table_element, data) ->
     # cypher.datatable
-    if !window.renderTable($tableContainer, data)
-      $tableContainer.text('Couldn\'t render the result table.').addClass 'alert-error'
+    $table_container = $TABLE_CONTAINER.clone()
+    $table_element.replaceWith($table_container)
+    if !window.renderTable($table_container, data)
+      $table_container.text("Couldn't render the result table.").addClass 'alert-error'
 
 
   replaceNewlines = (str) ->

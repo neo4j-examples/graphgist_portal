@@ -22,7 +22,6 @@ window.CypherConsole = (config, ready) ->
   $EDIT_BUTTON = $('<a class="edit-query ui icon button" data-toggle="tooltip" title="Edit in the console." href="#"><i class="ui edit icon"></i></a>')
   $TOGGLE_CONSOLE_HIDE_BUTTON = $('<a class="show-console-toggle ui icon button" data-toggle="tooltip"  title="Show or hide a Neo4j Console in order to try the examples in the GraphGist live."><i class="ui edit icon"></i> Show/Hide Live Console</a>')
   $resizeOverlay = $('<div id="resize-overlay"/>')
-  consolr = undefined
   consoleClass = if 'consoleClass' of config then config.consoleClass else 'console'
   contentId = if 'contentId' of config then config.contentId else 'content'
   contentMoveSelector = if 'contentMoveSelector' of config then config.contentMoveSelector else 'div.navbar'
@@ -37,7 +36,7 @@ window.CypherConsole = (config, ready) ->
       iframeWindow = $iframe[0].contentWindow
       return if !iframeWindow
 
-      consolr = new Consolr(iframeWindow, gistId, neo4j_version)
+      consolr = new Consolr(gistId, neo4j_version)
 
       ready?(consolr)
 
@@ -164,7 +163,10 @@ window.CypherConsole = (config, ready) ->
 
       $element.each ->
         $context = $(this)
-        addConsole $context, $('#' + contentId).data('gist-id'), ready
+
+        consolr = new Consolr($('#' + contentId).data('gist-id'), neo4j_version)
+
+        ready?(consolr)
 
       addPlayButtons()
     else
@@ -175,7 +177,7 @@ window.CypherConsole = (config, ready) ->
 
   return
 
-window.Consolr = (consoleWindow, gistId, neo4j_version) ->
+window.Consolr = (gistId, neo4j_version) ->
   sessionId = undefined
   query_queue = []
   currently_querying = false

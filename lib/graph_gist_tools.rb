@@ -16,7 +16,7 @@ module GraphGistTools
   COMMENT_REPLACEMENTS = {
     console: '<p class="console"><span class="loading">' + loading_image_tag + ' Running queries, preparing the console!</span></p>',
 
-    graph_result: '<h5 class="graph-visualization" data-style="{style}" graph-mode="result">' + loading_image_tag + '</h5>',
+    graph_result: '<h5 class="graph-visualization" data-style="{style}" graph-mode="result">Loading graph...' + loading_image_tag + '</h5>',
     graph: '<h5 class="graph-visualization" data-style="{style}">Loading graph...' + loading_image_tag + '</h5>',
     table: '<h5 class="result-table">Loading table...' + loading_image_tag + '</h5>',
 
