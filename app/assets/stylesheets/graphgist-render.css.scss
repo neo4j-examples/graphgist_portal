@@ -97,19 +97,16 @@ span.resize-vertical-handle {
 }
 
 #console-wrapper {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 99.7%;
-    z-index: 0;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 99.7%;
+  z-index: 0;
+  height: 23em;
 
-    &.fixed-console {
-        position: fixed;
-    }
-}
-
-#console-wrapper, p.console {
-    height: 23em;
+  &.fixed-console {
+    position: fixed;
+  }
 }
 
 #console-label {
@@ -135,16 +132,14 @@ p.console.fixed-console {
 
 
 p.console {
-    margin-bottom: 48px;
-    background: #eeeeee image-url('loading') no-repeat center center;
+  padding: 3em;
 
-    > span.loading {
-        display: block;
-        margin: 0 auto;
-        width: 100%;
-        padding: 4em 0 0 0;
-        text-align: center;
-    }
+  > span.loading {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+  }
 }
 
 
@@ -299,9 +294,38 @@ div.visualization > svg {
 #console-template {
   display: none;
 
+  .tabs {
+    .tab {
+      display: inline-block;
+      font-size: 1.7em;
+      padding: 0.5em;
+      border: 1px solid black;
+      margin: 0.5em 0;
+      border-radius: 0.2em;
+
+      &.active {
+        background-color: #B8D5DA
+      }
+    }
+  }
+
   .result {
     height: 500px;
-    border: 1px solid red;
+    display: none;
+
+    .table, .graph, .error, .loading {
+      height: 100%;
+      width: 100%;
+    }
+
+    .error pre {
+      white-space: pre-wrap;
+    }
+
+    .loading {
+      text-align: center;
+      padding-top: 3em;
+    }
   }
 }
 

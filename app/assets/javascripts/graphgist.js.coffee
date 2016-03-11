@@ -46,7 +46,6 @@ window.GraphGist = ($, options) ->
   $content = $('#' + content_id)
   $gistId = $('#gist-id')
   gist = new Gist($, $content)
-  #gist.getGistAndRenderPage(renderContent, DEFAULT_SOURCE);
   $gistId.keydown gist.readSourceId
   #});
 
@@ -221,36 +220,72 @@ window.GraphGist = ($, options) ->
 
   executeQueries = (final_success, always) ->
 
-    success = (data, $element) ->
-      showOutput = $element.parent().data('show-output')
-      createQueryResultButton $QUERY_OK_LABEL, $element, data.result, !showOutput
-      $element.data 'visualization', data['visualization']
-      $element.data 'data', data
-
-      $table_element = $element.parents('.listingblock').nextUntil('.listingblock', '.result-table')
-      renderTable($table_element, data) if $table_element?.length
-
-      $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
-      renderGraph($visualization_element, data) if $visualization_element?.length
-
-    error = (data, $element) ->
-      HAS_ERRORS = true
-      createQueryResultButton $QUERY_ERROR_LABEL, $element, data.error, false
-      return
-
     $elements = $('div.query-wrapper')
     $elements.each (index, element) ->
       $element = $(element)
       statement = $element.data('query')
 
-      consolr.query statement, $element, success, error, final_success, always
+      success = (data) ->
+        showOutput = $element.parent().data('show-output')
+        createQueryResultButton $QUERY_OK_LABEL, $element, data.result, !showOutput
+        $element.data 'visualization', data['visualization']
+        $element.data 'data', data
+
+        $table_element = $element.parents('.listingblock').nextUntil('.listingblock', '.result-table')
+        renderTable($table_element, data) if $table_element?.length
+
+        $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
+        renderGraph($visualization_element, data) if $visualization_element?.length
+
+      error = (data, $element) ->
+        HAS_ERRORS = true
+        createQueryResultButton $QUERY_ERROR_LABEL, $element, data.error, false
+
+      final_success = ->
+        if $('p.console').length
+          $('p.console').replaceWith $('#console-template').detach()
+        else
+          $('#console-template').show()
+
+      consolr.query statement, success, error, final_success, always
 
     always() if !$elements.length
 
+  display_result_section = (section_name, callback) ->
+    $('#console-template .result').show()
+    $('#console-template .result > *').hide()
+    $element = $("#console-template .result .#{section_name}")
+    $element.show()
+    callback?($element)
+
 
   $('#console-template .run').click ->
-    cypher = $('#console-template .cypher').val()
+    display_result_section 'loading'
 
+    statement = $('#console-template .cypher').val()
+
+    success = (data) ->
+      display_result_section 'graph',
+                             ($element) -> renderGraph($element, data, false)
+
+
+      display_result_section 'table',
+                             ($element) -> renderTable($element, data, false)
+
+    error = (data) ->
+      display_result_section 'error',
+                             ($element) ->
+                               $element.html("<pre>#{data.error}</pre>")
+
+    consolr.query statement, success, error
+
+  $('#console-template .tabs .tab').click (event) ->
+    $el = $(event.target)
+
+    $('#console-template .tabs .tab').removeClass('active')
+    $el.addClass('active')
+
+    display_result_section $el.data('tab')
 
   getSetupQuery = ->
     queries = []
@@ -325,8 +360,7 @@ window.GraphGist = ($, options) ->
       $visContainer.height VISUALIZATION_HEIGHT
       performVisualizationRendering()
 
-  renderGraph = ($visualization_element, data) ->
-    console.log 'renderGraph'
+  renderGraph = ($visualization_element, data, replace = true) ->
     most_recent_visulization_number++
     id = "graph-visualization-#{most_recent_visulization_number}"
     $visContainer = $VISUALIZATION.clone().attr('id', id)
@@ -337,7 +371,11 @@ window.GraphGist = ($, options) ->
 
     selectedVisualization = handleSelection(data.visualization, show_result_only)
 
-    $visualization_element.replaceWith($visContainer)
+    if replace
+      $visualization_element.replaceWith($visContainer)
+    else
+      $visualization_element.html('')
+      $visualization_element.append($visContainer)
 
     $visContainer.height VISUALIZATION_HEIGHT
 
@@ -412,10 +450,15 @@ window.GraphGist = ($, options) ->
 
   $TABLE_CONTAINER = $('<div/>').addClass('result-table')
 
-  renderTable = ($table_element, data) ->
+  renderTable = ($table_element, data, replace = true) ->
     # cypher.datatable
     $table_container = $TABLE_CONTAINER.clone()
-    $table_element.replaceWith($table_container)
+    if replace
+      $table_element.replaceWith($table_container)
+    else
+      $table_element.html('')
+      $table_element.append($table_container)
+
     if !window.renderTable($table_container, data)
       $table_container.text("Couldn't render the result table.").addClass 'alert-error'
 

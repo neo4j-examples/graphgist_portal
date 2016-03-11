@@ -187,45 +187,27 @@ window.Consolr = (gistId, neo4j_version) ->
 
   init = (params, success, error, data) ->
 
-
-  query = (queries, success, error, final_success, always, call_id = 0) ->
-    if queries.length
-      $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: queries[0]).done (result) ->
-        data = JSON.parse(result)
-
-        (if data.error then error else success)(data, call_id)
-
-        query(queries[1..-1], success, error, final_success, always, call_id + 1)
-      .fail ->
-        always()
-    else
-      $('#console-template').show()
-      final_success()
-      always()
-
   process_query_queue = (final_success, always) ->
     return if currently_querying
 
     currently_querying = true
-    {cypher, $element, success, error} = query_queue.shift()
+    {cypher, success, error} = query_queue.shift()
 
     $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher).done (result) ->
       data = JSON.parse(result)
 
-      (if data.error then error else success)(data, $element)
+      (if data.error then error else success)(data)
 
       if query_queue.length
         currently_querying = false
-        process_query_queue()
+        process_query_queue(final_success, always)
       else
-        $('#console-template').show()
-        final_success()
-        always()
+        final_success?()
+        always?()
         currently_querying = false
 
-
-  query = (cypher, $element, success, error, final_success, always) ->
-    query_queue.push {cypher, $element, success, error}
+  query = (cypher, success, error, final_success, always) ->
+    query_queue.push {cypher, success, error}
 
     process_query_queue(final_success, always)
 

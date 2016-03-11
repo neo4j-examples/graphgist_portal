@@ -13,13 +13,24 @@ script type="text/x-mathjax-config;executed=true"
 #console-template.ui.form
   .fields
     .fourteen.wide.field
-      input name="cypher" placeholder="Use Cypher here to query the dataset"
+      input name="cypher" class="cypher" placeholder="Use Cypher here to query the dataset"
 
     .two.wide.field
       .ui.submit.button.run Run
 
+  .tabs
+    .tab.active data-name="table" Table
+    .tab data-name="graph" Graph
+
   .result
-    Test
+    .table
+      | Table!
+    .graph
+      | Graph!
+    .error
+      | Error!
+    .loading
+      = image_tag 'loading.gif'
 
 = stylesheet_link_tag    'graphgist-render', media: 'all', 'data-turbolinks-track' => true
 
