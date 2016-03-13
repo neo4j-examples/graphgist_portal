@@ -78,7 +78,7 @@ window.props = (cell) ->
 
   if props.length then " {#{props.join(', ')}}" else ''
 
-window.renderTable = (element, data) ->
+window.renderTable = (element, data, options = {}) ->
   return false if !data or !'stats' of data or !'rows' of data.stats
 
   result = convertResult(data)
@@ -98,6 +98,8 @@ window.renderTable = (element, data) ->
     ]
     aaSorting: []
     bSortable: true
+    searching: if options.searching? then options.searching else true
+    paging: if options.paging? then options.paging else true
     oLanguage:
       oPaginate:
         sNext: ' >> '

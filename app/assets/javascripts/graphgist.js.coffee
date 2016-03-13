@@ -11,6 +11,13 @@
 # specific language governing permissions and limitations under the License.
 ###
 
+$.fn.goTo = ->
+    $('html, body').animate
+      scrollTop: "#{$(this).offset().top - 60}px"
+    , 'fast'
+
+    @ # for chaining...
+
 window.GraphGist = ($, options) ->
 
   HAS_ERRORS = false
@@ -78,9 +85,6 @@ window.GraphGist = ($, options) ->
         executeQueries (->), postProcessRendering
 
   postProcessRendering = ->
-    #$('span[data-toggle="tooltip"]').tooltip({'placement': 'left'});
-    #$('a.run-query,a.edit-query,a.show-console-toggle').tooltip({'placement': 'right'});
-    #$('.tooltip-below').tooltip({'placement': 'bottom'});
     $status = $('#status')
     if HAS_ERRORS
       $status.text 'Errors.'
@@ -89,8 +93,6 @@ window.GraphGist = ($, options) ->
       $status.text 'No Errors.'
       $status.addClass 'label-success'
     DotWrapper($).scan()
-    #initDisqus($content);
-    return
 
   processMathJAX = ->
     MathJax.Hub.Queue [
@@ -197,27 +199,6 @@ window.GraphGist = ($, options) ->
     # bootstrap formatting
     version
 
-  initConsole = (callback, always) ->
-    query = getSetupQuery()
-
-    success = (data) ->
-      consolr.input ''
-      callback?()
-      always?()
-
-    error = (data) ->
-      HAS_ERRORS = true
-      console.log 'Error during INIT: ', data
-      always?()
-
-    consolr.init {
-      'init': 'none'
-      'query': query or 'none'
-      'message': 'none'
-      'viz': 'none'
-      'no_root': true
-    }, success, error
-
   executeQueries = (final_success, always) ->
 
     $elements = $('div.query-wrapper')
@@ -244,38 +225,45 @@ window.GraphGist = ($, options) ->
       final_success = ->
         if $('p.console').length
           $('p.console').replaceWith $('#console-template').detach()
-        else
-          $('#console-template').show()
+
+        $('#console-template').show()
 
       consolr.query statement, success, error, final_success, always
 
     always() if !$elements.length
 
-  display_result_section = (section_name, callback) ->
+  display_result_section = (section_name) ->
     $('#console-template .result').show()
     $('#console-template .result > *').hide()
-    $element = $("#console-template .result .#{section_name}")
+    $element = $("#console-template .result > .#{section_name}")
     $element.show()
-    callback?($element)
 
+    $element
+
+  current_display_result_tab_name = ->
+    $('#console-template .tabs .tab.active').data('name')
 
   $('#console-template .run').click ->
     display_result_section 'loading'
 
+    $('#console-template').goTo()
+
     statement = $('#console-template .cypher').val()
 
     success = (data) ->
-      display_result_section 'graph',
-                             ($element) -> renderGraph($element, data, false)
+      display_result_tab_name = current_display_result_tab_name()
 
+      $element = display_result_section 'graph'
+      renderGraph($element, data, false)
 
-      display_result_section 'table',
-                             ($element) -> renderTable($element, data, false)
+      $element = display_result_section 'table'
+      renderTable($element, data, false, searching: false, paging: false)
+
+      display_result_section display_result_tab_name
 
     error = (data) ->
-      display_result_section 'error',
-                             ($element) ->
-                               $element.html("<pre>#{data.error}</pre>")
+      $element = display_result_section 'error'
+      $element.html("<pre>#{data.error}</pre>")
 
     consolr.query statement, success, error
 
@@ -285,80 +273,9 @@ window.GraphGist = ($, options) ->
     $('#console-template .tabs .tab').removeClass('active')
     $el.addClass('active')
 
-    display_result_section $el.data('tab')
-
-  getSetupQuery = ->
-    queries = []
-    $('#content pre.highlight.setup-query > div.query-wrapper').each ->
-      $wrapper = $(this)
-      query = $.trim($wrapper.data('query'))
-      if query.length == 0
-        return true
-      if query.slice(-1) == ';'
-        query = query.slice(0, -1)
-      queries.push $.trim(query)
-      $wrapper.prevAll('h5').first().each ->
-        $heading = $(this)
-        $heading.text $heading.text() + ' — this query has been used to initialize the console'
-        return
-      return
-    if queries.length == 0 then undefined else queries.join(';\n')
+    display_result_section $el.data('name')
 
   most_recent_visulization_number = 0
-
-  renderGraphs = ->
-    counter = 0
-    findPreviousQueryWrapper 'h5.graph-visualization', $content, ($heading, $wrapper) ->
-      visualization = $wrapper.data('visualization')
-      id = 'graph-visualization-' + counter++
-      $visContainer = $VISUALIZATION.clone().attr('id', id).insertAfter($heading)
-      style = $heading.attr('data-style')
-      show_result_only = $heading.attr('graph-mode') and $heading.attr('graph-mode').indexOf('result') != -1
-      selectedVisualization = handleSelection(visualization, show_result_only)
-
-      performVisualizationRendering = ->
-
-        fullscreenClick = ->
-          if $visContainer.hasClass('fullscreen')
-            $('body').unbind 'keydown', keyHandler
-            contract()
-          else
-            expand()
-            $('body').keydown keyHandler
-
-        expand = ->
-          $visContainer.addClass 'fullscreen'
-          $visContainer.height '100%'
-          subscriptions.expand?()
-
-        contract = ->
-          $visContainer.removeClass 'fullscreen'
-          $visContainer.height 400
-          subscriptions.contract?()
-
-        sizeChange = ->
-          subscriptions.sizeChange?()
-
-        keyHandler = (event) ->
-          contract() if 'which' of event and event.which == 27
-
-        if visualization
-          rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style)
-          subscriptions = if 'subscriptions' of rendererHooks then rendererHooks['subscriptions'] else {}
-          actions = if 'actions' of rendererHooks then rendererHooks['actions'] else {}
-          $visualizationIcons = $VISUALIZATION_ICONS.clone().appendTo($visContainer)
-          $visualizationIcons.children('i.fullscreen-icon').click fullscreenClick
-          for iconName of actions
-            actionData = actions[iconName]
-            $I.clone().addClass(iconName).attr('title', actionData.title).appendTo($visualizationIcons).click actionData.func
-          $visContainer.mutate 'width', sizeChange
-        else
-          $visContainer.text('There is no graph to render.').addClass 'alert-error'
-        return
-
-      $heading.remove()
-      $visContainer.height VISUALIZATION_HEIGHT
-      performVisualizationRendering()
 
   renderGraph = ($visualization_element, data, replace = true) ->
     most_recent_visulization_number++
@@ -450,7 +367,7 @@ window.GraphGist = ($, options) ->
 
   $TABLE_CONTAINER = $('<div/>').addClass('result-table')
 
-  renderTable = ($table_element, data, replace = true) ->
+  renderTable = ($table_element, data, replace = true, options = {}) ->
     # cypher.datatable
     $table_container = $TABLE_CONTAINER.clone()
     if replace
@@ -459,7 +376,7 @@ window.GraphGist = ($, options) ->
       $table_element.html('')
       $table_element.append($table_container)
 
-    if !window.renderTable($table_container, data)
+    if !window.renderTable($table_container, data, options)
       $table_container.text("Couldn't render the result table.").addClass 'alert-error'
 
 
@@ -496,46 +413,6 @@ window.GraphGist = ($, options) ->
         operation this
         return
       return
-    return
-
-  findPreviousQueryWrapper = (selector, context, operation) ->
-    $(selector, context).each ->
-      $selected = $(this)
-      findPreviousQueryWrapperSearch $selected, $selected, operation
-      return
-    return
-
-  findPreviousQueryWrapperSearch = ($container, $selected, operation) ->
-    done = false
-    done = findQueryWrapper($container, $selected, operation)
-    return true if done
-
-    $newContainer = $container.prev()
-    if $newContainer.length
-      return findPreviousQueryWrapperSearch($newContainer, $selected, operation)
-    else
-      $up = $container.parent()
-      done = $up.length == 0 or $up.prop('tagName').toUpperCase() == 'BODY'
-      if !done
-        return findPreviousQueryWrapperSearch($up, $selected, operation)
-    done
-
-  findQueryWrapper = ($container, $selected, operation) ->
-    done = false
-    $container.find('div.query-wrapper').last().each ->
-      operation $selected, $(this)
-      done = true
-      return
-    done
-
-  errorMessage = (message, gist) ->
-    messageText = undefined
-    if gist
-      messageText = "Something went wrong fetching the GraphGist "#{gist}":<p>#{message}</p>"
-    else
-      messageText = "<p>#{message}</p>"
-
-    $content.html "<div class=\"alert alert-block alert-error\"><h4>Error</h4>#{messageText}</div>"
     return
 
   if typeof options != 'undefined'
