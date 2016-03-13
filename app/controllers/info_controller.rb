@@ -85,8 +85,8 @@
   end
 
   def about
-    fail 'Bad commit!'
     @title = 'What is a GraphGist?'
+    fail 'Bad commit!'
   end
 
   def graphgist_recommendations
