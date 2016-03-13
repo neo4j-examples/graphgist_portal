@@ -1,4 +1,4 @@
-class InfoController < ApplicationController
+ InfoController < ApplicationController
   def featured_graphgists
     @title = 'Home'
 
@@ -85,6 +85,7 @@ class InfoController < ApplicationController
   end
 
   def about
+    fail 'Bad commit!'
     @title = 'What is a GraphGist?'
   end
 
