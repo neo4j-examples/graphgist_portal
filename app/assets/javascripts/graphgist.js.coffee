@@ -283,7 +283,6 @@ window.GraphGist = ($, options) ->
     $visContainer = $VISUALIZATION.clone().attr('id', id)
 
     style = $visualization_element.attr('data-style')
-    # show_result_only = $visualization_element.attr('graph-mode')?.indexOf('result') != -1
     show_result_only = $visualization_element.attr('graph-mode') and $visualization_element.attr('graph-mode').indexOf('result') != -1
 
     selectedVisualization = handleSelection(data.visualization, show_result_only)
@@ -334,36 +333,27 @@ window.GraphGist = ($, options) ->
     else
       $visContainer.text('There is no graph to render.').addClass 'alert-error'
 
+    $visContainer
+
 
 
   handleSelection = (data, show_result_only) ->
     return data if !show_result_only
 
-    nodes = []
     links = []
-    i = undefined
-    i = 0
-    while i < data.nodes.length
-      node = data.nodes[i]
-      if node.selected
-        node['$index'] = nodes.length
-        nodes.push node
-      i++
-    hasSelectedRels = data.links.filter((link) ->
-      link.selected
-    ).length > 0
-    i = 0
-    while i < data.links.length
-      link = data.links[i]
+
+    # debugger
+    nodes = (node for node in data.nodes when node.selected)
+
+    hasSelectedRels = data.links.filter((link) -> link.selected).length > 0
+
+    for link in data.links
       if link.selected or !hasSelectedRels and data.nodes[link.source].selected and data.nodes[link.target].selected
-        link.source = data.nodes[link.source]['$index']
-        link.target = data.nodes[link.target]['$index']
+        # link.source = data.nodes[link.source]['$index']
+        # link.target = data.nodes[link.target]['$index']
         links.push link
-      i++
-    {
-      nodes: nodes
-      links: links
-    }
+
+    {nodes, links}
 
   $TABLE_CONTAINER = $('<div/>').addClass('result-table')
 
