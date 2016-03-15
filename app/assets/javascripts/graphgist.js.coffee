@@ -216,6 +216,8 @@ window.GraphGist = ($, options) ->
         renderTable($table_element, data) if $table_element?.length
 
         $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
+        $visualization_element = $element.parents('.sect1').next().find('.graph-visualization:first') if $visualization_element.length is 0
+        # debugger if statement.match(/a\.slack = a\.latest_start - a\.earliest_start/)
         renderGraph($visualization_element, data) if $visualization_element?.length
 
       error = (data, $element) ->
