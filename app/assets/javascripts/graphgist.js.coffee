@@ -213,6 +213,7 @@ window.GraphGist = ($, options) ->
         $element.data 'data', data
 
         $table_element = $element.parents('.listingblock').nextUntil('.listingblock', '.result-table')
+        $table_element = $element.parents('.sect1').next().find('.result-table:first') if $table_element.length is 0
         renderTable($table_element, data) if $table_element?.length
 
         $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
