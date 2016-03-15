@@ -182,8 +182,14 @@ window.Consolr = (gistId, neo4j_version) ->
   query_queue = []
   currently_querying = false
 
+  graph_gist_portal_url = ->
+    if !window.graph_gist_portal_url?
+      throw("No window.graph_gist_portal_url defined.  That's important if you want to get your gist on...")
+
+    window.graph_gist_portal_url
+
   establishSession = ->
-    $.get('/graph_gists/query_session_id', neo4j_version: neo4j_version).done (result) -> sessionId = result
+    $.get("#{graph_gist_portal_url()}/graph_gists/query_session_id", neo4j_version: neo4j_version).done (result) -> sessionId = result
 
   init = (params, success, error, data) ->
 
@@ -193,7 +199,7 @@ window.Consolr = (gistId, neo4j_version) ->
     currently_querying = true
     {cypher, success, error} = query_queue.shift()
 
-    $.get("/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher).done (result) ->
+    $.get("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher).done (result) ->
       data = JSON.parse(result)
 
       (if data.error then error else success)(data)
