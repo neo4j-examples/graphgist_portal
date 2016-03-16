@@ -27,7 +27,7 @@ gem 'rake', '~> 10.5'
 gem 'dotenv-rails', github: 'bkeepers/dotenv', require: 'dotenv/rails-now'
 
 if ENV['DEBUG_SERVER']
-  gem 'graph_starter', path: '/Users/brian/github/neo4j-examples/graph_starter'
+  gem 'graph_starter', path: '../graph_starter'
 else
   gem 'graph_starter', github: 'neo4j-examples/graph_starter'
 end
