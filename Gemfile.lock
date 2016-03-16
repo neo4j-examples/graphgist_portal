@@ -9,11 +9,11 @@ GIT
 
 GIT
   remote: git://github.com/neo4j-examples/graph_starter.git
-  revision: b50a61f35e5319004062fddca64ce1ff187d1a8a
+  revision: d5d681679564aeaca03f0cb3eb3e8369129df2f0
   specs:
     graph_starter (0.16.1)
       babosa (= 1.0.2)
-      neo4j (~> 6.0.0)
+      neo4j (>= 7.0.0.rc.7)
       neo4jrb-paperclip (= 0.0.3)
       paperclip (~> 4.2.0)
       rails (~> 4.2.3)
@@ -42,9 +42,6 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_attr (0.9.0)
-      activemodel (>= 3.0.2, < 5.1)
-      activesupport (>= 3.0.2, < 5.1)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -151,7 +148,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.9.2)
+    faraday_middleware (0.10.0)
       faraday (>= 0.7.4, < 0.10)
     faraday_middleware-multi_json (0.0.6)
       faraday_middleware
@@ -238,16 +235,15 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.2.0)
-    neo4j (6.0.8)
-      active_attr (~> 0.8)
+    neo4j (7.0.0.rc.7)
       activemodel (~> 4)
       activesupport (~> 4)
-      neo4j-core (~> 6.0.0.rc.1)
+      neo4j-core (>= 6.0.0)
       orm_adapter (~> 0.5.0)
-    neo4j-core (6.0.6)
+    neo4j-core (6.1.2)
       activesupport
       faraday (~> 0.9.0)
-      faraday_middleware (~> 0.9.1)
+      faraday_middleware (~> 0.10.0)
       faraday_middleware-multi_json
       httparty
       httpclient
@@ -516,6 +512,7 @@ DEPENDENCIES
   mandrill_dm
   mathjax-rails
   meta_request
+  neo4j (= 7.0.0.rc.7)
   newrelic_rpm
   omniauth-github
   omniauth-twitter
