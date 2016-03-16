@@ -48,7 +48,7 @@ class GraphGist < GraphStarter::Asset
 
   before_validation :place_current_url, if: :url_changed?
 
-  json_methods :html
+  json_methods :html, :render_id
 
   def place_current_url
     place_url(url)
@@ -121,6 +121,10 @@ class GraphGist < GraphStarter::Asset
     place_current_url if status == 'candidate'
 
     self.raw_html
+  end
+
+  def render_id
+    id || Digest::SHA256.hexdigest(url)
   end
 
   class << self

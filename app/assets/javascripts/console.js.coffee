@@ -152,6 +152,15 @@ window.CypherConsole = (config, ready) ->
 
     url + '&no_root=true'
 
+  gist_id = ->
+    gist_id = $('#' + contentId).data('gist-id')
+
+    if !gist_id? || gist_id.length is 0
+      throw "The ##{contentId} element is supposed to have a data-gist-id attribute.  Where is it, punk?"
+
+    gist_id
+
+
   createConsole = (ready, elementClass, contentId) ->
     if $('code.language-cypher').length
       $element = $('p.' + elementClass).first()
@@ -164,7 +173,7 @@ window.CypherConsole = (config, ready) ->
       $element.each ->
         $context = $(this)
 
-        consolr = new Consolr($('#' + contentId).data('gist-id'), neo4j_version)
+        consolr = new Consolr(gist_id(), neo4j_version)
 
         ready?(consolr)
 
@@ -189,7 +198,7 @@ window.Consolr = (gistId, neo4j_version) ->
     window.graph_gist_portal_url
 
   establishSession = ->
-    $.get("#{graph_gist_portal_url()}/graph_gists/query_session_id", neo4j_version: neo4j_version).done (result) -> sessionId = result
+    $.ajax("#{graph_gist_portal_url()}/graph_gists/query_session_id", data: {neo4j_version: neo4j_version}, xhrFields: {withCredentials: true}).done (result) -> sessionId = result
 
   init = (params, success, error, data) ->
 
@@ -199,7 +208,7 @@ window.Consolr = (gistId, neo4j_version) ->
     currently_querying = true
     {cypher, success, error} = query_queue.shift()
 
-    $.get("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher).done (result) ->
+    $.ajax("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", data: {gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher}, xhrFields: {withCredentials: true}).done (result) ->
       data = JSON.parse(result)
 
       (if data.error then error else success)(data)

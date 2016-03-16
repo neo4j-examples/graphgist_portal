@@ -1,42 +1,5 @@
-#gist-body data-gist-id=graphgist.id class="#{'cached' if graphgist.cached?}"
+#gist-body data-gist-id=graphgist.render_id class="#{'cached' if graphgist.cached?}"
   - html = graphgist.html
   = html && html.html_safe
 
-script
-  | window.graph_gist_portal_url = '#{root_url[0..-2]}';
-
-script type="text/x-mathjax-config;executed=true"
-  |
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$'],['\\(','\\)']]
-      }
-    })
-
-#console-template.ui.form
-  .fields
-    .fourteen.wide.field
-      textarea name="cypher" class="cypher" placeholder="Use Cypher here to query the dataset"
-
-    .two.wide.field
-      .ui.submit.button.run Run
-
-  .tabs
-    .tab.active data-name="table" Table
-    .tab data-name="graph" Graph
-
-  .result
-    .table
-      | Table!
-    .graph
-      | Graph!
-    .error
-      | Error!
-    .loading
-      = image_tag 'loading.gif'
-
-= stylesheet_link_tag    'graphgist-render', media: 'all', 'data-turbolinks-track' => true
-
-= mathjax_tag
-= javascript_include_tag 'graphgist-render', 'data-turbolinks-track' => true
-
+= render partial: 'shared/graph_gist_render_footer', locals: {absolute_path: false}

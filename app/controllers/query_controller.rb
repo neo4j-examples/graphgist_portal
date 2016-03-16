@@ -8,14 +8,17 @@ class QueryController < ApplicationController
     '2.3' => 'neo4j-console-23.herokuapp.com'
   }
 
+  before_action :access_control_allow_all
+
   def graph_gist_query_session_id
     session_id = SecureRandom.uuid
     last_cache_keys[session_id] = nil
 
     # console_request(:init, params[:neo4j_version], '{"init":"none","query":"none","message":"none","viz":"none","no_root":true}:', session_id)
-    console_request(:init, params[:neo4j_version], '', session_id).tap do |result|
+    console_request(:init, params[:neo4j_version], '{"init":"none"}', session_id).tap do |result|
       # Proxying cookies from console app
       raw_cookie = result.env.dig('response_headers', 'set-cookie')
+      puts 'raw_cookie', raw_cookie.inspect
       if raw_cookie.present?
         _, name, value, expires = raw_cookie.match(/^([^=]+)=([^;]+).*Expires=([^;]+);/).to_a
         expires = DateTime.parse(expires)
@@ -41,8 +44,20 @@ class QueryController < ApplicationController
 
   private
 
+  ALLOWED_HOSTS = %w(neo4j.com neo4jdotcom localhost)
+  def access_control_allow_all
+    response.headers['Access-Control-Allow-Credentials'] = true
+    if request.env['HTTP_ORIGIN'].present?
+      http_origin_uri = URI(request.env['HTTP_ORIGIN'])
+      if ALLOWED_HOSTS.include?(http_origin_uri.host)
+        response.headers['Access-Control-Allow-Origin'] = "#{http_origin_uri.scheme}://#{http_origin_uri.host}"
+      end
+    end
+  end
+
   def handle_cache(id, cypher, neo4j_version, session_id)
-    if GraphGist.find(id).cached?
+    graph_gist = GraphGist.find_by(id: id)
+    if graph_gist && graph_gist.cached?
       cache_key = "#{last_cache_key}#{id}#{Digest::SHA256.base64digest(cypher)}#{neo4j_version}"
 
       Rails.cache.fetch(cache_key) { yield }.tap do

@@ -218,7 +218,6 @@ window.GraphGist = ($, options) ->
 
         $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
         $visualization_element = $element.parents('.sect1').next().find('.graph-visualization:first') if $visualization_element.length is 0
-        # debugger if statement.match(/a\.slack = a\.latest_start - a\.earliest_start/)
         renderGraph($visualization_element, data) if $visualization_element?.length
 
       error = (data, $element) ->
@@ -345,7 +344,6 @@ window.GraphGist = ($, options) ->
 
     links = []
 
-    # debugger
     nodes = (node for node in data.nodes when node.selected)
 
     hasSelectedRels = data.links.filter((link) -> link.selected).length > 0
