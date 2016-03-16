@@ -32,8 +32,6 @@ else
   gem 'graph_starter', github: 'neo4j-examples/graph_starter'
 end
 
-gem 'neo4j', '7.0.0.rc.7'
-
 gem 'aws-sdk', '< 2.0'
 
 gem 'puma'

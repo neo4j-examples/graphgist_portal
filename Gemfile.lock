@@ -512,7 +512,6 @@ DEPENDENCIES
   mandrill_dm
   mathjax-rails
   meta_request
-  neo4j (= 7.0.0.rc.7)
   newrelic_rpm
   omniauth-github
   omniauth-twitter
