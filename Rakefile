@@ -58,7 +58,7 @@ task :spider_verify, [:host] do |_t, args|
   failed_urls = []
   semaphore = Mutex.new
   puts "Checking #{urls_to_verify.size} urls..."
-  Parallel.each(urls_to_verify, in_threads: 8) do |url_to_verify|
+  Parallel.each(urls_to_verify, in_threads: 5) do |url_to_verify|
     semaphore.synchronize { puts "Checking #{url_to_verify}" }
 
     failed_urls << url_to_verify if !url_working?(url_to_verify)
