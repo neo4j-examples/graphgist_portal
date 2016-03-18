@@ -208,7 +208,7 @@ window.Consolr = (gistId, neo4j_version) ->
     currently_querying = true
     {cypher, success, error} = query_queue.shift()
 
-    $.ajax("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", data: {gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher}, xhrFields: {withCredentials: true}).done (result) ->
+    $.ajax("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", method: 'POST', data: {gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher}, xhrFields: {withCredentials: true}).done (result) ->
       data = JSON.parse(result)
 
       (if data.error then error else success)(data)
