@@ -147,5 +147,13 @@ class GraphGist < GraphStarter::Asset
         conn.basic_auth(uri.user, uri.password) if uri.user.present? && uri.password.present?
       end
     end
+
+    def from_graphgist_id(id)
+      raw_url = GraphGistTools.raw_url_for_graphgist_id(id)
+
+      return if !raw_url
+
+      GraphGist.find_by(raw_url: raw_url) || GraphGist.new(url: raw_url, title: 'Preview')
+    end
   end
 end
