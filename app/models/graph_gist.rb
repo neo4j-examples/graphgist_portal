@@ -46,7 +46,7 @@ class GraphGist < GraphStarter::Asset
 
   before_validation :place_current_url, if: :url_changed?
 
-  json_methods :html
+  json_methods :html, :persisted?
 
   def place_current_url
     place_url(url)

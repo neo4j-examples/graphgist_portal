@@ -142,7 +142,7 @@ class InfoController < ApplicationController
   def show_from_graphgist_id
     raw_url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
     if raw_url
-      @asset = GraphGist.new(url: raw_url, title: 'Preview')
+      @asset = GraphGist.find_by(raw_url: raw_url) || GraphGist.new(url: raw_url, title: 'Preview')
 
       @asset.place_current_url
     end
