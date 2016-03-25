@@ -12,7 +12,6 @@ class CorsMiddleware
         'Access-Control-Allow-Origin' => '*',
         'Access-Control-Request-Method' => '*'
       )
-      puts 'cors_headers', cors_headers.inspect
     end
     [status, cors_headers, body]
   end
