@@ -117,12 +117,9 @@ class GraphGist < GraphStarter::Asset
   def self.httpsize_img_srces(html)
     doc = Nokogiri::HTML(html)
 
-    doc.xpath('//img').each do |img|
-      src = img.attribute('src')
-      next if src.nil?
-
+    img_srcs(doc).each do |src|
       uri = URI(src.value)
-      next if uri.scheme == 'https'
+      next if uri.host.nil? || uri.scheme == 'https'
 
       uri.scheme = 'https' if host_is_httpsizable?(uri.host)
 
@@ -130,6 +127,10 @@ class GraphGist < GraphStarter::Asset
     end
 
     doc.xpath('//body').inner_html
+  end
+
+  def self.img_srcs(doc)
+    doc.xpath('//img').map { |img| img.attribute('src') }.compact
   end
 
   def self.host_is_httpsizable?(host)
