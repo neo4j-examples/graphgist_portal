@@ -29,6 +29,4 @@ RSpec.describe 'CORS header middleware', type: :request do
       )
     end
   end
-
 end
-
