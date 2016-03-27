@@ -55,7 +55,7 @@ gem 'rubocop'
 
 gem 'rollbar', '~> 2.8.1'
 
-gem 'aws-ses', '~> 0.6.0', :require => 'aws/ses'
+gem 'aws-ses', '~> 0.6.0', require: 'aws/ses'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
