@@ -48,7 +48,7 @@ class GraphGist < GraphStarter::Asset
 
   before_validation :place_current_url, if: :url_changed?
 
-  json_methods :html, :render_id
+  json_methods :html, :render_id, :persisted?
 
   def place_current_url
     place_url(url)
@@ -93,13 +93,50 @@ class GraphGist < GraphStarter::Asset
   end
 
   def place_attributes_from_document!(document)
-    self.raw_html = SANITIZER.sanitize(document.convert,
+    self.raw_html = SANITIZER.sanitize(self.class.httpsize_img_srces(document.convert),
                                        tags: VALID_HTML_TAGS,
                                        attributes: VALID_HTML_ATTRIBUTES)
 
     self.raw_html += GraphGistTools.metadata_html(document)
 
     self.title ||= document.doctitle if document.doctitle.present?
+  end
+
+  HOSTS_TRANSFORMABLE_TO_HTTPS = %w(
+    i\.imgur\.com
+    imgur\.com
+    .*\.photobucket\.com
+    .*\.postimg\.org
+    raw\.github\.com
+    raw\.githubusercontent\.com
+    .*\.giphy\.com
+    .*\.blogspot\.com
+    dl\.dropboxusercontent\.com
+    www\.dropbox\.com
+    docs\.google\.com
+  )
+
+  def self.httpsize_img_srces(html)
+    doc = Nokogiri::HTML(html)
+
+    img_srcs(doc).each do |src|
+      uri = URI(src.value)
+      next if uri.host.nil? || uri.scheme == 'https'
+
+      uri.scheme = 'https' if host_is_httpsizable?(uri.host)
+
+      src.value = uri.to_s
+    end
+
+    doc.xpath('//body').inner_html
+  end
+
+  def self.img_srcs(doc)
+    doc.xpath('//img').map { |img| img.attribute('src') }.compact
+  end
+
+  def self.host_is_httpsizable?(host)
+    HOSTS_TRANSFORMABLE_TO_HTTPS.any? { |test_host| host.match(/^#{test_host}$/) }
   end
 
   def place_associations_from_document!(document)
@@ -152,6 +189,14 @@ class GraphGist < GraphStarter::Asset
       end.tap do |conn|
         conn.basic_auth(uri.user, uri.password) if uri.user.present? && uri.password.present?
       end
+    end
+
+    def from_graphgist_id(id)
+      raw_url = GraphGistTools.raw_url_for_graphgist_id(id)
+
+      return if !raw_url
+
+      GraphGist.find_by(raw_url: raw_url) || GraphGist.new(url: raw_url, title: 'Preview')
     end
   end
 end

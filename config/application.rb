@@ -13,6 +13,8 @@ require 'sprockets/railtie'
 require 'neo4j/railtie'
 require 'rails/test_unit/railtie'
 
+require './app/middleware/cors_middleware'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -26,6 +28,7 @@ module GraphStarter
         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
       },
+      s3_protocol: :https,
       styles: {medium: '300x300>', thumb: '50x50>'},
       url: ':s3_domain_url',
       path: '/:class/:attachment/:id_partition/:style/:filename'
@@ -47,6 +50,8 @@ module GraphgistPortal
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.middleware.insert_before ActionDispatch::Static, CorsMiddleware
+
     config.eager_load_paths += [Rails.root.join('lib').to_s]
 
     config.assets.precompile += %w(
@@ -60,7 +65,7 @@ module GraphgistPortal
     config.neo4j.pretty_logged_cypher_queries = true
     config.neo4j.record_timestamps = true
 
-    config.action_mailer.delivery_method = :mandrill
+    config.action_mailer.delivery_method = :ses
 
     config.cache_store = :redis_store, ENV['REDIS_CACHE_URL']
     config.session_store :redis_store, {servers: ENV['REDIS_SESSION_URL']}

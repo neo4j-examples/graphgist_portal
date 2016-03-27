@@ -100,14 +100,11 @@ class InfoController < ApplicationController
   end
 
   def show_from_graphgist_id
-    raw_url = GraphGistTools.raw_url_for_graphgist_id(params[:id])
-    if raw_url
-      @asset = GraphGist.new(url: raw_url, title: 'Preview')
+    @asset = GraphGist.from_graphgist_id(params[:id])
 
-      @asset.place_current_url
-    end
+    @asset.place_current_url if @asset
 
-    if raw_url && @asset.valid?
+    if @asset && @asset.valid?
       @model_slug = 'graph_gists'
       render 'graph_starter/assets/show'
     else

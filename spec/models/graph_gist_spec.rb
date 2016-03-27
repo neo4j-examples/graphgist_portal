@@ -46,4 +46,38 @@ RSpec.describe GraphGistTools do
       it { should raise_error(TypeError, 'no implicit conversion of URI::Generic into String') }
     end
   end
+
+  describe '.httpsize_img_srces' do
+    subject { GraphGist.httpsize_img_srces(html) }
+
+    def self.it_should_transform_url_to_https(url)
+      fail 'URL is https' if url.match(%r{https://})
+      https_url = url.gsub(%r{^http://}, 'https://')
+
+      let_context html: "<img src=\"#{url}\">" do
+        it { should eq("<img src=\"#{https_url}\">") }
+      end
+    end
+
+    it_should_transform_url_to_https('http://i.imgur.com/7sjySPv.jpg')
+    it_should_transform_url_to_https('http://imgur.com/uNtRzl5.png')
+    it_should_transform_url_to_https('http://i1303.photobucket.com/albums/ag146/vanaepi/domain_zps1e9c28ba.png')
+    it_should_transform_url_to_https('http://s15.postimg.org/gtp6h02ff/rel_detail.png')
+    it_should_transform_url_to_https('http://raw.github.com/neo4j-contrib/gists/master/other/images/datacenter-management-1.PNG')
+    it_should_transform_url_to_https('http://raw.githubusercontent.com/rkuo/GraphGist/master/sfbaymap/images/Screen%20Shot%202014-08-29%20at%202.28.39%20PM%20sfbaymodel3trainto.png')
+    it_should_transform_url_to_https('http://media.giphy.com/media/ColbXXtLhOz0k/giphy.gif')
+    it_should_transform_url_to_https('http://4.bp.blogspot.com/-DRBXuNiBSYc/UGtkY6i5SJI/AAAAAAAAPTc/87jFEiw40pg/s486/link-blogger-faceboook-twitter-gplus-youtube-pinterest.png')
+
+    it_should_transform_url_to_https('http://dl.dropboxusercontent.com/u/67572426/img/pearson.png')
+    it_should_transform_url_to_https('http://www.dropbox.com/s/chrt0ikwf2ohx4a/egfr-erk-pathway.png?dl=1')
+    # it_should_transform_url_to_https('http://docs.google.com/drawings/d/1Wiue3RRsqenQm60trFDZgC3leeFzrFEGnlAigJnSXjg/pub?w=960&h=720')
+
+    let_context html: "<img src=\"http://some.random.com/test.png\">" do
+      it { should eq("<img src=\"http://some.random.com/test.png\">") }
+    end
+
+    let_context html: "<img foo=\"bar\">" do
+      it { should eq("<img foo=\"bar\">") }
+    end
+  end
 end
