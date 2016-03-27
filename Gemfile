@@ -101,5 +101,6 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'heroku-deflater'
   gem 'newrelic_rpm'
 end
