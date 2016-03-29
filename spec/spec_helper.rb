@@ -17,6 +17,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'dotenv'
+Dotenv.load('.env.test')
+
 def delete_db
   # clear_model_memory_caches
   VCR.turned_off do

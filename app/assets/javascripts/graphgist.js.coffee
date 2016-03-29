@@ -94,12 +94,12 @@ window.GraphGist = ($, options) ->
       $status.addClass 'label-success'
     DotWrapper($).scan()
 
-  processMathJAX = ->
-    MathJax.Hub.Queue [
-      'Typeset'
-      MathJax.Hub
-    ]
-    return
+  #processMathJAX = ->
+  #  MathJax.Hub.Queue [
+  #    'Typeset'
+  #    MathJax.Hub
+  #  ]
+  #  return
 
   formUrl = (url, title, author, twitter) ->
     'https://docs.google.com/forms/d/1blgZoRZ6vLbpnqdJx3b5c4BkO_mgmD-hgdRQTMm7kc4/viewform?entry.718349727=' + encodeURIComponent(url) + '&entry.1981612324=' + encodeURIComponent(if title.length > 18 then title.substr(0, title.length - 18) else title) + '&entry.1328778537=' + encodeURIComponent(author) + '&entry.507462214=' + encodeURIComponent(twitter)
@@ -152,7 +152,7 @@ window.GraphGist = ($, options) ->
     $('h2[id]').css(cursor: 'pointer').click ->
       window.location.href = window.location.href.replace(/($|#.+?$)/, '#' + $(this).attr('id'))
 
-    processMathJAX()
+    #processMathJAX()
     findQuery 'span.hide-query', $content, (codeElement) ->
       $(codeElement.parentNode).addClass 'hide-query'
 
@@ -220,7 +220,7 @@ window.GraphGist = ($, options) ->
         $visualization_element = $element.parents('.sect1').next().find('.graph-visualization:first') if $visualization_element.length is 0
         renderGraph($visualization_element, data) if $visualization_element?.length
 
-      error = (data, $element) ->
+      error = (data) ->
         HAS_ERRORS = true
         createQueryResultButton $QUERY_ERROR_LABEL, $element, data.error, false
 

@@ -97,6 +97,8 @@ group :test do
 
   gem 'cucumber'
   gem 'rspec-expectations'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :production do

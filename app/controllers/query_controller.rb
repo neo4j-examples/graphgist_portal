@@ -46,7 +46,7 @@ class QueryController < ApplicationController
 
   ALLOWED_HOSTS = %w(neo4j.com neo4jdotcom localhost)
   def access_control_allow_all
-    response.headers['Access-Control-Allow-Credentials'] = true
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
     if request.env['HTTP_ORIGIN'].present?
       http_origin_uri = URI(request.env['HTTP_ORIGIN'])
       if ALLOWED_HOSTS.include?(http_origin_uri.host)
