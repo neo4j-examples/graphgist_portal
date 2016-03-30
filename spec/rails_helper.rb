@@ -12,6 +12,23 @@ require 'capybara/rspec'
 #   Capybara::Selenium::Driver.new(app, browser: :chrome)
 # end
 
+if ENV['CI']
+  Sauce.config do |config|
+    config[:browsers] = [
+      ['Windows 7', 'Internet Explorer', '8'],
+      ['OS X 10.8', 'Safari', '6'],
+      # ['Windows 7', 'Firefox', '27'],
+      # ['Windows 7', 'Chrome', nil],
+      # ['Linux', 'Chrome', nil],
+    ]
+    # config['record-video'] = false
+    # config['record-screenshots'] = false
+    config[:sauce_connect_4_executable] = Rails.root.join('bin', 'sc')
+    config[:start_tunnel] = true
+    config[:start_local_application] = false
+  end
+end
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

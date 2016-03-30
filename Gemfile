@@ -98,7 +98,10 @@ group :test do
   gem 'cucumber'
   gem 'rspec-expectations'
   gem 'capybara'
+  gem 'launchy'
   gem 'selenium-webdriver'
+  gem 'sauce'
+  gem 'sauce-connect'
 end
 
 group :production do

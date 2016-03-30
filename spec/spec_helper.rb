@@ -33,9 +33,11 @@ VCR.configure do |config|
   config.cassette_library_dir = 'fixtures/vcr_cassettes'
   config.hook_into :webmock # or :fakeweb
   config.ignore_localhost = true
+  config.ignore_hosts 'ondemand.saucelabs.com', 'saucelabs.com'
 end
 WebMock.allow_net_connect!
 
+require 'sauce/capybara' if ENV['CI']
 
 require 'factory_girl'
 
