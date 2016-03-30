@@ -31,16 +31,12 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       expect(page).to have_link('http://www.link.to/', href: 'http://www.link.to/')
       expect(page).to have_link('Link Text', href: 'http://example.org')
 
-      #require 'pry'
-      #binding.pry
-
       # Gist loaded from source
       expect(page).to have_content 'GraphGist created to test the various features available to GraphGist rendering'
 
       # Images are displayed and converted to https when appropriate
       expect(page.find('img[src*="https://i.imgur.com/5giAsjq.png"]')).to be_a(Capybara::Node::Element)
 
-      sleep(999999999)
       text = 'Graph result'
       node_count = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node').length")
       expect(node_count).to eq(2)
