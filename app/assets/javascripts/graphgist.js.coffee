@@ -199,6 +199,48 @@ window.GraphGist = ($, options) ->
     # bootstrap formatting
     version
 
+  # Starting with an element, this finds the next element
+  # going down the page, browsing the hierachy to find it
+  find_next_globally = ($element, selector) ->
+    current_element = $element
+    while current_element
+      $matching_siblings = current_element.nextAll(selector)
+      return $matching_siblings[0] if $matching_siblings.length
+
+      for sibling in current_element.nextAll()
+        $matching_cousins = $(sibling).find(selector)
+
+        return $matching_cousins[0] if $matching_cousins.length
+
+      current_element = $(current_element).parent()
+
+    null
+
+  find_all_next_globally = (element, selector) ->
+    current_element = element
+    result = []
+    while current_element
+      $current_element = $(current_element)
+      result = result.concat $current_element.nextAll(selector).get()
+
+      for sibling in $current_element.nextAll()
+        result = result.concat $(sibling).find(selector).get()
+
+      current_element = $current_element.parent()[0]
+
+    result
+
+
+  find_between = (element1, element2, selector) ->
+    element1_nexts = find_all_next_globally(element1, selector)
+    element2_nexts = find_all_next_globally(element2, selector)
+
+    if element1_nexts.length > element2_nexts.length
+      _(element1_nexts).difference(element2_nexts)
+    else
+      _(element2_nexts).difference(element1_nexts)
+
+
   executeQueries = (final_success, always) ->
 
     $elements = $('div.query-wrapper')
@@ -212,13 +254,16 @@ window.GraphGist = ($, options) ->
         $element.data 'visualization', data['visualization']
         $element.data 'data', data
 
-        $table_element = $element.parents('.listingblock').nextUntil('.listingblock', '.result-table')
-        $table_element = $element.parents('.sect1').next().find('.result-table:first') if $table_element.length is 0
-        renderTable($table_element, data) if $table_element?.length
+        next_query_wrapper = find_next_globally($element, 'div.query-wrapper')
 
-        $visualization_element = $element.parents('.listingblock').nextUntil('.listingblock', '.graph-visualization')
-        $visualization_element = $element.parents('.sect1').next().find('.graph-visualization:first') if $visualization_element.length is 0
-        renderGraph($visualization_element, data) if $visualization_element?.length
+        table_elements = find_between($element, next_query_wrapper, '.result-table')
+        for table_element in table_elements
+          renderTable(table_element, data)
+
+        visualization_elements = find_between($element, next_query_wrapper, '.graph-visualization')
+
+        for visualization_element in visualization_elements
+          renderGraph(visualization_element, data)
 
       error = (data) ->
         HAS_ERRORS = true
@@ -279,7 +324,8 @@ window.GraphGist = ($, options) ->
 
   most_recent_visulization_number = 0
 
-  renderGraph = ($visualization_element, data, replace = true) ->
+  renderGraph = (visualization_element, data, replace = true) ->
+    $visualization_element = $(visualization_element)
     most_recent_visulization_number++
     id = "graph-visualization-#{most_recent_visulization_number}"
     $visContainer = $VISUALIZATION.clone().attr('id', id)
@@ -294,6 +340,8 @@ window.GraphGist = ($, options) ->
     else
       $visualization_element.html('')
       $visualization_element.append($visContainer)
+
+    console.log {$visContainer, data}
 
     $visContainer.height VISUALIZATION_HEIGHT
 
@@ -358,7 +406,8 @@ window.GraphGist = ($, options) ->
 
   $TABLE_CONTAINER = $('<div/>').addClass('result-table')
 
-  renderTable = ($table_element, data, replace = true, options = {}) ->
+  renderTable = (table_element, data, replace = true, options = {}) ->
+    $table_element = $(table_element)
     # cypher.datatable
     $table_container = $TABLE_CONTAINER.clone()
     if replace

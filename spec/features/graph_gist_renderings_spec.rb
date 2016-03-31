@@ -38,15 +38,15 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       expect(page.find('img[src*="https://i.imgur.com/5giAsjq.png"]')).to be_a(Capybara::Node::Element)
 
       text = 'Graph result'
-      node_count = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node').length")
+      node_count = page.evaluate_script("$($('p:contains(#{text})').nextAll('.visualization')[0]).find('svg g.node').length")
       expect(node_count).to eq(2)
 
       text = 'Full graph'
-      node_count = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node').length")
+      node_count = page.evaluate_script("$($('p:contains(#{text})').nextAll('.visualization')[0]).find('svg g.node').length")
       expect(node_count).to eq(6)
 
       # Table displays results from Neo4j server
-      expect(table_data_following('Number of people:')).to eq ['count(a)' => '6']
+      expect(table_data_following('Number of people:')).to eq ['count(a)' => '5']
 
 
       # Testing for a bug where table doesn't display when separated from it's query by a header
