@@ -201,18 +201,20 @@ window.GraphGist = ($, options) ->
 
   # Starting with an element, this finds the next element
   # going down the page, browsing the hierachy to find it
-  find_next_globally = ($element, selector) ->
-    current_element = $element
+  find_next_globally = (element, selector) ->
+    current_element = element
     while current_element
-      $matching_siblings = current_element.nextAll(selector)
+      $current_element = $(current_element)
+
+      $matching_siblings = $current_element.nextAll(selector)
       return $matching_siblings[0] if $matching_siblings.length
 
-      for sibling in current_element.nextAll()
+      for sibling in $current_element.nextAll()
         $matching_cousins = $(sibling).find(selector)
 
         return $matching_cousins[0] if $matching_cousins.length
 
-      current_element = $(current_element).parent()
+      current_element = $current_element.parent()[0]
 
     null
 
@@ -256,11 +258,18 @@ window.GraphGist = ($, options) ->
 
         next_query_wrapper = find_next_globally($element, 'div.query-wrapper')
 
-        table_elements = find_between($element, next_query_wrapper, '.result-table')
+        table_elements = if next_query_wrapper?
+          find_between($element, next_query_wrapper, '.result-table')
+        else
+          find_all_next_globally($element, '.result-table')
+
         for table_element in table_elements
           renderTable(table_element, data)
 
-        visualization_elements = find_between($element, next_query_wrapper, '.graph-visualization')
+        visualization_elements = if next_query_wrapper?
+          find_between($element, next_query_wrapper, '.graph-visualization')
+        else
+          find_all_next_globally($element, '.graph-visualization')
 
         for visualization_element in visualization_elements
           renderGraph(visualization_element, data)
@@ -340,8 +349,6 @@ window.GraphGist = ($, options) ->
     else
       $visualization_element.html('')
       $visualization_element.append($visContainer)
-
-    console.log {$visContainer, data}
 
     $visContainer.height VISUALIZATION_HEIGHT
 
