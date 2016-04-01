@@ -6,13 +6,14 @@ class CorsMiddleware
 
   def call(env)
     status, headers, body = @app.call(env)
-    cors_headers = headers.dup
-    if env['REQUEST_PATH'] && env['REQUEST_PATH'].match(/woff2$/)
-      cors_headers = cors_headers.merge(
+    new_headers = headers.dup
+
+    if env['PATH_INFO'] && env['PATH_INFO'].match(/woff2$/)
+      new_headers = new_headers.merge(
         'Access-Control-Allow-Origin' => '*',
         'Access-Control-Request-Method' => '*'
       )
     end
-    [status, cors_headers, body]
+    [status, new_headers, body]
   end
 end
