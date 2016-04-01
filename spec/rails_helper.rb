@@ -11,13 +11,6 @@ require 'capybara/rspec'
 
 if ENV['CI']
   Sauce.config do |config|
-    config[:browsers] = [
-      ['Windows 7', 'Internet Explorer', '8'],
-      ['OS X 10.8', 'Safari', '6'],
-      # ['Windows 7', 'Firefox', '27'],
-      # ['Windows 7', 'Chrome', nil],
-      # ['Linux', 'Chrome', nil],
-    ]
     # config['record-video'] = false
     # config['record-screenshots'] = false
     config[:sauce_connect_4_executable] = Rails.root.join('bin', 'sc')
