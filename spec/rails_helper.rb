@@ -17,10 +17,6 @@ if ENV['CI']
     config[:start_tunnel] = true
     config[:start_local_application] = false
   end
-else
-  # Capybara.register_driver :selenium do |app|
-  #   Capybara::Selenium::Driver.new(app, browser: :chrome)
-  # end
 end
 
 # Add additional requires below this line. Rails is not loaded until this point!

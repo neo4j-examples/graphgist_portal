@@ -15,12 +15,14 @@ RSpec.describe QueryController, type: :controller do
     end
   end
 
+  let(:default_faraday_result) { double('default faraday result', env: {}, body: 'OK', status: 200) }
+
   describe 'graph_gist_query_session_id' do
     it 'should return a SecureRandom.uuid and make a request to the console app' do
       expect(SecureRandom).to receive(:uuid).exactly(1).times.and_return('the-id')
       expect(default_connection).to receive(:post)
-        .with("http://#{expected_host}/console/init", '', 'X-Session': 'the-id')
-        .exactly(1).times
+        .with("http://#{expected_host}/console/init", '{"init":"none"}', 'X-Session': 'the-id', 'Cookie': '')
+        .exactly(1).times.and_return(default_faraday_result)
 
       get(:graph_gist_query_session_id)
     end
@@ -30,13 +32,13 @@ RSpec.describe QueryController, type: :controller do
     let(:graph_gist) { create(:graph_gist, cached: true) }
     let(:neo4j_version_param) { '2.3' }
 
-    def request_graphgist_session_id
+    def request_graphgist_session_id # rubocop:disable Metrics/AbcSize
       uuid = original_secure_random_uuid_method.call
       allow(SecureRandom).to receive(:uuid).and_return(uuid)
 
       expect(default_connection).to receive(:post)
-        .with("http://#{expected_host}/console/init", '', 'X-Session': uuid)
-        .exactly(1).times
+        .with("http://#{expected_host}/console/init", '{"init":"none"}', 'X-Session': uuid, 'Cookie': '')
+        .exactly(1).times.and_return(default_faraday_result)
 
       get(:graph_gist_query_session_id)
       response.body
@@ -50,15 +52,13 @@ RSpec.describe QueryController, type: :controller do
           cypher: cypher)
     end
 
-    let(:default_faraday_result) { double('default faraday result', body: 'OK', status: 200) }
-
     let(:session_a_id) { request_graphgist_session_id }
     let(:session_b_id) { request_graphgist_session_id }
 
     let_context neo4j_version_param: '2.1' do
       it 'uses the correct URL' do
         expect(default_connection).to receive(:post)
-          .with('http://neo4j-console-21.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+          .with('http://neo4j-console-21.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
           .and_return(default_faraday_result)
           .exactly(1).times
 
@@ -75,7 +75,7 @@ RSpec.describe QueryController, type: :controller do
 
     it 'caches the the inital query' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
@@ -88,12 +88,12 @@ RSpec.describe QueryController, type: :controller do
 
     it 'caches two queries' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
@@ -111,22 +111,22 @@ RSpec.describe QueryController, type: :controller do
 
     it 'does not cache if earlier queries change' do
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 
       expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_b_id)
+        .with('http://neo4j-console-23.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_b_id, 'Cookie': '')
         .and_return(default_faraday_result)
         .exactly(1).times
 

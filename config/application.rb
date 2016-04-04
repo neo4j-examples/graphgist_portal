@@ -68,6 +68,6 @@ module GraphgistPortal
     config.action_mailer.delivery_method = :ses
 
     config.cache_store = :redis_store, ENV['REDIS_CACHE_URL']
-    config.session_store :redis_store, {servers: ENV['REDIS_SESSION_URL']}
+    config.session_store :redis_store, servers: ENV['REDIS_SESSION_URL']
   end
 end

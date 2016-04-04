@@ -1,5 +1,5 @@
+# For proxying queries to the console app
 class QueryController < ApplicationController
-
   CONSOLE_HOSTS = {
     '1.9' => 'neo4j-console-19.herokuapp.com',
     '2.0' => 'neo4j-console-20.herokuapp.com',
@@ -18,15 +18,20 @@ class QueryController < ApplicationController
     console_request(:init, params[:neo4j_version], '{"init":"none"}', session_id).tap do |result|
       # Proxying cookies from console app
       raw_cookie = result.env.dig('response_headers', 'set-cookie')
-      puts 'raw_cookie', raw_cookie.inspect
       if raw_cookie.present?
-        _, name, value, expires = raw_cookie.match(/^([^=]+)=([^;]+).*Expires=([^;]+);/).to_a
-        expires = DateTime.parse(expires)
-        cookies["graphgist-query-#{name}"] = {value: value, expires: expires}
+        cookie_data = parse_raw_cookie(raw_cookie)
+        cookies["graphgist-query-#{cookie_data.name}"] = {value: cookie_data.value, expires: cookie_data.expires}
       end
     end
 
     render text: session_id
+  end
+
+  CookieData = Struct.new(:name, :value, :expires)
+  def parse_raw_cookie(raw_cookie)
+    cookie_data = CookieData.new(*raw_cookie.match(/^([^=]+)=([^;]+).*Expires=([^;]+);/).to_a[1, 3])
+    cookie_data.expires = DateTime.parse(cookie_data.expires).in_time_zone('GMT')
+    cookie_data
   end
 
   # gist_load_session given when loading gist?
@@ -38,7 +43,7 @@ class QueryController < ApplicationController
 
     render text: result
   rescue BadResultError => e
-    puts e.message
+    logger.debug e.message
     render '', status: 500
   end
 
@@ -46,13 +51,14 @@ class QueryController < ApplicationController
 
   ALLOWED_HOSTS = %w(neo4j.com neo4jdotcom localhost)
   def access_control_allow_all
+    return if !http_origin_uri || !ALLOWED_HOSTS.include?(http_origin_uri.host)
+
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    if request.env['HTTP_ORIGIN'].present?
-      http_origin_uri = URI(request.env['HTTP_ORIGIN'])
-      if ALLOWED_HOSTS.include?(http_origin_uri.host)
-        response.headers['Access-Control-Allow-Origin'] = "#{http_origin_uri.scheme}://#{http_origin_uri.host}"
-      end
-    end
+    response.headers['Access-Control-Allow-Origin'] = "#{http_origin_uri.scheme}://#{http_origin_uri.host}"
+  end
+
+  def http_origin_uri
+    request.env['HTTP_ORIGIN'].present? && URI(request.env['HTTP_ORIGIN'])
   end
 
   def handle_cache(id, cypher, neo4j_version, session_id)
