@@ -10,6 +10,8 @@ class QueryController < ApplicationController
 
   before_action :access_control_allow_all
 
+  skip_before_filter :verify_authenticity_token
+
   def graph_gist_query_session_id
     session_id = SecureRandom.uuid
     last_cache_keys[session_id] = nil

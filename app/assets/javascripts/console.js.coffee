@@ -191,6 +191,8 @@ window.Consolr = (gistId, neo4j_version) ->
   query_queue = []
   currently_querying = false
 
+  authenticity_token = $('meta[name=csrf-token]').attr('content')
+
   graph_gist_portal_url = ->
     if !window.graph_gist_portal_url?
       throw("No window.graph_gist_portal_url defined.  That's important if you want to get your gist on...")
@@ -198,7 +200,9 @@ window.Consolr = (gistId, neo4j_version) ->
     window.graph_gist_portal_url
 
   establishSession = ->
-    $.ajax("#{graph_gist_portal_url()}/graph_gists/query_session_id", data: {neo4j_version: neo4j_version}, xhrFields: {withCredentials: true}).done (result) -> sessionId = result
+    $.ajax("#{graph_gist_portal_url()}/graph_gists/query_session_id",
+           method: 'GET',
+           data: {neo4j_version: neo4j_version}, xhrFields: {withCredentials: true}).done (result) -> sessionId = result
 
   init = (params, success, error, data) ->
 
@@ -208,7 +212,9 @@ window.Consolr = (gistId, neo4j_version) ->
     currently_querying = true
     {cypher, success, error} = query_queue.shift()
 
-    $.ajax("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query", method: 'POST', data: {gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher}, xhrFields: {withCredentials: true}).done (result) ->
+    $.ajax("#{graph_gist_portal_url()}/graph_gists/#{gistId}/query",
+           method: 'POST',
+           data: {gist_load_session: sessionId, neo4j_version: neo4j_version, cypher: cypher, xhrFields: {withCredentials: true}}).done (result) ->
       data = JSON.parse(result)
 
       (if data.error then error else success)(data)

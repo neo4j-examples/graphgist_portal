@@ -1,3 +1,4 @@
+#= require graph_starter/underscore
 #= require jquery-ui.min
 #= require d3.min
 #= require jquery.dataTables
