@@ -76,9 +76,11 @@ RSpec.describe GraphGistTools do
       it { should eq("<img src=\"http://some.random.com/test.png\">") }
     end
 
+    # rubocop:disable Metrics/LineLength
     let_context html: "<img src=\"http://yuml.me/diagram/scruffy/class/[Speaker%7C+serial+;+twitter+]-SPEAKS_AT-0..*%3E[Event%7C+serial+],[Event]-AT_VENUE%3E[Venue%7C+serial+].png\">" do
       it { should eq("<img src=\"http://yuml.me/diagram/scruffy/class/%5BSpeaker%7C+serial+;+twitter+%5D-SPEAKS_AT-0..*%3E%5BEvent%7C+serial+%5D,%5BEvent%5D-AT_VENUE%3E%5BVenue%7C+serial+%5D.png\">") }
     end
+    # rubocop:enable Metrics/LineLength
 
     let_context html: "<img foo=\"bar\">" do
       it { should eq("<img foo=\"bar\">") }
