@@ -19,14 +19,18 @@ class QueryController < ApplicationController
     # console_request(:init, params[:neo4j_version], '{"init":"none","query":"none","message":"none","viz":"none","no_root":true}:', session_id)
     console_request(:init, params[:neo4j_version], '{"init":"none"}', session_id).tap do |result|
       # Proxying cookies from console app
-      raw_cookie = result.env.dig('response_headers', 'set-cookie')
-      if raw_cookie.present?
-        cookie_data = parse_raw_cookie(raw_cookie)
-        cookies["graphgist-query-#{cookie_data.name}"] = {value: cookie_data.value, expires: cookie_data.expires}
-      end
+      set_cookies_from_result(result)
     end
 
     render text: session_id
+  end
+
+  def set_cookies_from_result(faraday_result)
+    raw_cookie = faraday_result.env.dig('response_headers', 'set-cookie')
+    if raw_cookie.present?
+      cookie_data = parse_raw_cookie(raw_cookie)
+      cookies["graphgist-query-#{cookie_data.name}"] = {value: cookie_data.value, expires: cookie_data.expires}
+    end
   end
 
   CookieData = Struct.new(:name, :value, :expires)
@@ -57,6 +61,7 @@ class QueryController < ApplicationController
 
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.headers['Access-Control-Allow-Origin'] = "#{http_origin_uri.scheme}://#{http_origin_uri.host}"
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
   end
 
   def http_origin_uri
