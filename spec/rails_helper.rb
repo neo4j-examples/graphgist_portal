@@ -13,7 +13,7 @@ if ENV['CI']
   Sauce.config do |config|
     # config['record-video'] = false
     # config['record-screenshots'] = false
-    config[:sauce_connect_4_executable] = Rails.root.join('bin', 'sc')
+    config[:sauce_connect_4_executable] = Rails.root.join('bin', 'sc_linux')
     config[:start_tunnel] = true
     config[:start_local_application] = false
   end
