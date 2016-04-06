@@ -120,12 +120,16 @@ class GraphGist < GraphStarter::Asset
     doc = Nokogiri::HTML(html)
 
     img_srcs(doc).each do |src|
-      uri = URI(src.value)
-      next if uri.host.nil? || uri.scheme == 'https'
+      begin
+        uri = URI(src.value)
+        next if uri.host.nil? || uri.scheme == 'https'
 
-      uri.scheme = 'https' if host_is_httpsizable?(uri.host)
+        uri.scheme = 'https' if host_is_httpsizable?(uri.host)
 
-      src.value = uri.to_s
+        src.value = uri.to_s
+      rescue URI::InvalidURIError
+        nil
+      end
     end
 
     doc.xpath('//body').inner_html
