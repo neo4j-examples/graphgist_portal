@@ -313,7 +313,7 @@ window.GraphGist = ($, options) ->
       renderGraph($element, data, false)
 
       $element = display_result_section 'table'
-      renderTable($element, data, false, searching: false, paging: false)
+      renderTable($element[0], data, false, searching: false, paging: false)
 
       display_result_section display_result_tab_name
 
