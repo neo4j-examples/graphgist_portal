@@ -13,7 +13,8 @@ if ENV['CI']
   Sauce.config do |config|
     # config['record-video'] = false
     # config['record-screenshots'] = false
-    config[:sauce_connect_4_executable] = Rails.root.join('bin', 'sc_linux')
+    bin = RUBY_PLATFORM.match(/darwin/) ? 'sc_mac' : 'sc_linux'
+    config[:sauce_connect_4_executable] = Rails.root.join('bin', bin)
     config[:start_tunnel] = true
     config[:start_local_application] = false
   end

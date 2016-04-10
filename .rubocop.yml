@@ -11,9 +11,11 @@ Style/HashSyntax:
   EnforcedStyle: ruby19
 
 AllCops:
-  RunRailsCops: true
   DisplayCopNames: true
   DisplayStyleGuide: true
+
+Rails:
+  Enabled: true
 
 # Cop supports --auto-correct.
 Style/SpaceInsideHashLiteralBraces:
@@ -25,6 +27,8 @@ Metrics/LineLength:
   Exclude:
     - 'spec/lib/graph_gist_tools_spec.rb'
 
+Style/SignalException:
+  EnforcedStyle: semantic
 
 #---------------------------
 # Don't intend to fix these:
