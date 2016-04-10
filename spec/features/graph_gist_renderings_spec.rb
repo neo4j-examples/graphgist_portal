@@ -16,9 +16,6 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
   it 'renders a graph gist' do
     visit '/graph_gists/' + graph_gist.id
 
-    # Load javascript which converts HTML tables to JSON
-    page.execute_script(Rails.root.join('spec/table_to_json.js').read)
-
     within('#gist-body') do
       # ASCIIdoc formatting checks
       expect(page).to have_css('h1', text: 'Level 1 Header')
@@ -44,6 +41,9 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       text = 'Full graph'
       node_count = page.evaluate_script("$($('p:contains(#{text})').nextAll('.visualization')[0]).find('svg g.node').length")
       expect(node_count).to eq(6)
+
+      # Load javascript which converts HTML tables to JSON
+      page.execute_script(Rails.root.join('spec/table_to_json.js').read)
 
       # Table displays results from Neo4j server
       expect(table_data_following('Number of people:')).to eq ['count(a)' => '5']

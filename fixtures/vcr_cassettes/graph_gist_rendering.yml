@@ -1024,4 +1024,65 @@ http_interactions:
         (n:MissingParen\"\n                      ^","version":null}'
     http_version: 
   recorded_at: Thu, 31 Mar 2016 05:41:06 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-23.herokuapp.com/console/init
+    body:
+      encoding: UTF-8
+      string: '{"init":"none"}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - be07cbe0-c96a-4474-abaf-acdf4a352616
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 06 Apr 2016 06:31:19 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Set-Cookie:
+      - heroku-session-affinity=ADSDUAAAADl4nMtgzmBOYmBg3QIkrP4CifSWROYcBgYG5lwgwVqemqRnBGcZwlnGWQBkSAxF6aIdDprhEbn8Nfhj5cq5xziwOkk_;
+        Version=1; Expires=Thu, 07-Apr-2016 06:31:20 GMT; Max-Age=86400; Domain=neo4j-console-23.herokuapp.com;
+        Path=/; HttpOnly
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"result":"+-------------+\n| Neo | r | m |\n+-------------+\n+-------------+\n0
+        rows\n7 ms\n","init":null,"visualization":{"nodes":[],"links":[]},"stats":{"time":7,"rows":0},"columns":["Neo","r","m"],"query":"MATCH
+        (n:Crew)-[r:KNOWS*]-m\n WHERE n.name\u003d\u0027Neo\u0027\n RETURN n AS Neo,r,m","json":[],"time":8,"message":null,"version":null,"plan":"Compiler
+        CYPHER 2.3\n\nPlanner COST\n\nRuntime INTERPRETED\n\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n|
+        Operator              | Estimated Rows | Rows | DB Hits | Identifiers  | Other                     |\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n|
+        +ProduceResults       |              0 |    0 |       0 | Neo, m, r    | Neo,
+        r, m                 |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +Projection           |              0 |    0 |       0 | Neo, m, n, r | n;
+        r; m                   |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +VarLengthExpand(All) |              0 |    0 |       0 | m, n, r      | (n)-[r:KNOWS*]-\u003e(m)       |\n|
+        |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +Filter               |              0 |    0 |       0 | n            | n.name
+        \u003d\u003d {  AUTOSTRING0} |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +NodeByLabelScan      |              0 |    0 |       1 | n            | :Crew                     |\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n\nTotal
+        database accesses: 1\n"}'
+    http_version: 
+  recorded_at: Wed, 06 Apr 2016 06:31:20 GMT
 recorded_with: VCR 2.9.3
