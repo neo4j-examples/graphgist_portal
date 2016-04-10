@@ -160,6 +160,12 @@ RSpec.describe GraphGistTools do
   describe '.raw_url_for_graphgist_id' do
     subject { GraphGistTools.raw_url_for_graphgist_id(id) }
 
+    describe 'Error scenarios' do
+      let_context id: '**ff40e4f******868a608f7f3c0<http:/gist.neo4j.org' do
+        it { should be_nil }
+      end
+    end
+
     describe 'GitHub gists' do
       let_context id: '8176106' do
         it { should eq 'https://gist.githubusercontent.com/roquec/8176106/raw/872d8051788c08eeacb2e52c349e9c6bdf8e4803/medicine.adoc' }

@@ -7,7 +7,7 @@ require 'action_controller'
 module GraphGistTools
   class InvalidGraphGistIDError < StandardError; end
 
-  ASCIIDOC_ATTRIBUTES = ['env-graphgist']
+  ASCIIDOC_ATTRIBUTES = ['env-graphgist'].freeze
 
   # ActionController::Base.helpers.image_url('loading.gif')
 
@@ -23,7 +23,7 @@ module GraphGistTools
     hide: '<span class="hide-query"></span>',
     setup: '<span class="setup"></span>',
     output: '<span class="query-output"></span>'
-  }
+  }.freeze
 
   def self.asciidoc_document(asciidoc_text)
     text = asciidoc_text.dup
@@ -110,7 +110,7 @@ module GraphGistTools
     raw_url = raw_url_for_provider(id)
     return raw_url if raw_url
 
-    if id.match(%r{^(https?://[^/]+)/(.+)$})
+    if id =~ %r{^(https?://[^/]+)/(.+)$}
       _, host, path = id.match(%r{^(https?://[^/]+)/(.+)$}).to_a
       host + '/' + URI.encode(URI.decode(path))
     else
@@ -152,7 +152,7 @@ module GraphGistTools
       fail InvalidGraphGistIDError, 'Gist has no files!' if data['files'].blank?
 
       data['files'].to_a[0][1]['raw_url']
-    rescue OpenURI::HTTPError
+    rescue OpenURI::HTTPError, URI::InvalidURIError
       puts "WARNING: Error trying to fetch: #{url}"
       return nil
     end
