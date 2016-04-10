@@ -120,10 +120,10 @@ window.CypherConsole = (config, ready) ->
       return
     return
 
-  addPlayButtons = ->
+  addPlayButtons = (consolr) ->
     $('div.query-wrapper').parent().append($PLAY_BUTTON.clone().click((event) ->
       event.preventDefault()
-      consolr.query [ getQueryFromButton(this) ]
+      consolr.query getQueryFromButton(this)
       return
     )).append $EDIT_BUTTON.clone().click((event) ->
       event.preventDefault()
@@ -170,14 +170,14 @@ window.CypherConsole = (config, ready) ->
         $('#' + contentId).append $element
         $element.hide()
 
+      consolr = new Consolr(gist_id(), neo4j_version)
+
       $element.each ->
         $context = $(this)
 
-        consolr = new Consolr(gist_id(), neo4j_version)
-
         ready?(consolr)
 
-      addPlayButtons()
+      addPlayButtons(consolr)
     else
       ready()
     return
