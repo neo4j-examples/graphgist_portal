@@ -61,9 +61,9 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       # Colorization
       text = 'Should be colorized'
       fill = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node circle')[0].attributes.fill.value")
-      expect(fill).to eq('#54A835')
+      expect(fill.upcase).to eq('#54A835')
       stroke = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node circle')[0].attributes.stroke.value")
-      expect(stroke).to eq('#1078B5')
+      expect(stroke.upcase).to eq('#1078B5')
       text_fill = page.evaluate_script("$('p:contains(#{text})').nextAll('.visualization').find('svg g.node text')[0].attributes.fill.value")
       expect(text_fill).to eq('white')
 
