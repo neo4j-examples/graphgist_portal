@@ -5,4 +5,6 @@ Allow: /*.gif
 Allow: /*.jpg
 Allow: /*.png
 Allow: /*.woff
+Allow: /graph_gists/query_session_id
+Allow: /graph_gists/*/query
 Disallow: /
