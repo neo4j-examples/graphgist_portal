@@ -114,6 +114,25 @@ class InfoController < ApplicationController
     render text: e.message, status: :bad_request
   end
 
+  skip_before_action :verify_authenticity_token, only: :graph_guide_options
+  def graph_guide_options
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Pragma,Cache-Control,If-Modified-Since,Content-Type,X-Requested-With,X-stream,X-Ajax-Browser-Auth'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+
+    render text: ''
+  end
+
+  def graph_guide
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Pragma,Cache-Control,If-Modified-Since,Content-Type,X-Requested-With,X-stream,X-Ajax-Browser-Auth'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+
+    @graph_gist = GraphGist.as(:g).where("g.slug = {id_or_slug} OR g.uuid = {id_or_slug}", id_or_slug: params[:id_or_slug]).first
+
+    render 'graph_guide', layout: false
+  end
+
   def create_graphgist # rubocop: disable Metrics/AbcSize
     Neo4j::Transaction.run do
       @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category))
