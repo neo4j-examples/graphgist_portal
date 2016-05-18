@@ -8,10 +8,12 @@ Rails.application.load_tasks
 require 'faraday'
 require 'nokogiri'
 
-def url_working?(url)
+def url_working?(url, previous_tries = 0)
+  return false if previous_tries == 2
+
   response = Faraday.head(url)
 
-  response && response.status == 200
+  (response && response.status == 200) || url_working?(url, previous_tries + 1)
 end
 
 def url_from_path(path, uri)
