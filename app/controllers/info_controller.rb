@@ -128,7 +128,7 @@ class InfoController < ApplicationController
     response.headers['Access-Control-Allow-Headers'] = 'Pragma,Cache-Control,If-Modified-Since,Content-Type,X-Requested-With,X-stream,X-Ajax-Browser-Auth'
     response.headers['Access-Control-Allow-Methods'] = 'GET'
 
-    @graph_gist = GraphGist.as(:g).where("g.slug = {id_or_slug} OR g.uuid = {id_or_slug}", id_or_slug: params[:id_or_slug]).first
+    @graph_gist = GraphGist.as(:g).where('g.slug = {id_or_slug} OR g.uuid = {id_or_slug}', id_or_slug: params[:id_or_slug]).first
 
     render 'graph_guide', layout: false
   end
