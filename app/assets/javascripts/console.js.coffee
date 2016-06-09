@@ -27,6 +27,7 @@ window.CypherConsole = (config, ready) ->
   contentMoveSelector = if 'contentMoveSelector' of config then config.contentMoveSelector else 'div.navbar'
   consoleUrl = config.url
   neo4j_version = config.neo4j_version
+  $console_template = config.$console_template
 
 
   addConsole = ($context, gistId, ready) ->
@@ -120,14 +121,24 @@ window.CypherConsole = (config, ready) ->
       return
     return
 
-  addPlayButtons = (consolr) ->
+  addPlayButtons = (consolr, element) ->
+    fill_text_area = (target) ->
+      e = $(target).parents('.content').find('.query-wrapper')[0]
+      text = e.innerText || e.textContent
+      $textarea = $console_template.find('textarea')
+      $textarea.val(text)
+      $textarea[0].focus()
+
     $('div.query-wrapper').parent().append($PLAY_BUTTON.clone().click((event) ->
+      fill_text_area(event.target)
+      $console_template.find('.run').click()
+
       event.preventDefault()
-      consolr.query getQueryFromButton(this)
       return
     )).append $EDIT_BUTTON.clone().click((event) ->
+      fill_text_area(event.target)
+
       event.preventDefault()
-      consolr.input getQueryFromButton(this)
       return
     )
     return
@@ -177,7 +188,7 @@ window.CypherConsole = (config, ready) ->
 
         ready?(consolr)
 
-      addPlayButtons(consolr)
+      addPlayButtons(consolr, $element)
     else
       ready()
     return

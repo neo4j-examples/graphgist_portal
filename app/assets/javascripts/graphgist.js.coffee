@@ -54,6 +54,7 @@ window.GraphGist = ($, options) ->
   $gistId = $('#gist-id')
   gist = new Gist($, $content)
   $gistId.keydown gist.readSourceId
+  $console_template = $('#console-template')
   #});
 
 
@@ -79,6 +80,7 @@ window.GraphGist = ($, options) ->
       url: consoleUrl
       neo4j_version: version
       contentId: content_id
+      $console_template: $console_template
     }, (conslr) ->
       consolr = conslr
       consolr.establishSession?().done ->
@@ -280,31 +282,31 @@ window.GraphGist = ($, options) ->
 
       final_success = ->
         if $('p.console').length
-          $('p.console').replaceWith $('#console-template').detach()
+          $('p.console').replaceWith $console_template.detach()
 
-        $('#console-template').show()
+        $console_template.show()
 
       consolr.query statement, success, error, final_success, always
 
     always() if !$elements.length
 
   display_result_section = (section_name) ->
-    $('#console-template .result').show()
-    $('#console-template .result > *').hide()
-    $element = $("#console-template .result > .#{section_name}")
+    $console_template.find('.result').show()
+    $console_template.find('.result > *').hide()
+    $element = $console_template.find(".result > .#{section_name}")
     $element.show()
 
     $element
 
   current_display_result_tab_name = ->
-    $('#console-template .tabs .tab.active').data('name')
+    $console_template.find('.tabs .tab.active').data('name')
 
-  $('#console-template .run').click ->
+  $console_template.find('.run').click ->
     display_result_section 'loading'
 
-    $('#console-template').goTo()
+    $console_template.goTo()
 
-    statement = $('#console-template .cypher').val()
+    statement = $console_template.find('.cypher').val()
 
     success = (data) ->
       display_result_tab_name = current_display_result_tab_name()
@@ -323,10 +325,10 @@ window.GraphGist = ($, options) ->
 
     consolr.query statement, success, error
 
-  $('#console-template .tabs .tab').click (event) ->
+  $console_template.find('.tabs .tab').click (event) ->
     $el = $(event.target)
 
-    $('#console-template .tabs .tab').removeClass('active')
+    $console_template.find('.tabs .tab').removeClass('active')
     $el.addClass('active')
 
     display_result_section $el.data('name')
