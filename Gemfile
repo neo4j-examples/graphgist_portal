@@ -68,6 +68,7 @@ gem 'aws-ses', '~> 0.6.0', require: 'aws/ses'
 
 group :development, :test do
   gem 'pry'
+  gem 'awesome_print'
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'meta_request'
