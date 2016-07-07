@@ -29,7 +29,7 @@ gem 'dotenv-rails', github: 'bkeepers/dotenv', require: 'dotenv/rails-now'
 if ENV['DEBUG_SERVER']
   gem 'graph_starter', path: '../graph_starter'
 else
-  gem 'graph_starter', github: 'neo4j-examples/graph_starter'
+  gem 'graph_starter', git: 'https://github.com/neo4j-examples/graph_starter'
 end
 
 gem 'aws-sdk', '< 2.0'

@@ -8,7 +8,7 @@ GIT
       railties (~> 4.0)
 
 GIT
-  remote: git://github.com/neo4j-examples/graph_starter.git
+  remote: https://github.com/neo4j-examples/graph_starter
   revision: f093dcbf7c1f94df726b61ec357694a2f1d02d4d
   specs:
     graph_starter (0.16.2)
@@ -594,5 +594,8 @@ DEPENDENCIES
   web-console (~> 2.0)
   webmock
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.11.2
+   1.12.5
