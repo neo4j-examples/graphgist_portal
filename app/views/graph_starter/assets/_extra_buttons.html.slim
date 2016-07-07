@@ -12,5 +12,13 @@ a onclick="$('#graph-guide-modal').modal('show')" href="#" Run this gist in the 
 
     p You will likely need to configure your whitelist in Neo4j:
 
+    h3 Neo4j 3.0
+
     pre style="white-space: pre-wrap; word-wrap: break-word"
       | browser.remote_content_hostname_whitelist=http://#{request.host}
+
+    h3 Before Neo4j 3.0
+
+    pre style="white-space: pre-wrap; word-wrap: break-word"
+      | dbms.browser.remote_content_hostname_whitelist="http://#{request.host}"
+
