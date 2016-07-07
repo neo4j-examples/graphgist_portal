@@ -60,6 +60,9 @@ module GraphgistPortal
 
       graphgist-render.js
       graphgist-render.css
+
+      semantic-ui/modal.js
+      semantic-ui/dimmer.js
     )
 
     config.neo4j.pretty_logged_cypher_queries = true

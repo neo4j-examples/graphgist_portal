@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get 'show_from_graphgist_id/:id(.:format)' => 'info#show_from_graphgist_id'
 
   match 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide_options', via: :options
-  get 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide'
+  get 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide', as: :graph_guide
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 

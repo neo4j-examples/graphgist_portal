@@ -1,0 +1,16 @@
+a onclick="$('#graph-guide-modal').modal('show')" href="#" Run this gist in the Neo4j console
+
+.ui.modal#graph-guide-modal
+  i.close.icon
+  .header Play this GraphGist in your Neo4j console
+  .content
+    p Run this line in your Neo4j web console:
+
+    pre style="white-space: pre-wrap; word-wrap: break-word"
+      | :play 
+      = main_app.graph_guide_url(id_or_slug: @asset.slug)
+
+    p You will likely need to configure your whitelist in Neo4j:
+
+    pre style="white-space: pre-wrap; word-wrap: break-word"
+      | browser.remote_content_hostname_whitelist=https://#{request.host}
