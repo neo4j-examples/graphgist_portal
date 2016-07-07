@@ -50,7 +50,7 @@ task :spider_verify, [:host] do |_t, args|
   gist_urls.uniq!
 
   urls_to_verify += gist_urls
-  urls_to_verify += gist_urls.select {|url| url.count('/') > 2 }.map { |url| url + '.json' }
+  urls_to_verify += gist_urls.select { |url| url.count('/') > 2 }.map { |url| url + '.json' }
 
   # Preview page
   urls_to_verify << 'http://portal.graphgist.org/graph_gists/by_url?url=https%3A%2F%2Fgist.github.com%2Fcheerfulstoic%2F449393e2d1b6806112f1'
