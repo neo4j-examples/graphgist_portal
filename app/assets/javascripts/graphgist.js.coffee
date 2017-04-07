@@ -42,6 +42,8 @@ window.GraphGist = ($, options) ->
     '2.1': 'http://neo4j-console-21.herokuapp.com/'
     '2.2': 'http://neo4j-console-22.herokuapp.com/'
     '2.3': 'http://neo4j-console-23.herokuapp.com/'
+    '3.0': 'http://neo4j-console-30.herokuapp.com/'
+    '3.1': 'http://neo4j-console-31.herokuapp.com/'
     'local': 'http://localhost:8080/'
     '1.9': 'http://neo4j-console-19.herokuapp.com/'
   neod3Renderer = new Neod3Renderer

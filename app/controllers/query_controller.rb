@@ -5,7 +5,9 @@ class QueryController < ApplicationController
     '2.0' => 'neo4j-console-20.herokuapp.com',
     '2.1' => 'neo4j-console-21.herokuapp.com',
     '2.2' => 'neo4j-console-22.herokuapp.com',
-    '2.3' => 'neo4j-console-23.herokuapp.com'
+    '2.3' => 'neo4j-console-23.herokuapp.com',
+    '3.0' => 'neo4j-console-30.herokuapp.com',
+    '3.1' => 'neo4j-console-31.herokuapp.com'
   }
 
   before_action :access_control_allow_all
