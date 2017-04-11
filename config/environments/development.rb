@@ -40,4 +40,6 @@ Rails.application.configure do
 
   config.neo4j.session_type = :server_db
   config.neo4j.session_path = 'http://localhost:7474'
+
+  config.web_console.whiny_requests = false
 end

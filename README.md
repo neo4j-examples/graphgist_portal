@@ -104,3 +104,23 @@ rails s
 ```
 
 You can now visit the website in your browser at localhost:3000
+
+### Testing
+
+First it needs the S3 bucket name to be set to pass some tests:
+
+```
+export S3_BUCKET_NAME=graphgist_test
+```
+
+To run tests:
+
+```
+bundle exec rake
+```
+
+If you'd like to run single test file then:
+
+```
+rspec ./spec/controllers/query_controller_spec.rb
+```
