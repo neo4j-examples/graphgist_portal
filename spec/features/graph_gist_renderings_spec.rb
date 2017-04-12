@@ -68,7 +68,7 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       expect(text_fill).to eq('white')
 
       # Renders MathJax
-      expect(page.find('.MathJax_Display')).to be_a(Capybara::Node::Element)
+      expect(page.find('.MathJax_Display', :visible => false)).to be_a(Capybara::Node::Element)
 
       # Error reporting
       text = 'errors stop execution of queries'
