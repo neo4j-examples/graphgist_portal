@@ -38,5 +38,3 @@ CONSOLE_VERSIONS =
 
 
 GraphGistRenderer.renderContent()
-
-
