@@ -30,7 +30,7 @@ module GraphGistTools
     COMMENT_REPLACEMENTS.each do |tag, replacement|
       prefix = [:graph_result, :graph].include?(tag) ? "\n\n[subs=\"attributes\"]\n" : nil
 
-      text.gsub!(Regexp.new(%r{^//\s*#{tag}}, 'gm'), "#{prefix}++++\n#{replacement}\n++++\n")
+      text.gsub!(Regexp.new(%r{^//\s*#{tag}}.to_s, Regexp::MULTILINE), "#{prefix}++++\n#{replacement}\n++++\n")
     end
 
     text = replace_doc_with_macro(text)
@@ -49,6 +49,20 @@ module GraphGistTools
     attrs = asciidoc_doc.attributes
 
     %(<span id="metadata" author="#{attrs['author']}" version="#{attrs['neo4j-version']}" twitter="#{attrs['twitter']}" tags="#{attrs['tags']}" />)
+  end
+
+  def self.cypher_blocks(node)
+    if not node.blocks?
+      attributes = node.attributes()
+      if attributes['style'] == 'source' && attributes['language'] == 'cypher'
+        return [node]
+      end
+    end
+    blocks = []
+    node.blocks.each do |block|
+      blocks.concat(cypher_blocks(block))
+    end
+    blocks
   end
 
   #   let_context url: 'http://github.com/neo4j-examples/graphgists/blob/master/fraud/bank-fraud-detection.adoc' do

@@ -78,15 +78,18 @@ window.GraphGist = ($, options) ->
     consoleUrl = CONSOLE_VERSIONS[if version of CONSOLE_VERSIONS then version else DEFAULT_VERSION]
     if querySearchParams()['use_test_console_server'] == 'true'
       consoleUrl = 'http://neo4j-console-test.herokuapp.com/'
-    CypherConsole {
-      url: consoleUrl
-      neo4j_version: version
-      contentId: content_id
-      $console_template: $console_template
-    }, (conslr) ->
-      consolr = conslr
-      consolr.establishSession?().done ->
+    if graphgist_cached_queries?
         executeQueries (->), postProcessRendering
+    else
+      CypherConsole {
+        url: consoleUrl
+        neo4j_version: version
+        contentId: content_id
+        $console_template: $console_template
+      }, (conslr) ->
+        consolr = conslr
+        consolr.establishSession?().done ->
+          executeQueries (->), postProcessRendering
 
   postProcessRendering = ->
     $status = $('#status')
@@ -288,8 +291,13 @@ window.GraphGist = ($, options) ->
 
         $console_template.show()
 
-      consolr.query statement, success, error, final_success, always
+      if graphgist_cached_queries?
+        success(graphgist_cached_queries[index])
+      else
+        consolr.query statement, success, error, final_success, always
 
+    if graphgist_cached_queries?
+      $('p.console').hide()
     always() if !$elements.length
 
   display_result_section = (section_name) ->
