@@ -15,6 +15,9 @@ class GraphGist < GraphStarter::Asset
   property :raw_html, type: String
   validates :raw_html, presence: true
 
+  property :query_cache, type: String
+  validates :query_cache, presence: true
+
   property :status, type: String, default: 'candidate'
   enumerable_property :status, %w(live disabled candidate)
 
@@ -29,7 +32,7 @@ class GraphGist < GraphStarter::Asset
 
   display_properties :url, :created_at
 
-  hidden_json_properties :raw_html
+  hidden_json_properties :raw_html, :query_cache
 
   property :featured, type: Boolean
 
@@ -48,7 +51,7 @@ class GraphGist < GraphStarter::Asset
 
   before_validation :place_current_url, if: :url_changed?
 
-  json_methods :html, :render_id, :persisted?
+  json_methods :html, :query_cache_html, :render_id, :persisted?
 
   def place_current_url
     place_url(url)
@@ -57,6 +60,7 @@ class GraphGist < GraphStarter::Asset
     text = self.class.data_from_url(raw_url)
 
     place_asciidoc(text) if text
+    place_query_cache()
   end
 
   after_create :notify_admins_about_creation
@@ -100,6 +104,20 @@ class GraphGist < GraphStarter::Asset
     self.raw_html += GraphGistTools.metadata_html(document)
 
     self.title ||= document.doctitle if document.doctitle.present?
+  end
+
+  def place_query_cache
+    cypher_blocks = GraphGistTools.cypher_blocks(asciidoctor_document)
+    queries = cypher_blocks.map(&:source)
+    responses = []
+
+    client = Neo4jConsole::Neo4jConsoleClient.new(asciidoctor_document.attributes['neo4j-version'])
+    client.init
+    queries.each do |query|
+      response = client.cypher(query)
+      responses.push JSON.parse(response.body)
+    end
+    self.query_cache = responses.to_json
   end
 
   HOSTS_TRANSFORMABLE_TO_HTTPS = %w(
@@ -166,6 +184,18 @@ class GraphGist < GraphStarter::Asset
 
   def render_id
     id || Digest::SHA256.hexdigest(url)
+  end
+
+  def query_cache_html
+    if not self.query_cache
+      "<script></script>"
+    else
+      %Q(
+        <script>
+          var graphgist_cached_queries = #{self.query_cache};
+        </script>
+      )
+    end
   end
 
   class << self

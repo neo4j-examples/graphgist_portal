@@ -13,8 +13,8 @@ curl -sSL https://get.rvm.io | bash -s stable
 source /home/vagrant/.rvm/scripts/rvm
 
 # Install ruby
-rvm install 2.3.0
-rvm use 2.3.0
+rvm install 2.3.1
+rvm use 2.3.1
 gem install bundler
 
 # Install javascript engine
@@ -35,6 +35,27 @@ sudo apt-get install -y neo4j
 echo 'dbms.security.auth_enabled=false' | sudo tee -a /etc/neo4j/neo4j.conf
 echo 'dbms.connectors.default_listen_address=0.0.0.0' | sudo tee -a /etc/neo4j/neo4j.conf
 sudo systemctl restart neo4j
+
+# Capybara Browser Test
+sudo apt-get install -y xvfb libqtwebkit-dev
+cat <<EOX | sudo tee /etc/systemd/system/xvfb.service
+[Unit]
+Description=Virtual Frame Buffer X Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/Xvfb :10 -screen 0 1024x768x24 -ac +extension GLX +render -noreset
+
+[Install]
+WantedBy=multi-user.target
+EOX
+
+sudo systemctl daemon-reload
+sudo systemctl enable xvfb
+sudo service xvfb start
+
+echo 'export DISPLAY=:10' | sudo tee /etc/profile.d/display.sh
+sudo chmod +x /etc/profile.d/display.sh
 EOF
 SCRIPT
 

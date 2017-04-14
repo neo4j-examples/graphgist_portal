@@ -23,7 +23,7 @@ Dotenv.load('.env.test')
 def delete_db
   # clear_model_memory_caches
   VCR.turned_off do
-    Neo4j::Session.current.query('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
+    Neo4j::Session.current.query('MATCH (n) DETACH DELETE n')
   end
 end
 
@@ -38,6 +38,14 @@ end
 WebMock.allow_net_connect!
 
 require 'sauce/capybara' if ENV['CI']
+require 'capybara'
+require 'capybara/webkit'
+Capybara.current_driver = :webkit
+Capybara.javascript_driver = :webkit
+Capybara::Webkit.configure do |config|
+  config.allow_url("fonts.googleapis.com")
+  config.allow_url("i.imgur.com")
+end
 
 require 'factory_girl'
 

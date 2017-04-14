@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.4'
@@ -99,8 +99,8 @@ group :test do
   gem 'cucumber'
   gem 'rspec-expectations'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'launchy'
-  gem 'selenium-webdriver'
   gem 'sauce'
   gem 'sauce-connect'
 end
