@@ -66,6 +66,12 @@ After some user(s) are created you can give a user admin privileges by running t
 MATCH (u:User {username:'<username of a user>'}) SET u.admin = true RETURN u
 ```
 
+If you need to reboot the database, use:
+
+```
+sudo systemctl restart neo4j
+```
+
 ## Manual Setup
 
 ### Requirements
