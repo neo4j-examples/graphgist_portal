@@ -1,0 +1,50 @@
+= form_for @asset, url: url_for(action: action), html: {class: 'ui form graph_gist_edit_form', multipart: true} do |f|
+  .field
+    label Title (Required)
+    = f.text_field :title, required: true
+
+  .field
+    label AsciiDoc (Required)
+    = f.text_area :asciidoc, required: true
+
+  #preview-button.ui.button Preview
+
+  = f.submit 'Update', class: 'ui button'
+
+#iframe-spinner.ui.active.centered.large.loader
+
+coffee:
+  $('#preview-button').click (e) ->
+    e.preventDefault();
+    form = $('.graph_gist_edit_form');
+    iframe = $('#graph_gist_preview');
+    originalAction = form.attr('action');
+    $('#iframe-spinner').show();
+
+    form.attr('target', 'graph_gist_preview')
+        .attr('novalidate', true)
+        .attr('action', iframe.attr('src'))
+        .submit()
+        .removeAttr('target')
+        .removeAttr('novalidate')
+        .attr('action', originalAction);
+
+  window.iframe_loaded = ->
+    $('#iframe-spinner').hide();
+
+iframe onload="window.iframe_loaded()" name="graph_gist_preview" src="/preview_graphgist/#{@asset.id}" id="graph_gist_preview"
+
+scss:
+  iframe {
+    width: 100%;
+    height: 1000px;
+    margin-top: 1em;
+    border: 1px solid #999;
+  }
+
+  #iframe-spinner {
+    display: none;
+    left: 45%;
+    position: absolute;
+    top: 60%;
+  }
