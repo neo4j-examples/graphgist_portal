@@ -8,14 +8,16 @@ end
 
 namespace :graph_gist_portal do
   task refresh_graphgist_html: :environment do
-    GraphGist.all.each do |graphgist|
+    GraphGist.find_each(batch_size: 50) do |graphgist|
+      puts "Refreshing html for #{graphgist.id} - #{graphgist.title}"
       graphgist.place_asciidoc(graphgist.asciidoc) if graphgist.asciidoc
       graphgist.save
     end
   end
 
   task refresh_graphgist_query_cache: :environment do
-    GraphGist.all.each do |graphgist|
+    GraphGist.find_each(batch_size: 50) do |graphgist|
+      puts "Caching queries for #{graphgist.id} - #{graphgist.title}"
       graphgist.place_query_cache if graphgist.asciidoc
       graphgist.save
     end
