@@ -26,7 +26,7 @@ sudo apt-get update
 sudo apt-get install -y -t jessie-backports ca-certificates-java openjdk-8-jre openjdk-8-jre-headless
 
 # Install neo4j
-sudo apt-get install apt-transport-https
+sudo apt-get install -y apt-transport-https
 wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
 echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee /etc/apt/sources.list.d/neo4j.list
 sudo apt-get update

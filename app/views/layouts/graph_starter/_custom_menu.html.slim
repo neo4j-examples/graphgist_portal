@@ -6,6 +6,9 @@
 a.ui.item href="#{main_app.about_path}" What is a GraphGist?
 a.ui.item href="#{graph_starter.assets_path(model_slug: :graph_gists)}" GraphGists
 a.ui.item href="#{main_app.submit_graphgist_path}" Submit a GraphGist
+a.ui.item href="#{graph_starter.assets_path(model_slug: :industries)}" Industries
+a.ui.item href="#{graph_starter.assets_path(model_slug: :use_cases)}" Use Cases
+a.ui.item href="#{graph_starter.assets_path(model_slug: :people)}" People
 
 - if flash['notice'] && flash['notice'].match(/Signed out successfully/)
   javascript:
