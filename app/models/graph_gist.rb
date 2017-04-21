@@ -8,7 +8,7 @@ class GraphGist < GraphStarter::Asset
   property :title
   property :url, type: String, constraint: :unique
   property :raw_url, type: String
-  validates :raw_url, presence: {message: 'URL could not be resolved'}
+  validates :raw_url, presence: {message: 'URL could not be resolved'}, if: "asciidoc.nil?"
 
   property :asciidoc, type: String
   validates :asciidoc, presence: true
@@ -30,7 +30,7 @@ class GraphGist < GraphStarter::Asset
   property :legacy_poster_image, type: String
   property :legacy_rated, type: String
 
-  display_properties :url, :created_at
+  display_properties :title, :created_at
 
   hidden_json_properties :raw_html, :query_cache
 
@@ -49,17 +49,19 @@ class GraphGist < GraphStarter::Asset
 
   body_property :raw_html
 
-  before_validation :place_current_url, if: :url_changed?
+  before_validation :place_current_url, if: :asciidoc_changed? || :url_changed?
 
   json_methods :html, :query_cache_html, :render_id, :persisted?
 
   def place_current_url
-    place_url(url)
-    return if !raw_url.present?
+    if url.present?
+      place_url(url)
+      self.asciidoc = self.class.data_from_url(raw_url) if raw_url.present?
+    end
 
-    text = self.class.data_from_url(raw_url)
+    return if !asciidoc.present?
 
-    place_asciidoc(text) if text
+    place_asciidoc()
     place_query_cache()
   end
 
@@ -73,18 +75,19 @@ class GraphGist < GraphStarter::Asset
     self.class.url_is_duplicate?(url)
   end
 
-
   def self.url_is_duplicate?(url)
-    !!find_by(url: url)
+    if !url.present?
+      return false
+    else
+      return !!find_by(url: url)
+    end
   end
 
   SANITIZER = Rails::Html::WhiteListSanitizer.new
   VALID_HTML_TAGS = %w(a b body code col colgroup div em h1 h2 h3 h4 h5 h6 hr html i img li ol p pre span strong style table tbody td th thead tr ul)
   VALID_HTML_ATTRIBUTES = %w(id src href class style data-style graph-mode)
 
-  def place_asciidoc(asciidoc_text)
-    self.asciidoc = asciidoc_text
-
+  def place_asciidoc
     document = asciidoctor_document
 
     place_attributes_from_document!(document)
@@ -177,13 +180,13 @@ class GraphGist < GraphStarter::Asset
   end
 
   def html
-    place_current_url if status == 'candidate'
+    place_asciidoc if status == 'candidate'
 
     self.raw_html
   end
 
   def render_id
-    id || Digest::SHA256.hexdigest(url)
+    id || Digest::SHA256.hexdigest("#{asciidoc}/#{created_at}")
   end
 
   def query_cache_html

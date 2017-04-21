@@ -7,7 +7,7 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
 
   # Test GraphGist which exercises variosu features of GraphGists
   # Can also be used to visually inspect how well GraphGists are working
-  let(:graph_gist) { create(:graph_gist, url: 'https://gist.github.com/cheerfulstoic/b905e1b8cb531a8c5620') }
+  let(:graph_gist) { create(:graph_gist, asciidoc: File.read("./spec/features/acid_test.adoc")) }
 
   def table_data_following(text)
     page.evaluate_script("$('p:contains(#{text})').nextAll('.result-table').find('table').tableToJSON()")

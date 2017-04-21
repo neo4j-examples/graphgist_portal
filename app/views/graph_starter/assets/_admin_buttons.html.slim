@@ -1,0 +1,19 @@
+- if asset.persisted?
+  .ui.buttons
+    a.ui.labeled.icon.button.right.floated data-authorizable="#{asset.to_json}"
+      | Permissions
+
+    .or
+
+    a.ui.labeled.icon.button.right.floated href="#{graph_starter.edit_asset_path(id: asset)}"
+      i.edit.icon
+      | Admin Edit
+
+  .ui.divider
+
+  .ui.buttons
+    a.ui.labeled.icon.red.button.right.floated href="#{graph_starter.destroy_asset_path(id: asset)}"
+      i.delete.icon
+      | Delete
+
+

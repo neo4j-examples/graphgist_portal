@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   get 'submit_graphgist' => 'info#submit_graphgist'
   get 'submit_challenge_entry' => 'info#submit_challenge_entry'
 
-  get 'preview_graphgist' => 'info#preview_graphgist'
+  post 'preview_graphgist' => 'info#preview_graphgist'
+  get 'preview_graphgist/:id' => 'info#preview_graphgist'
+  patch 'preview_graphgist/:id' => 'info#preview_graphgist'
 
   get 'refresh_graphgist' => 'info#refresh_graphgist'
 
@@ -34,6 +36,8 @@ Rails.application.routes.draw do
 
   match 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide_options', via: :options
   get 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide', as: :graph_guide
+  get 'graph_gists/:id/edit_by_owner' => 'assets#edit_graph_gists_by_owner', as: :graph_edit_by_owner
+  patch 'graph_gists/:id/edit_by_owner' => 'assets#update_graph_gists_by_owner', as: :graph_update_by_owner
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
@@ -47,5 +51,6 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
 
+  get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
   mount GraphStarter::Engine, at: '/'
 end

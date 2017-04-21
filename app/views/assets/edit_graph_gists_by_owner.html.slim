@@ -1,0 +1,7 @@
+= javascript_include_tag 'jquery.datetimepicker', 'data-turbolinks-track' => true
+= stylesheet_link_tag    'jquery.datetimepicker', media: 'all', 'data-turbolinks-track' => true
+
+
+h1 = @asset.name
+
+= render partial: 'edit_graph_gists_by_owner_form', locals: {action: 'update_graph_gists_by_owner'}

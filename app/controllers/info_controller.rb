@@ -63,21 +63,27 @@ class InfoController < ApplicationController
   end
 
   def preview_graphgist
+    id = params[:id]
     url = params[:graph_gist] ? params[:graph_gist][:url] : params[:url]
+    asciidoc = params[:graph_gist] ? params[:graph_gist][:asciidoc] : params[:asciidoc]
 
-    authenticate_with_http_basic do |username, password|
-      url = add_credentials_to_url(url, username, password)
+    if id.present?
+      @graphgist = GraphGist.find(id)
+    else
+      @graphgist = GraphGist.new(title: 'Preview')
     end
 
-    @graphgist = GraphGist.new(url: url, title: 'Preview')
+    if url.present?
+      @graphgist.url = url
+    elsif asciidoc.present?
+      @graphgist.asciidoc = asciidoc
+    end
 
     @graphgist.place_current_url
 
     @hide_menu = true
 
     @no_ui_container = true
-  rescue GraphGistTools::BasicAuthRequiredError
-    request_http_basic_authentication(Base64.encode64(url).chomp)
   end
 
   def add_credentials_to_url(url, username, password)
@@ -135,6 +141,10 @@ class InfoController < ApplicationController
 
   def create_graphgist # rubocop: disable Metrics/AbcSize
     Neo4j::Transaction.run do
+      if params[:graph_gist][:url].empty?
+        params[:graph_gist].delete :url
+      end
+
       @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category))
 
       # Grrr...
