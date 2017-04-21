@@ -9,14 +9,15 @@ Rails.application.routes.draw do
   get 'featured_graphgists(.:format)' => 'info#featured_graphgists'
   get 'about' => 'info#about'
 
-  get 'submit_graphgist' => 'info#submit_graphgist'
+  authenticated do
+    get 'submit_graphgist' => 'info#submit_graphgist'
+  end
+  
   get 'submit_challenge_entry' => 'info#submit_challenge_entry'
 
   post 'preview_graphgist' => 'info#preview_graphgist'
   get 'preview_graphgist/:id' => 'info#preview_graphgist'
   patch 'preview_graphgist/:id' => 'info#preview_graphgist'
-
-  get 'refresh_graphgist' => 'info#refresh_graphgist'
 
   get 'monitor' => 'info#monitor'
 
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
   get 'graph_gists/by_graphgist_id/*id(.:format)' => 'info#show_from_graphgist_id'
   get 'graph_gists/by_graphgist_id(.:format)' => 'info#show_from_graphgist_id'
   get 'graph_gists/by_url' => 'info#show_from_url'
+  get 'graph_gists/new' => redirect('submit_graphgist')
   # Deprecated:
   get 'show_from_graphgist_id/:id(.:format)' => 'info#show_from_graphgist_id'
 
@@ -38,6 +40,10 @@ Rails.application.routes.draw do
   get 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide', as: :graph_guide
   get 'graph_gists/:id/edit_by_owner' => 'assets#edit_graph_gists_by_owner', as: :graph_edit_by_owner
   patch 'graph_gists/:id/edit_by_owner' => 'assets#update_graph_gists_by_owner', as: :graph_update_by_owner
+
+  get 'candidates/waiting_review' => 'info#list_candidates', as: :list_candidates_graphgist
+  post 'candidates/graphgist/:id/status/live' => 'assets#make_graphgist_live', as: :make_graphgist_live
+  post 'candidates/graphgist/:id/status/disabled' => 'assets#make_graphgist_disabled', as: :make_graphgist_disabled
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
@@ -51,6 +57,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
 
+  get 'categories/:slug(.:format)' => 'categories#show'
+  get 'models/:name' => 'models#show', as: :model
+  get 'authorizables/user_and_group_search.json' => 'authorizables#user_and_group_search'
+  get ':model_slug/new' => 'assets#new', as: :new_asset
+  post ':model_slug' => 'assets#create', as: :create_asset
   get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
   mount GraphStarter::Engine, at: '/'
 end

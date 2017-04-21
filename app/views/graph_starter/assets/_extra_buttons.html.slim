@@ -1,31 +1,33 @@
-p
+- if asset.is_a?(GraphGistCandidate) || asset.is_a?(GraphGist)
+  .ui.divider
+
   a onclick="$('#graph-guide-modal').modal('show')" href="#" Run this gist in the Neo4j console
 
-- if @access_level == 'write' && @asset.persisted?
-  div
-    a.ui.labeled.icon.button href="#{graph_edit_by_owner_path(id: @asset.id)}"
-      i.edit.icon
-      | Edit AsciiDoc
+  - if @access_level == 'write' && @asset.persisted?
+    .ui.divider
+    div
+      a.ui.labeled.icon.button href="#{graph_edit_by_owner_path(id: asset.is_a?(GraphGist) ? @asset.id : @asset.graphgist.id)}"
+        i.edit.icon
+        | Edit AsciiDoc
 
-.ui.modal#graph-guide-modal
-  i.close.icon
-  .header Play this GraphGist in your Neo4j console
-  .content
-    p Run this line in your Neo4j web console:
+  .ui.modal#graph-guide-modal
+    i.close.icon
+    .header Play this GraphGist in your Neo4j console
+    .content
+      p Run this line in your Neo4j web console:
 
-    pre style="white-space: pre-wrap; word-wrap: break-word"
-      | :play 
-      = main_app.graph_guide_url(id_or_slug: @asset.slug)
+      pre style="white-space: pre-wrap; word-wrap: break-word"
+        | :play
+        = main_app.graph_guide_url(id_or_slug: @asset.slug)
 
-    p You will likely need to configure your whitelist in Neo4j:
+      p You will likely need to configure your whitelist in Neo4j:
 
-    h3 Neo4j 3.0
+      h3 Neo4j 3.0
 
-    pre style="white-space: pre-wrap; word-wrap: break-word"
-      | browser.remote_content_hostname_whitelist=http://#{request.host}
+      pre style="white-space: pre-wrap; word-wrap: break-word"
+        | browser.remote_content_hostname_whitelist=http://#{request.host}
 
-    h3 Before Neo4j 3.0
+      h3 Before Neo4j 3.0
 
-    pre style="white-space: pre-wrap; word-wrap: break-word"
-      | dbms.browser.remote_content_hostname_whitelist="http://#{request.host}"
-
+      pre style="white-space: pre-wrap; word-wrap: break-word"
+        | dbms.browser.remote_content_hostname_whitelist="http://#{request.host}"

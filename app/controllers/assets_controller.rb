@@ -20,7 +20,13 @@ class AssetsController < ::GraphStarter::AssetsController
 
   def edit_graph_gists_by_owner
     params[:model_slug] = "graph_gists"
-    @asset, @access_level = asset_with_access_level
+    @liveAsset, @access_level = asset_with_access_level
+
+    @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
+    if !@asset
+      @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+    end
+
     @title = @asset.title.to_s + ' - Edit'
 
     render file: 'public/404.html', status: :not_found, layout: false if !@asset
@@ -28,10 +34,20 @@ class AssetsController < ::GraphStarter::AssetsController
 
   def update_graph_gists_by_owner
     params[:model_slug] = "graph_gists"
-    @asset, @access_level = asset_with_access_level
-    @asset.update(params[params[:model_slug].singularize])
+    @liveAsset, @access_level = asset_with_access_level
+    @asset = @liveAsset.candidate
+    @asset.status = 'candidate'
+    @asset.update(params['graph_gist_candidate'])
 
-    redirect_to action: :edit_graph_gists_by_owner
+    if @liveAsset.status == 'candidate'
+      @liveAsset.is_candidate_updated = false
+      @liveAsset.update(params[params[:model_slug].singularize])
+    else
+      @liveAsset.is_candidate_updated = true
+      @liveAsset.save
+    end
+
+    redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'graph_gist_candidates')
   end
 
   def asset_with_access_level
@@ -41,5 +57,45 @@ class AssetsController < ::GraphStarter::AssetsController
     else
       scope.pluck(:asset, '"read"')
     end.to_a[0]
+  end
+
+  def make_graphgist_live
+    fail 'Must be an admin user' if !current_user.admin?
+
+    params[:model_slug] = "graph_gists"
+    live = asset
+    if live.candidate.nil?
+      candidate = GraphGistCandidate.create_from_graphgist(live)
+    else
+      candidate = live.candidate
+    end
+
+    live.asciidoc = candidate.asciidoc
+    live.title = candidate.title
+    live.url = candidate.url
+    live.status = 'live'
+    live.is_candidate_updated = false
+    live.save
+    candidate.status = live.status
+    candidate.save
+    redirect_to graph_starter.asset_path(id: live.slug, model_slug: 'graph_gists')
+  end
+
+  def make_graphgist_disabled
+    fail 'Must be an admin user' if !current_user.admin?
+
+    params[:model_slug] = "graph_gists"
+    live = asset
+    if live.candidate.nil?
+      candidate = GraphGistCandidate.create_from_graphgist(live)
+    else
+      candidate = live.candidate
+    end
+
+    live.status = 'disabled'
+    live.save
+    candidate.status = 'candidate'
+    candidate.save
+    redirect_to graph_starter.asset_path(id: candidate.id, model_slug: 'graph_gist_candidates')
   end
 end

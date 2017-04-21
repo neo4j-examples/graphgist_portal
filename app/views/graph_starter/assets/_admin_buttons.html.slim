@@ -1,19 +1,34 @@
+- if asset.is_a?(GraphGistCandidate) || asset.is_a?(GraphGist)
+  .ui.divider
+
+  - if asset.status != 'live'
+    = form_tag make_graphgist_live_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
+      button.ui.labeled.icon.button.teal type="submit"
+        i.checkmark.icon
+        | Approve
+    .ui.divider
+
+  = form_tag make_graphgist_disabled_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
+    button.ui.labeled.icon.button type="submit"
+      i.remove.circle.icon
+      | Disable
+
 - if asset.persisted?
-  .ui.buttons
-    a.ui.labeled.icon.button.right.floated data-authorizable="#{asset.to_json}"
-      | Permissions
+  .ui.divider
 
-    .or
+  a.ui.labeled.icon.button data-authorizable="#{asset.to_json}"
+    | Permissions
 
-    a.ui.labeled.icon.button.right.floated href="#{graph_starter.edit_asset_path(id: asset)}"
-      i.edit.icon
-      | Admin Edit
+  div
+    | or
+
+  a.ui.labeled.icon.button href="#{graph_starter.edit_asset_path(id: asset.is_a?(GraphGist) ? @asset.id : @asset.graphgist.id)}"
+    i.edit.icon
+    | Admin Edit
 
   .ui.divider
 
   .ui.buttons
-    a.ui.labeled.icon.red.button.right.floated href="#{graph_starter.destroy_asset_path(id: asset)}"
+    a.ui.labeled.icon.red.button.right.floated href="#{graph_starter.destroy_asset_path(id: asset.is_a?(GraphGist) ? @asset.id : @asset.graphgist.id)}"
       i.delete.icon
       | Delete
-
-
