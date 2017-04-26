@@ -63,6 +63,9 @@ module GraphgistPortal
 
       semantic-ui/modal.js
       semantic-ui/dimmer.js
+
+      codemirror*
+      codemirror/**/*
     )
 
     config.neo4j.pretty_logged_cypher_queries = true
