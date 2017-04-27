@@ -1,16 +1,12 @@
 require 'graph_gist_tools'
 require 'open-uri'
 
-class GraphGist < GraphStarter::Asset
-  has_image
-  rated
-  has_one :in, :candidate, type: :IS_VERSION, model_class: :GraphGistCandidate, unique: true
-  property :is_candidate_updated, type: Boolean, default: false
+class GraphGistCandidate < GraphStarter::Asset
+  has_one :out, :graphgist, type: :IS_VERSION, model_class: :GraphGist, unique: true
 
   property :title
-  property :url, type: String, constraint: :unique
+  property :url, type: String
   property :raw_url, type: String
-  validates :raw_url, presence: {message: 'URL could not be resolved'}, if: "asciidoc.nil?"
 
   property :asciidoc, type: String
   validates :asciidoc, presence: true
@@ -27,27 +23,11 @@ class GraphGist < GraphStarter::Asset
 
   property :cached, type: Boolean
 
-  property :legacy_id, type: String
-  property :legacy_neo_id, type: Integer
-  property :legacy_poster_image, type: String
-  property :legacy_rated, type: String
-
   display_properties :title, :created_at
 
   hidden_json_properties :raw_html, :query_cache
 
-  property :featured, type: Boolean
-
-  scope :only_featured, -> { where(featured: true) }
-
-  scope :only_live, -> { where(status: 'live') }
-
-  has_many :out, :industries, type: :FOR_INDUSTRY
-  has_many :out, :use_cases, type: :FOR_USE_CASE
-
-  has_one :out, :challenge_category, type: :FOR_CHALLENGE_CATEGORY, model_class: :UseCase
-
-  category_associations :author, :industries, :use_cases
+  category_associations :author, :graphgist
 
   body_property :raw_html
 
@@ -67,10 +47,8 @@ class GraphGist < GraphStarter::Asset
     place_query_cache()
   end
 
-  after_create :notify_admins_about_creation
-
-  def notify_admins_about_creation
-    GraphGistMailer.notify_admins_about_creation(self).deliver_now if Rails.env.production?
+  def place_slug
+    self.slug = self.class.unique_slug_from(safe_title + '-candidate')
   end
 
   def url_is_duplicate?
@@ -183,7 +161,6 @@ class GraphGist < GraphStarter::Asset
 
   def html
     place_asciidoc if self.raw_html.empty?
-
     self.raw_html
   end
 
@@ -203,8 +180,22 @@ class GraphGist < GraphStarter::Asset
     end
   end
 
-  def self.authorized_associations
-    @authorized_associations ||= associations.except(*GraphStarter::Asset.associations.keys + [:images, :image, :candidate])
+  def self.create_from_graphgist(graphgist)
+    self.create(
+      graphgist: graphgist,
+      status: graphgist.status,
+      title: graphgist.title,
+      url: graphgist.url,
+      raw_url: graphgist.raw_url,
+      asciidoc: graphgist.asciidoc,
+      raw_html: graphgist.raw_html,
+      cached: graphgist.cached,
+      query_cache: graphgist.query_cache,
+      author: graphgist.author,
+      creators: graphgist.creators,
+      created_at: graphgist.created_at,
+      updated_at: graphgist.updated_at
+    )
   end
 
   class << self

@@ -87,9 +87,10 @@ window.GraphGist = ($, options) ->
         contentId: content_id
         $console_template: $console_template
       }, (conslr) ->
-        consolr = conslr
-        consolr.establishSession?().done ->
-          executeQueries (->), postProcessRendering
+        if typeof conslr != 'undefined'
+          consolr = conslr
+          consolr.establishSession?().done ->
+            executeQueries (->), postProcessRendering
 
   postProcessRendering = ->
     $status = $('#status')

@@ -29,19 +29,8 @@ class InfoController < ApplicationController
     end
   end
 
-
   def challenge_graphgists
     @graph_gists = GraphGist.as(:gist).challenge_category.pluck(:gist)
-  end
-
-  def refresh_graphgist
-    fail 'Must be an admin user' if !current_user.admin?
-
-    graph_gist = GraphGist.find(params[:id])
-    graph_gist.place_current_url
-    graph_gist.save
-
-    redirect_to graph_starter.asset_path(model_slug: :graph_gists, id: params[:id])
   end
 
   def about
@@ -68,9 +57,9 @@ class InfoController < ApplicationController
     asciidoc = params[:graph_gist] ? params[:graph_gist][:asciidoc] : params[:asciidoc]
 
     if id.present?
-      @graphgist = GraphGist.find(id)
+      @graphgist = GraphGistCandidate.find(id)
     else
-      @graphgist = GraphGist.new(title: 'Preview')
+      @graphgist = GraphGistCandidate.new(title: 'Preview')
     end
 
     if url.present?
@@ -146,20 +135,15 @@ class InfoController < ApplicationController
       end
 
       @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category))
-
-      # Grrr...
-      industries, use_cases, challenge_category = params[:graph_gist].values_at(:industries, :use_cases, :challenge_category)
-      @graphgist.industries = Industry.where(uuid: industries.uniq) unless industries.nil?
-      @graphgist.use_cases = UseCase.where(uuid: use_cases.uniq) unless use_cases.nil?
-      @graphgist.challenge_category = UseCase.find(challenge_category) unless challenge_category.nil?
-
       @graphgist.author = current_user.person
       @graphgist.creators << current_user
+
+      @candidate = GraphGistCandidate.create_from_graphgist(@graphgist)
 
       # GraphGistMailer.thanks_for_submission(@graphgist, current_user).deliver_now
     end
 
-    return render text: "Could not create GraphGist: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
+    return render text: "Could not create GraphGistCandidate: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
 
     redirect_to graph_starter.asset_path(id: @graphgist.id, model_slug: 'graph_gists')
   end
@@ -180,5 +164,11 @@ class InfoController < ApplicationController
     else
       render text: 'SERVICE UNAVAILABLE', status: :service_unavailable
     end
+  end
+
+  def list_candidates
+    fail 'Must be an admin user' if !current_user.admin?
+
+    @candidates = GraphGistCandidate.where(status: 'candidate').limit(30)
   end
 end
