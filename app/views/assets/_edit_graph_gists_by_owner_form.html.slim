@@ -29,8 +29,8 @@ coffee:
         .removeAttr('novalidate')
         .attr('action', originalAction);
 
-  graph_gist_asciidoc = document.getElementById('graph_gist_asciidoc')
-  graph_gist_asciidoc && CodeMirror.fromTextArea graph_gist_asciidoc,
+  graph_gist_candidate_asciidoc = document.getElementById('graph_gist_candidate_asciidoc')
+  graph_gist_candidate_asciidoc && CodeMirror.fromTextArea graph_gist_candidate_asciidoc,
     lineNumbers: true
     lineWrapping: true
     mode: 'asciidoc'
