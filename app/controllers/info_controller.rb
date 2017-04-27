@@ -53,8 +53,14 @@ class InfoController < ApplicationController
 
   def preview_graphgist
     id = params[:id]
-    url = params[:graph_gist] ? params[:graph_gist][:url] : params[:url]
-    asciidoc = params[:graph_gist] ? params[:graph_gist][:asciidoc] : params[:asciidoc]
+
+    if params[:graph_gist_candidate]
+      url = params[:graph_gist_candidate][:url]
+      asciidoc = params[:graph_gist_candidate][:asciidoc]
+    elsif params[:graph_gist]
+      url = params[:graph_gist][:url]
+      asciidoc = params[:graph_gist][:asciidoc]
+    end
 
     if id.present?
       @graphgist = GraphGistCandidate.find(id)
