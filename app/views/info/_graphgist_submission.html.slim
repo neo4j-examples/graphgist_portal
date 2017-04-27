@@ -42,6 +42,11 @@ coffee:
         .removeAttr('novalidate')
         .attr('action', originalAction);
 
+  CodeMirror.fromTextArea document.getElementById('graph_gist_asciidoc'),
+    lineNumbers: true
+    lineWrapping: true
+    mode: 'asciidoc'
+
   window.iframe_loaded = ->
     $('#iframe-spinner').hide();
 

@@ -42,6 +42,7 @@ gem 'faraday'
 
 gem 'asciidoctor'
 gem 'mathjax-rails'
+gem 'codemirror-rails'
 
 gem 'rails-html-sanitizer'
 
