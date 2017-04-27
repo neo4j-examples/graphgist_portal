@@ -64,11 +64,11 @@ class InfoController < ApplicationController
 
     if url.present?
       @graphgist.url = url
+      @graphgist.place_current_url
     elsif asciidoc.present?
       @graphgist.asciidoc = asciidoc
+      @graphgist.place_current_asciidoc
     end
-
-    @graphgist.place_current_url
 
     @hide_menu = true
 
@@ -145,7 +145,7 @@ class InfoController < ApplicationController
 
     return render text: "Could not create GraphGistCandidate: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
 
-    redirect_to graph_starter.asset_path(id: @graphgist.id, model_slug: 'graph_gists')
+    redirect_to graph_starter.asset_path(id: @graphgist.slug, model_slug: 'graph_gists')
   end
 
   def render_graphgist

@@ -31,20 +31,26 @@ class GraphGistCandidate < GraphStarter::Asset
 
   body_property :raw_html
 
-  before_validation :place_current_url, if: :asciidoc_changed? || :url_changed?
+  before_validation :place_current_asciidoc, if: :asciidoc_changed?
+  before_validation :place_current_url, if: :url_changed?
 
   json_methods :html, :query_cache_html, :render_id, :persisted?
 
-  def place_current_url
-    if url.present?
-      place_url(url)
-      self.asciidoc = self.class.data_from_url(raw_url) if raw_url.present?
-    end
-
+  def place_current_asciidoc
     return if !asciidoc.present?
 
     place_asciidoc()
     place_query_cache()
+  end
+
+  def place_current_url
+    place_url(url)
+
+    if !asciidoc.present?
+      self.asciidoc = self.class.data_from_url(raw_url) if raw_url.present?
+    end
+
+    place_current_asciidoc()
   end
 
   def place_slug
