@@ -19,7 +19,7 @@
 
     #preview-button.ui.button Preview
 
-    = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
+    = submit_tag 'Submit for approval', id: 'create-button', class: 'ui primary button'
 
     - if !current_user
       strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to submit a GraphGist to the portal
@@ -42,10 +42,16 @@ coffee:
         .removeAttr('novalidate')
         .attr('action', originalAction);
 
-  CodeMirror.fromTextArea document.getElementById('graph_gist_asciidoc'),
+  cm = CodeMirror.fromTextArea document.getElementById('graph_gist_asciidoc'),
     lineNumbers: true
     lineWrapping: true
     mode: 'asciidoc'
+
+  cm.on 'change', (instance, changeObj) ->
+    if instance.getValue().replace(/\s+/, '').length > 0
+      $('#url_field').addClass('disabled').find('input').val('')
+    else
+      $('#url_field').removeClass('disabled')
 
   window.iframe_loaded = ->
     $('#iframe-spinner').hide();
@@ -57,17 +63,14 @@ coffee:
 
   $('#graph_gist_url').keyup ->
     if $('#graph_gist_url').val().replace(/\s+/, '').length > 0
-      $('#asciidoc_field').hide()
+      cm.setValue ''
+      cm.setOption 'readOnly', true
+      $('#asciidoc_field').addClass('disabled')
       $('#open-preview').show()
     else
-      $('#asciidoc_field').show()
+      cm.setOption 'readOnly', false
+      $('#asciidoc_field').removeClass('disabled')
       $('#open-preview').hide()
-
-  $('#graph_gist_asciidoc').keyup ->
-    if $('#graph_gist_asciidoc').val().replace(/\s+/, '').length > 0
-      $('#url_field').hide()
-    else
-      $('#url_field').show()
 
   # $('#create-button').addClass 'disabled' if !current_user?
 
