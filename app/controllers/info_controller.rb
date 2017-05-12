@@ -45,6 +45,7 @@ class InfoController < ApplicationController
 
   def submit_graphgist
     @title = 'Submit a GraphGist'
+    @graphgist_template = File.read('config/graphgist_template.adoc')
   end
 
   def submit_challenge_entry

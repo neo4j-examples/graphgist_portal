@@ -6,7 +6,7 @@
 
     .field#asciidoc_field
       label AsciiDoc
-      = text_area_tag 'graph_gist[asciidoc]', nil
+      = text_area_tag 'graph_gist[asciidoc]', @graphgist_template
 
     .field#url_field
         label
@@ -45,7 +45,8 @@ coffee:
   cm = CodeMirror.fromTextArea document.getElementById('graph_gist_asciidoc'),
     lineNumbers: true
     lineWrapping: true
-    mode: 'asciidoc'
+    mode: 'asciidoc',
+    theme: 'midnight',
 
   cm.on 'change', (instance, changeObj) ->
     if instance.getValue().replace(/\s+/, '').length > 0
