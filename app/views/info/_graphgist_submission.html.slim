@@ -1,22 +1,25 @@
-= form_tag create_graphgist_path
-  .ui.form method="get" 
-    .two.fields
-      .field
+= form_tag create_graphgist_path, id: "graph_gist_form"
+  .ui.form method="get"
+    .field#title-field
+      label Title (Required)
+      = text_field_tag 'graph_gist[title]', nil, required: true
+
+    .field#asciidoc_field
+      label AsciiDoc
+      = text_area_tag 'graph_gist[asciidoc]', @graphgist_template
+
+    .field#url_field
         label
-          | URL
+          | or URL
           |  
           a#open-preview style="display: none; cursor: pointer" Open preview in new page
         = text_field_tag 'graph_gist[url]'
-
-      .field#title-field
-        label Title (Required)
-        = text_field_tag 'graph_gist[title]', nil, required: true
 
     = yield :graphgist_submission_form
 
     #preview-button.ui.button Preview
 
-    = submit_tag 'Create', id: 'create-button', class: 'ui primary button'
+    = submit_tag 'Submit for approval', id: 'create-button', class: 'ui primary button'
 
     - if !current_user
       strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to submit a GraphGist to the portal
@@ -25,9 +28,31 @@
 #iframe-spinner.ui.active.centered.large.loader
 
 coffee:
-  $('#preview-button').click ->
+  $('#preview-button').click (e) ->
+    e.preventDefault();
+    form = $('#graph_gist_form');
+    originalAction = form.attr('action');
     $('#iframe-spinner').show();
-    $('iframe').attr('src', '/preview_graphgist?url=' + encodeURIComponent($('#graph_gist_url').val()))
+
+    form.attr('target', 'graph_gist_preview')
+        .attr('novalidate', true)
+        .attr('action', '/preview_graphgist')
+        .submit()
+        .removeAttr('target')
+        .removeAttr('novalidate')
+        .attr('action', originalAction);
+
+  cm = CodeMirror.fromTextArea document.getElementById('graph_gist_asciidoc'),
+    lineNumbers: true
+    lineWrapping: true
+    mode: 'asciidoc',
+    theme: 'midnight',
+
+  cm.on 'change', (instance, changeObj) ->
+    if instance.getValue().replace(/\s+/, '').length > 0
+      $('#url_field').addClass('disabled').find('input').val('')
+    else
+      $('#url_field').removeClass('disabled')
 
   window.iframe_loaded = ->
     $('#iframe-spinner').hide();
@@ -39,13 +64,18 @@ coffee:
 
   $('#graph_gist_url').keyup ->
     if $('#graph_gist_url').val().replace(/\s+/, '').length > 0
+      cm.setValue ''
+      cm.setOption 'readOnly', true
+      $('#asciidoc_field').addClass('disabled')
       $('#open-preview').show()
     else
+      cm.setOption 'readOnly', false
+      $('#asciidoc_field').removeClass('disabled')
       $('#open-preview').hide()
 
   # $('#create-button').addClass 'disabled' if !current_user?
 
-iframe onload="window.iframe_loaded()"
+iframe onload="window.iframe_loaded()" name="graph_gist_preview"
 
 scss:
   iframe {
@@ -61,5 +91,3 @@ scss:
     position: absolute;
     top: 60%;
   }
-
-

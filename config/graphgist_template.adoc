@@ -1,0 +1,124 @@
+= GraphGist
+:neo4j-version:
+:author:
+:twitter:
+:style: #54A835/#1078B5/white:Colorized(name)
+
+GraphGist created to test the various features available to GraphGist rendering
+
+image::http://i.imgur.com/5giAsjq.png[width=600]
+
+= ASCIIdoc formatting
+
+= Level 1 Header
+
+== Level 2 Header
+
+=== Level 3 Header
+
+_italic_
+
+*bold*
+
+`Monospace`
+
+http://www.link.to/
+
+link:http://example.org[Link Text]
+
+
+
+//setup
+//hide
+[source,cypher]
+----
+CREATE
+  (a:Person {name: 'Alice'}),
+  (b:Person {name: 'Bob'}),
+  (c:Person {name: 'Carrie'}),
+  (d:Person {name: 'David'}),
+  (e:Person {name: 'Emily'}),
+  (a)-[:FRIENDS_WITH]->(b),
+  (a)-[:FRIENDS_WITH]->(e),
+  (b)-[:FRIENDS_WITH]->(c),
+  (b)-[:FRIENDS_WITH]->(d),
+  (:Colorized {name: 'Colorized'})
+----
+
+Break
+
+[source,cypher]
+----
+MATCH (b:Person {name: 'Bob'})-[:FRIENDS_WITH]->(d:Person {name: 'David'}) RETURN b, d
+----
+
+== Header
+
+Graph result:
+
+//graph_result
+
+Full graph:
+
+//graph
+
+Break
+
+[source,cypher]
+----
+MATCH (a:Person) RETURN count(a)
+----
+
+Number of people:
+
+//table
+
+[source,cypher]
+----
+RETURN 'table after header' AS text
+----
+
+== Header
+
+Table directly after a header:
+
+//table
+
+[source,cypher]
+----
+MATCH (a:Person {name: 'Alice'})-[:FRIENDS_WITH]->(b:Person {name: 'Bob'}) RETURN * LIMIT 1
+----
+
+== Header
+
+Graph directly after a header:
+
+//graph_result
+
+== Colorization
+
+[source,cypher]
+----
+MATCH (c:Colorized {name: 'Colorized'}) RETURN *
+----
+
+Should be colorized:
+
+//graph_result
+
+== MathJax
+
+There should be MathJax here:
+
+++++
+\[p(u_i \mid q) = \sum p(u_i \mid t)p(t \mid q) \]
+++++
+
+== Error reporting
+
+This should always be the last result because errors stop execution of queries
+
+[source,cypher]
+----
+MATCH (n:MissingParen
+----

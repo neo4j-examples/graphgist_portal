@@ -12,7 +12,7 @@
 #= require base64
 #= require mutate.min
 
-#= require codemirror/runmode/runmode-standalone
+#= require codemirror/runmode/runmode
 #= require codemirror/runmode/colorize
 #= require codemirror/mode/cypher
 

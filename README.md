@@ -8,6 +8,7 @@
 
 * Ruby 2.3.0
 * Neo4j Community Edition
+* [Semantic UI 2.1](https://semantic-ui.com/)
 
 ## Automated Setup
 
