@@ -15,7 +15,7 @@
 ### Requirements
 
 * Vagrant
-* VirtualBox
+* VirtualBox (in case you use v5.1 you may need to downgrade to v5.0)
 
 ### Setup
 
