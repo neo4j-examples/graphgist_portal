@@ -49,12 +49,6 @@ javascript:
         div.ui.label class=[@asset.status == 'candidate' ? "orange" : nil, @asset.status == 'live' ? "teal" : nil, @asset.status == 'disabled' ? "red" : nil]
           = @asset.status
 
-        .ui.divider
-
-      - if @asset.is_a?(GraphGist) && @asset.status == 'live'
-        div.ui.form
-          input type="text" readonly="readonly" value="https://neo4j.com/graphgist/#{@asset.id}"
-
       - if app_user_is_admin?
         = render partial: '/graph_starter/assets/admin_buttons', locals: {asset: @asset}
         = render partial: '/graph_starter/assets/extra_admin_buttons', locals: {asset: @asset}
