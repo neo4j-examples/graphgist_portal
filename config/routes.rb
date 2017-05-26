@@ -9,10 +9,8 @@ Rails.application.routes.draw do
   get 'featured_graphgists(.:format)' => 'info#featured_graphgists'
   get 'about' => 'info#about'
 
-  authenticated do
-    get 'submit_graphgist' => 'info#submit_graphgist'
-  end
-  
+  get 'submit_graphgist' => 'info#submit_graphgist'
+
   get 'submit_challenge_entry' => 'info#submit_challenge_entry'
 
   post 'preview_graphgist' => 'info#preview_graphgist'
