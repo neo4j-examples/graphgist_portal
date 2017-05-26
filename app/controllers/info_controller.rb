@@ -1,4 +1,6 @@
 class InfoController < ApplicationController
+  before_action :authenticate_user!, :only => [:submit_graphgist]
+
   def featured_graphgists
     @title = 'Home'
 
