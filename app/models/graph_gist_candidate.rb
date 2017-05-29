@@ -27,7 +27,12 @@ class GraphGistCandidate < GraphStarter::Asset
 
   hidden_json_properties :raw_html, :query_cache
 
-  category_associations :author, :graphgist
+  has_many :out, :industries, type: :FOR_INDUSTRY
+  has_many :out, :use_cases, type: :FOR_USE_CASE
+
+  has_one :out, :challenge_category, type: :FOR_CHALLENGE_CATEGORY, model_class: :UseCase
+
+  category_associations :author, :industries, :use_cases, :graphgist
 
   body_property :raw_html
 
@@ -197,7 +202,9 @@ class GraphGistCandidate < GraphStarter::Asset
       author: graphgist.author,
       creators: graphgist.creators,
       created_at: graphgist.created_at,
-      updated_at: graphgist.updated_at
+      updated_at: graphgist.updated_at,
+      summary: graphgist.summary,
+      image: graphgist.image,
     )
   end
 

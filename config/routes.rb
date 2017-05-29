@@ -36,8 +36,12 @@ Rails.application.routes.draw do
 
   match 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide_options', via: :options
   get 'graph_gists/:id_or_slug/graph_guide' => 'info#graph_guide', as: :graph_guide
+
   get 'graph_gists/:id/edit_by_owner' => 'assets#edit_graph_gists_by_owner', as: :graph_edit_by_owner
   patch 'graph_gists/:id/edit_by_owner' => 'assets#update_graph_gists_by_owner', as: :graph_update_by_owner
+
+  get 'graph_gists/:id/edit_by_owner_step2' => 'assets#edit_graph_gists_by_owner_step2', as: :graph_edit_by_owner_step2
+  patch 'graph_gists/:id/edit_by_owner_step2' => 'assets#update_graph_gists_by_owner_step2', as: :graph_update_by_owner_step2
 
   get 'candidates/waiting_review' => 'info#list_candidates', as: :list_candidates_graphgist
   post 'candidates/graphgist/:id/status/live' => 'assets#make_graphgist_live', as: :make_graphgist_live

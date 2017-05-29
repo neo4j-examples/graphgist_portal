@@ -55,6 +55,47 @@ class AssetsController < ::GraphStarter::AssetsController
       @liveAsset.save
     end
 
+    redirect_to graph_edit_by_owner_step2_path(id: params[:id])
+  end
+
+  def edit_graph_gists_by_owner_step2
+    params[:model_slug] = "graph_gists"
+    @liveAsset, @access_level = asset_with_access_level
+
+    if @access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
+    @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
+    if !@asset
+      @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+    end
+
+    @title = @asset.title.to_s + ' - Edit'
+
+    render file: 'public/404.html', status: :not_found, layout: false if !@asset
+  end
+
+  def update_graph_gists_by_owner_step2
+    params[:model_slug] = "graph_gists"
+    @liveAsset, @access_level = asset_with_access_level
+
+    if @access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
+    @asset = @liveAsset.candidate
+    @asset.status = 'candidate'
+    @asset.update(params['graph_gist_candidate'])
+
+    if ['candidate', 'draft'].include?(@liveAsset.status)
+      @liveAsset.is_candidate_updated = false
+      @liveAsset.update(params['graph_gist_candidate'])
+    else
+      @liveAsset.is_candidate_updated = true
+      @liveAsset.save
+    end
+
     redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'graph_gist_candidates')
   end
 
