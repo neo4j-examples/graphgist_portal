@@ -8,19 +8,20 @@ javascript:
     .content
       = @asset.safe_title
 
-  - if @asset.status == 'candidate'
-    .ui.message.yellow.gist-alert
-      div.header This is an unapproved candidate.
+  - if @asset.is_a?(GraphGist)
+    - if @asset.status == 'candidate'
+      .ui.message.yellow.gist-alert
+        div.header This is an unapproved candidate.
 
-  - if @asset.status == 'live'
-    .ui.message.yellow.gist-alert
-      div.header This is a preview of a graphgist.
-      p
-        |
-          To see the live version, go to
-        = ' '
-        a href="https://neo4j.com/graphgist/#{@asset.id}"
-          | https://neo4j.com/graphgist/#{@asset.id}
+    - if @asset.status == 'live'
+      .ui.message.yellow.gist-alert
+        div.header This is a preview of a graphgist.
+        p
+          |
+            To see the live version, go to
+          = ' '
+          a href="https://neo4j.com/graphgist/#{@asset.id}"
+            | https://neo4j.com/graphgist/#{@asset.id}
 
   - center_width, right_width = "thirteen", "three"
 
