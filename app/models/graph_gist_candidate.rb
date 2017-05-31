@@ -175,15 +175,12 @@ class GraphGistCandidate < GraphStarter::Asset
   end
 
   def query_cache_html
-    if not self.query_cache
-      "<script></script>"
-    else
-      %Q(
-        <script>
-          var graphgist_cached_queries = #{self.query_cache};
-        </script>
-      )
-    end
+    place_query_cache if self.query_cache.empty?
+    return %Q(
+      <script>
+        var graphgist_cached_queries = #{self.query_cache};
+      </script>
+    )
   end
 
   def self.create_from_graphgist(graphgist)
