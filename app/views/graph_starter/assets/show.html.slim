@@ -24,7 +24,7 @@ javascript:
           = render_body(@asset, @model_slug)
 
     div class="#{right_width} wide column" id="right-column"
-      - if @asset.status == 'live'
+      - if @asset.is_a?(GraphGist) && @asset.status == 'live'
           a href="https://neo4j.com/graphgist/#{@asset.id}"
             | Live Version
 
