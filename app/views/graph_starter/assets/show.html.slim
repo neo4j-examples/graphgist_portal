@@ -13,16 +13,6 @@ javascript:
       .ui.message.yellow.gist-alert
         div.header This is an unapproved candidate.
 
-    - if @asset.status == 'live'
-      .ui.message.yellow.gist-alert
-        div.header This is a preview of a graphgist.
-        p
-          |
-            To see the live version, go to
-          = ' '
-          a href="https://neo4j.com/graphgist/#{@asset.id}"
-            | https://neo4j.com/graphgist/#{@asset.id}
-
   - center_width, right_width = "thirteen", "three"
 
   .ui.grid
@@ -34,6 +24,10 @@ javascript:
           = render_body(@asset, @model_slug)
 
     div class="#{right_width} wide column" id="right-column"
+      - if @asset.status == 'live'
+          a href="https://neo4j.com/graphgist/#{@asset.id}"
+            | Live Version
+
       - if @access_level == 'write' && (@asset.is_a?(GraphGistCandidate) || @asset.is_a?(GraphGist))
         - if @asset.is_a?(GraphGistCandidate)
           p
