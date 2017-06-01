@@ -17,7 +17,7 @@ class GraphGistCandidate < GraphStarter::Asset
   validates :query_cache, presence: true
 
   property :status, type: String, default: 'candidate'
-  enumerable_property :status, %w(live disabled candidate)
+  enumerable_property :status, %w(live disabled candidate draft)
 
   has_one :in, :author, type: :WROTE, model_class: :Person
 

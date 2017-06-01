@@ -1,7 +1,7 @@
 - if asset.is_a?(GraphGistCandidate) || asset.is_a?(GraphGist)
   .ui.divider
 
-  - if asset.status != 'live'
+  - if asset.status != 'live' && asset.status != 'draft'
     = form_tag make_graphgist_live_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
       button.ui.labeled.icon.button.teal type="submit"
         i.checkmark.icon
@@ -16,13 +16,13 @@
 - if asset.persisted?
   .ui.divider
 
-  a.ui.labeled.icon.button href="#{graph_starter.edit_asset_path(id: asset.is_a?(GraphGistCandidate) ? @asset.graphgist.id : @asset.id)}"
+  a.ui.labeled.icon.button href="#{graph_starter.edit_asset_path(id: @asset.id)}"
     i.edit.icon
     | Admin Edit
 
   .ui.divider
 
   .ui.buttons
-    a.ui.labeled.icon.red.button.right.floated href="#{graph_starter.destroy_asset_path(id: asset.is_a?(GraphGistCandidate) ? @asset.graphgist.id : @asset.id)}"
+    a.ui.labeled.icon.red.button.right.floated href="#{graph_starter.destroy_asset_path(id: @asset.id)}"
       i.delete.icon
       | Delete

@@ -176,8 +176,8 @@ class InfoController < ApplicationController
   end
 
   def list_candidates
-    fail 'Must be an admin user' if !current_user.admin?
+    redirect_to '/' if !current_user.present? || !current_user.admin?
 
-    @candidates = GraphGistCandidate.where(status: 'candidate').limit(30)
+    @candidates = GraphGistCandidate.where(status: 'candidate')
   end
 end
