@@ -199,10 +199,6 @@ window.GraphGist = ($, options) ->
           toggler $wrapper, $toggleQuery, 'hide'
 
     $('pre code.language-cypher').addClass 'cm-s-neo'
-    code_els = $('pre code.language-cypher').toArray()
-    for i of code_els
-      code_el = code_els[i]
-      CodeMirror.runMode $(code_el).text(), 'cypher', code_el
     $('table').addClass 'table'
     # bootstrap formatting
     version
