@@ -29,7 +29,7 @@ javascript:
             | Live Version
 
       - if @access_level == 'write' && (@asset.is_a?(GraphGistCandidate) || @asset.is_a?(GraphGist))
-        - if @asset.is_a?(GraphGistCandidate)
+        - if @asset.is_a?(GraphGistCandidate) && @asset.graphgist.status == 'live'
           p
             a.ui.red.label href="#{graph_starter.asset_path(id: @asset.graphgist.id, model_slug: 'graph_gists')}"
               | Go to live version.

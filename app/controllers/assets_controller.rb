@@ -22,6 +22,10 @@ class AssetsController < ::GraphStarter::AssetsController
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
 
+    if @access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
     @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
     if !@asset
       @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
@@ -35,13 +39,17 @@ class AssetsController < ::GraphStarter::AssetsController
   def update_graph_gists_by_owner
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
+
+    if @access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
     @asset = @liveAsset.candidate
-    @asset.status = 'candidate'
     @asset.update(params['graph_gist_candidate'])
 
-    if @liveAsset.status == 'candidate'
+    if ['candidate', 'draft'].include?(@liveAsset.status)
       @liveAsset.is_candidate_updated = false
-      @liveAsset.update(params[params[:model_slug].singularize])
+      @liveAsset.update(params['graph_gist_candidate'])
     else
       @liveAsset.is_candidate_updated = true
       @liveAsset.save
@@ -94,8 +102,30 @@ class AssetsController < ::GraphStarter::AssetsController
 
     live.status = 'disabled'
     live.save
-    candidate.status = 'candidate'
+    candidate.status = 'draft'
     candidate.save
     redirect_to graph_starter.asset_path(id: candidate.id, model_slug: 'graph_gist_candidates')
+  end
+
+  def make_graphgist_candidate
+    params[:model_slug] = "graph_gists"
+    live, access_level = asset_with_access_level
+
+    if access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
+    if live.candidate.nil?
+      candidate = GraphGistCandidate.create_from_graphgist(live)
+    else
+      candidate = live.candidate
+    end
+
+    live.status = 'candidate'
+    live.save
+    candidate.status = 'candidate'
+    candidate.save
+
+    redirect_to graph_starter.asset_path(id: live.id, model_slug: 'graph_gists')
   end
 end

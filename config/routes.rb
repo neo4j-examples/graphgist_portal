@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get 'candidates/waiting_review' => 'info#list_candidates', as: :list_candidates_graphgist
   post 'candidates/graphgist/:id/status/live' => 'assets#make_graphgist_live', as: :make_graphgist_live
   post 'candidates/graphgist/:id/status/disabled' => 'assets#make_graphgist_disabled', as: :make_graphgist_disabled
+  post 'candidates/graphgist/:id/status/candidate' => 'assets#make_graphgist_candidate', as: :make_graphgist_candidate
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 

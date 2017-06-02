@@ -9,6 +9,18 @@
       a.ui.labeled.icon.button href="#{graph_edit_by_owner_path(id: asset.is_a?(GraphGist) ? @asset.id : @asset.graphgist.id)}"
         i.edit.icon
         | Edit Graphgist
+    - if asset.status == 'draft'
+      .ui.divider
+      = form_tag make_graphgist_candidate_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
+        button.ui.button type="submit"
+          | Submit for Approval
+    - if asset.status == 'candidate'
+      .ui.divider
+      div
+        | Submitted for approval
+    .ui.divider
+    div
+      | If approved, your graphgist will appear on the Neo4j.com/graphgists. You can make edits at any time, and when you are ready for the edits to appear on the Neo4j.com/graphgists you can submit again 
 
   .ui.modal#graph-guide-modal
     i.close.icon
