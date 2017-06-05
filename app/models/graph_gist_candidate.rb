@@ -204,7 +204,7 @@ class GraphGistCandidate < GraphStarter::Asset
       created_at: graphgist.created_at,
       updated_at: graphgist.updated_at,
       summary: graphgist.summary,
-      image: graphgist.image,
+      # image: graphgist.image,
     )
   end
 
