@@ -1,0 +1,41 @@
+= form_for @asset, url: url_for(action: action), html: {class: 'ui form graph_gist_edit_form', multipart: true} do |f|
+  .field
+    label Summary
+    = f.text_area :summary
+
+
+  - @asset.class.authorized_properties_and_levels(current_user).each do |property, level|
+    .field
+      - editable_properties = GraphStarter.configuration.editable_properties[@asset.class.name.to_sym]
+      - can_write = (level == 'write') && !f.nil? && (editable_properties.nil? || editable_properties.map(&:to_s).include?(property.name))
+
+      - if @asset.class.display_property?(property.name) || can_write
+        label = property.name.humanize
+
+        = render partial: 'graph_starter/properties/property', locals: {property: property, asset: @asset, form: f, can_write: can_write}
+
+  - @asset.class.authorized_associations.each do |name, association|
+
+    - if name.to_s != 'author'
+      - target_class = association.target_class
+      - next if !target_class.ancestors.include?(GraphStarter::Asset)
+      javascript:
+          var current_#{name} = [];
+
+      - if name.to_s != ('graphgist' || 'status')
+        .field
+          label = name.to_s.humanize
+
+          - field_name = (association.type == :has_many ? "#{name.to_s.singularize}_ids" : "#{name}_id")
+          - options = target_class.as(:n).pluck(target_class.name_property, target_class.id_property_name).map {|title, _| [GraphStarter::Asset.sanitize_title(title), _] }.sort_by {|pair| pair.inspect.downcase }
+
+          - html_options = {class: 'ui fluid search dropdown'}
+          - html_options[:multiple] = '' if association.type == :has_many
+          = f.select field_name, options, {include_blank: 'Please select'}, html_options
+
+  javascript:
+      $('.ui.dropdown').dropdown()
+
+  a.ui.button href="#{graph_edit_by_owner_path(id: params[:id])}" Back to step 1
+
+  = f.submit 'Update', class: 'ui button'
