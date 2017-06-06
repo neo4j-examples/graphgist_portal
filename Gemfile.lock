@@ -373,7 +373,7 @@ GEM
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    rdoc (4.2.0)
+    rdoc (4.3.0)
     redis (3.2.2)
     redis-actionpack (4.0.1)
       actionpack (~> 4)
@@ -604,4 +604,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.6
+   1.15.1

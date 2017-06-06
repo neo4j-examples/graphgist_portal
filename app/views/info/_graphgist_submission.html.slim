@@ -19,10 +19,8 @@
 
     #preview-button.ui.button Preview
 
-    button type="submit" name="graph_gist[status]" value="draft" id="save-button" class="ui primary button"
-      | Save
-    button type="submit" name="graph_gist[status]" value="candidate" id="create-button" class="ui primary button"
-      | Submit for approval
+    button type="submit" name="graph_gist_candidate[status]" value="draft" id="save-button" class="ui primary button"
+      | Save and Continue
 
     - if !current_user
       strong You will need to sign in with <a href="#{main_app.user_omniauth_authorize_path(:twitter)}">Twitter</a> or <a href="#{main_app.user_omniauth_authorize_path(:github)}">GitHub</a> to submit a GraphGist to the portal

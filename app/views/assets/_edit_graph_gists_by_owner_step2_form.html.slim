@@ -36,6 +36,9 @@
   javascript:
       $('.ui.dropdown').dropdown()
 
-  a.ui.button href="#{graph_edit_by_owner_path(id: params[:id])}" Back to step 1
-
-  = f.submit 'Update', class: 'ui button'
+  a.ui.button href="#{graph_edit_by_owner_path(id: params[:id])}" Back to Asciidoc
+  
+  button type="submit" name="graph_gist_candidate[status]" value="draft" id="save-button" class="ui primary button"
+    | Save and View
+  button type="submit" name="graph_gist_candidate[status]" value="candidate" id="create-button" class="ui primary button"
+    | Submit for Approval
