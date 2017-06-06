@@ -154,7 +154,7 @@ class InfoController < ApplicationController
 
     return render text: "Could not create GraphGistCandidate: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
 
-    redirect_to graph_starter.asset_path(id: @graphgist.slug, model_slug: 'graph_gists')
+    redirect_to graph_edit_by_owner_step2_path(id: @graphgist.id)
   end
 
   def render_graphgist
