@@ -60,6 +60,9 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
 
+  get 'challenges/new' => 'assets#challenge_new'
+  post 'challenges' => 'assets#challenge_create', as: :challenge_create
+
   get 'categories/:slug(.:format)' => 'categories#show'
   get 'models/:name' => 'models#show', as: :model
   get 'authorizables/user_and_group_search.json' => 'authorizables#user_and_group_search'
