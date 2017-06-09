@@ -44,8 +44,7 @@ class GraphGist < GraphStarter::Asset
 
   has_many :out, :industries, type: :FOR_INDUSTRY
   has_many :out, :use_cases, type: :FOR_USE_CASE
-
-  has_one :out, :challenge_category, type: :FOR_CHALLENGE_CATEGORY, model_class: :UseCase
+  has_many :out, :challenges, type: :FOR_CHALLENGE
 
   category_associations :author, :industries, :use_cases
 
@@ -55,6 +54,20 @@ class GraphGist < GraphStarter::Asset
   before_validation :place_current_url, if: :url_changed?
 
   json_methods :html, :query_cache_html, :render_id, :persisted?
+
+  validate :is_challenge_active
+
+  def is_challenge_active
+    if challenges.count > 0
+      challenges.each do |challenge|
+        if challenge.start_date.present? && challenge.start_date > DateTime.now
+          errors.add(:challenges, "You can't add graphgists to challenge '#{challenge.name}' because its not started yet")
+        elsif challenge.end_date.present? && challenge.end_date < DateTime.now
+          errors.add(:challenges, "You can't add graphgists to challenge '#{challenge.name}' because its already ended")
+        end
+      end
+    end
+  end
 
   def place_current_asciidoc
     return if !asciidoc.present?

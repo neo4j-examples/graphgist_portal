@@ -1,0 +1,77 @@
+- if request.post? || request.put?
+  - if !@asset.valid?
+    .ui.error.message
+      i.close.icon
+      ui.list
+        - @asset.errors.messages.each do |field, errors|
+          - errors.each do |error|
+            li #{field} #{error}
+
+= form_for @asset, url: challenge_create_path, html: {class: 'ui form', multipart: true} do |f|
+  = render partial: 'images', locals: {asset: @asset}
+
+  - if @access_level == 'write'
+    .field
+      label Add image
+
+      = file_field_tag 'image'
+
+  .field
+    label Summary
+    = f.text_area :summary
+
+  .field
+    label = 'Name'
+    - id = SecureRandom.uuid
+    - value = @asset.read_attribute('start_date')
+    = f.text_field 'name', value: value, id: id
+
+  .field
+    label = 'Start date'
+    i.calendar.icon
+    i.wait.icon 
+    - strftime_format = '%Y-%m-%d %H:%M'
+    - id = SecureRandom.uuid
+    - value = @asset.read_attribute('start_date')
+    = f.text_field 'start_date', value: value && value.strftime(strftime_format), id: id, placeholder: "Format: YYYY-MM-DD HH:MM, always in UTC"
+    - js_options = "format:'Y-m-d H:i'"
+    javascript:
+      $(function(){
+        $('##{id}').datetimepicker({#{js_options.html_safe}});
+      });
+
+  .field
+    label = 'End date'
+    i.calendar.icon
+    i.wait.icon 
+    - strftime_format = '%Y-%m-%d %H:%M'
+    - id = SecureRandom.uuid
+    - value = @asset.read_attribute('end_date')
+    = f.text_field 'end_date', value: value && value.strftime(strftime_format), id: id, placeholder: "Format: YYYY-MM-DD HH:MM, always in UTC"
+    - js_options = "format:'Y-m-d H:i'"
+    javascript:
+      $(function(){
+        $('##{id}').datetimepicker({#{js_options.html_safe}});
+      });
+
+  - @asset.class.authorized_associations.each do |name, association|
+    - target_class = association.target_class
+    - next if !target_class.ancestors.include?(GraphStarter::Asset)
+    javascript:
+      var current_#{name} = [];
+
+    .field
+      label = name.to_s.humanize
+
+      - field_name = (association.type == :has_many ? "#{name.to_s.singularize}_ids" : "#{name}_id")
+      - options = target_class.as(:n).pluck(target_class.name_property, target_class.id_property_name).map {|title, _| [GraphStarter::Asset.sanitize_title(title), _] }.sort_by {|pair| pair.inspect.downcase }
+
+      - html_options = {class: 'ui fluid search dropdown'}
+      - html_options[:multiple] = '' if association.type == :has_many
+      = f.select field_name, options, {include_blank: 'Please select'}, html_options
+
+  javascript:
+    $('.ui.dropdown').dropdown()
+
+  = f.submit 'Create', class: 'ui button'
+

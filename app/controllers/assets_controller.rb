@@ -169,4 +169,23 @@ class AssetsController < ::GraphStarter::AssetsController
 
     redirect_to graph_starter.asset_path(id: live.id, model_slug: 'graph_gists')
   end
+
+  def challenge_new
+    params[:model_slug] = "challenges"
+    @asset = model_class.new
+    fail 'Must be an admin user' if @asset.is_a?(Challenge) && !current_user.admin?
+  end
+
+  def challenge_create
+    params[:model_slug] = "challenges"
+    fail 'Must be an admin user' if @asset.is_a?(Challenge) && !current_user.admin?
+    @asset = model_class.create(params[params[:model_slug].singularize])
+
+    if @asset.persisted?
+      redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'challenges')
+    else
+      flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
+      redirect_to :back
+    end
+  end
 end
