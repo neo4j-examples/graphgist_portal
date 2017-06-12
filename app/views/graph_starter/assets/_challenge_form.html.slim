@@ -71,7 +71,9 @@
       = f.select field_name, options, {include_blank: 'Please select'}, html_options
 
   javascript:
-    $('.ui.dropdown').dropdown()
+    $(function(){
+      $('.ui.dropdown').dropdown();
+    });
 
   = f.submit 'Create', class: 'ui button'
 

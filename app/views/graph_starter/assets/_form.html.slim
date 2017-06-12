@@ -1,4 +1,4 @@
-- if request.post? || request.put?
+- if action == 'update' || (request.post? || request.put?)
   - if !@asset.valid?
     .ui.error.message
       i.close.icon
@@ -48,7 +48,9 @@
       = f.select field_name, options, {include_blank: 'Please select'}, html_options
 
   javascript:
-    $('.ui.dropdown').dropdown()
+    $(function(){
+      $('.ui.dropdown').dropdown();
+    });
 
   = f.submit action.humanize, class: 'ui button'
 
