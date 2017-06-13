@@ -86,7 +86,10 @@ class AssetsController < ::GraphStarter::AssetsController
 
     @asset = @liveAsset.candidate
     @asset.status = 'candidate'
-    @asset.update(params['graph_gist_candidate'])
+    if !@asset.update(params['graph_gist_candidate'])
+      flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
+      return redirect_to :back
+    end
 
     if ['candidate', 'draft'].include?(@liveAsset.status)
       @liveAsset.is_candidate_updated = false
@@ -179,10 +182,11 @@ class AssetsController < ::GraphStarter::AssetsController
   def challenge_create
     params[:model_slug] = "challenges"
     fail 'Must be an admin user' if @asset.is_a?(Challenge) && !current_user.admin?
+
     @asset = model_class.create(params[params[:model_slug].singularize])
 
     if @asset.persisted?
-      redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'challenges')
+      redirect_to graph_starter.asset_path(id: @asset.id, model_slug: params[:model_slug])
     else
       flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
       redirect_to :back
