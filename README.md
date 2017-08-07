@@ -95,9 +95,9 @@ Install the project requirements
 bundle install
 ```
 
-Ensure the Neo4j database is running and you have a github oauth application.
+Ensure the Neo4j database is running.
 
-Set the environment
+Set the environment (optional, only if you want to log in with github)
 
 ```
 export GITHUB_KEY='<your_key>'
