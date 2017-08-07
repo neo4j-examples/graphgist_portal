@@ -20,7 +20,8 @@ class User
   property :updated_at, type: DateTime
 
   ## Database authenticatable
-  property :email, type: String, null: false, default: ''
+  property :email, type: String, default: ''
+  validates :email, presence: true
   index :email
 
   property :encrypted_password

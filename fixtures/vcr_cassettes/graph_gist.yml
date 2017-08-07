@@ -1673,4 +1673,420 @@ http_interactions:
         This is horrible.  Whooaaa!!
     http_version: 
   recorded_at: Wed, 27 Jan 2016 09:40:53 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-23.herokuapp.com/console/init
+    body:
+      encoding: UTF-8
+      string: '{"init":"none"}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - a4a97244-0479-4847-8be2-c7ff3f748765
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:51 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Set-Cookie:
+      - heroku-session-affinity=ACyDaANoA24IATwOufD///8HYgALQV9iAAh3iWEBbAAAAAFtAAAABXdlYi4xam14z7N8Exj0FMRf46m6YV5fvVkJ;
+        Version=1; Expires=Fri, 16-Feb-2018 23:33:51 GMT; Max-Age=86400; Domain=neo4j-console-23.herokuapp.com;
+        Path=/
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"result":"+-------------+\n| Neo | r | m |\n+-------------+\n+-------------+\n0
+        rows\n8 ms\n","init":null,"visualization":{"nodes":[],"links":[]},"stats":{"time":8,"rows":0},"columns":["Neo","r","m"],"query":"MATCH
+        (n:Crew)-[r:KNOWS*]-m\n WHERE n.name\u003d\u0027Neo\u0027\n RETURN n AS Neo,r,m","json":[],"time":9,"message":null,"version":null,"plan":"Compiler
+        CYPHER 2.3\n\nPlanner COST\n\nRuntime INTERPRETED\n\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n|
+        Operator              | Estimated Rows | Rows | DB Hits | Identifiers  | Other                     |\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n|
+        +ProduceResults       |              0 |    0 |       0 | Neo, m, r    | Neo,
+        r, m                 |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +Projection           |              0 |    0 |       0 | Neo, m, n, r | n;
+        r; m                   |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +VarLengthExpand(All) |              0 |    0 |       0 | m, n, r      | (n)-[r:KNOWS*]-\u003e(m)       |\n|
+        |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +Filter               |              0 |    0 |       0 | n            | n.name
+        \u003d\u003d {  AUTOSTRING0} |\n| |                     +----------------+------+---------+--------------+---------------------------+\n|
+        +NodeByLabelScan      |              0 |    0 |       1 | n            | :Crew                     |\n+-----------------------+----------------+------+---------+--------------+---------------------------+\n\nTotal
+        database accesses: 1\n"}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:39 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-23.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: "\n// Create account holders\nCREATE (accountHolder1:AccountHolder {\n
+        \      \t\tFirstName: \"John\",\n       \t\tLastName: \"Doe\",\n       \t\tUniqueId:
+        \"JohnDoe\" })\n\nCREATE (accountHolder2:AccountHolder {\n\t\t\tFirstName:
+        \"Jane\",\n\t\t\tLastName: \"Appleseed\",\n\t\t\tUniqueId: \"JaneAppleseed\"
+        })\n\nCREATE (accountHolder3:AccountHolder {\n\t\t\tFirstName: \"Matt\",\n\t\t\tLastName:
+        \"Smith\",\n\t\t\tUniqueId: \"MattSmith\" })\n\n// Create Address\nCREATE
+        (address1:Address {\n\t\t\tStreet: \"123 NW 1st Street\",\n\t\t\tCity: \"San
+        Francisco\",\n\t\t\tState: \"California\",\n\t\t\tZipCode: \"94101\" })\n\n//
+        Connect 3 account holders to 1 address\nCREATE (accountHolder1)-[:HAS_ADDRESS]->(address1),\n
+        \      (accountHolder2)-[:HAS_ADDRESS]->(address1),\n       (accountHolder3)-[:HAS_ADDRESS]->(address1)\n\n//
+        Create Phone Number\nCREATE (phoneNumber1:PhoneNumber { PhoneNumber: \"555-555-5555\"
+        })\n\n// Connect 2 account holders to 1 phone number\nCREATE (accountHolder1)-[:HAS_PHONENUMBER]->(phoneNumber1),\n
+        \      (accountHolder2)-[:HAS_PHONENUMBER]->(phoneNumber1)\n\n// Create SSN\nCREATE
+        (ssn1:SSN { SSN: \"241-23-1234\" })\n\n// Connect 2 account holders to 1 SSN\nCREATE
+        (accountHolder2)-[:HAS_SSN]->(ssn1),\n       (accountHolder3)-[:HAS_SSN]->(ssn1)\n\n//
+        Create SSN and connect 1 account holder\nCREATE (ssn2:SSN { SSN: \"241-23-4567\"
+        })<-[:HAS_SSN]-(accountHolder1)\n\n// Create Credit Card and connect 1 account
+        holder\nCREATE (creditCard1:CreditCard {\n\t\t\tAccountNumber: \"1234567890123456\",\n\t\t\tLimit:
+        5000, Balance: 1442.23,\n\t\t\tExpirationDate: \"01-20\",\n\t\t\tSecurityCode:
+        \"123\" })<-[:HAS_CREDITCARD]-(accountHolder1)\n\n// Create Bank Account and
+        connect 1 account holder\nCREATE (bankAccount1:BankAccount {\n\t\t\tAccountNumber:
+        \"2345678901234567\",\n\t\t\tBalance: 7054.43 })<-[:HAS_BANKACCOUNT]-(accountHolder1)\n\n//
+        Create Credit Card and connect 1 account holder\nCREATE (creditCard2:CreditCard
+        {\n\t\t\tAccountNumber: \"1234567890123456\",\n\t\t\tLimit: 4000, Balance:
+        2345.56,\n\t\t\tExpirationDate: \"02-20\",\n\t\t\tSecurityCode: \"456\" })<-[:HAS_CREDITCARD]-(accountHolder2)\n\n//
+        Create Bank Account and connect 1 account holder\nCREATE (bankAccount2:BankAccount
+        {\n\t\t\tAccountNumber: \"3456789012345678\",\n\t\t\tBalance: 4231.12 })<-[:HAS_BANKACCOUNT]-(accountHolder2)\n\n//
+        Create Unsecured Loan and connect 1 account holder\nCREATE (unsecuredLoan2:UnsecuredLoan
+        {\n\t\t\tAccountNumber: \"4567890123456789-0\",\n\t\t\tBalance: 9045.53,\n\t\t\tAPR:
+        .0541,\n\t\t\tLoanAmount: 12000.00 })<-[:HAS_UNSECUREDLOAN]-(accountHolder2)\n\n//
+        Create Bank Account and connect 1 account holder\nCREATE (bankAccount3:BankAccount
+        {\n\t\t\tAccountNumber: \"4567890123456789\",\n\t\t\tBalance: 12345.45 })<-[:HAS_BANKACCOUNT]-(accountHolder3)\n\n//
+        Create Unsecured Loan and connect 1 account holder\nCREATE (unsecuredLoan3:UnsecuredLoan
+        {\n\t\t\tAccountNumber: \"5678901234567890-0\",\n\t\t\tBalance: 16341.95,
+        APR: .0341,\n\t\t\tLoanAmount: 22000.00 })<-[:HAS_UNSECUREDLOAN]-(accountHolder3)\n\n//
+        Create Phone Number and connect 1 account holder\nCREATE (phoneNumber2:PhoneNumber
+        {\n\t\t\tPhoneNumber: \"555-555-1234\" })<-[:HAS_PHONENUMBER]-(accountHolder3)\n\nRETURN
+        *"
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - a4a97244-0479-4847-8be2-c7ff3f748765
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:51 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Set-Cookie:
+      - heroku-session-affinity=ACyDaANoA24IAbMfs0////8HYgALQWBiAABotGEBbAAAAAFtAAAABXdlYi4xairGLu9oc/r+2k9qM7y31YZ4qg1S;
+        Version=1; Expires=Fri, 16-Feb-2018 23:33:52 GMT; Max-Age=86400; Domain=neo4j-console-23.herokuapp.com;
+        Path=/
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"result":"+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        accountHolder1                                              | accountHolder2                                                          |
+        accountHolder3                                                  | address1                                                                                    |
+        bankAccount1                                              | bankAccount2                                               |
+        bankAccount3                                                | creditCard1                                                                                                    |
+        creditCard2                                                                                                    |
+        phoneNumber1                        | phoneNumber2                         |
+        ssn1                       | ssn2                       | unsecuredLoan2                                                                             |
+        unsecuredLoan3                                                                              |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        Node[0]{FirstName:\"John\",LastName:\"Doe\",UniqueId:\"JohnDoe\"} | Node[1]{FirstName:\"Jane\",LastName:\"Appleseed\",UniqueId:\"JaneAppleseed\"}
+        | Node[2]{FirstName:\"Matt\",LastName:\"Smith\",UniqueId:\"MattSmith\"} |
+        Node[3]{Street:\"123 NW 1st Street\",City:\"San Francisco\",State:\"California\",ZipCode:\"94101\"}
+        | Node[8]{Balance:7054.43,AccountNumber:\"2345678901234567\"} | Node[10]{Balance:4231.12,AccountNumber:\"3456789012345678\"}
+        | Node[12]{Balance:12345.45,AccountNumber:\"4567890123456789\"} | Node[7]{Balance:1442.23,AccountNumber:\"1234567890123456\",Limit:5000,ExpirationDate:\"01-20\",SecurityCode:\"123\"}
+        | Node[9]{Balance:2345.56,AccountNumber:\"1234567890123456\",Limit:4000,ExpirationDate:\"02-20\",SecurityCode:\"456\"}
+        | Node[4]{PhoneNumber:\"555-555-5555\"} | Node[14]{PhoneNumber:\"555-555-1234\"}
+        | Node[5]{SSN:\"241-23-1234\"} | Node[6]{SSN:\"241-23-4567\"} | Node[11]{Balance:9045.53,AccountNumber:\"4567890123456789-0\",APR:0.0541,LoanAmount:12000.0}
+        | Node[13]{Balance:16341.95,AccountNumber:\"5678901234567890-0\",APR:0.0341,LoanAmount:22000.0}
+        |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n1
+        row\n26 ms\nNodes created: 15\nRelationships created: 16\nProperties set:
+        41\n\n","init":null,"visualization":{"nodes":[{"FirstName":"John","LastName":"Doe","UniqueId":"JohnDoe","id":0,"labels":["AccountHolder"],"selected":"accountHolder1"},{"FirstName":"Jane","LastName":"Appleseed","UniqueId":"JaneAppleseed","id":1,"labels":["AccountHolder"],"selected":"accountHolder2"},{"FirstName":"Matt","LastName":"Smith","UniqueId":"MattSmith","id":2,"labels":["AccountHolder"],"selected":"accountHolder3"},{"City":"San
+        Francisco","State":"California","Street":"123 NW 1st Street","ZipCode":"94101","id":3,"labels":["Address"],"selected":"address1"},{"PhoneNumber":"555-555-5555","id":4,"labels":["PhoneNumber"],"selected":"phoneNumber1"},{"SSN":"241-23-1234","id":5,"labels":["SSN"],"selected":"ssn1"},{"SSN":"241-23-4567","id":6,"labels":["SSN"],"selected":"ssn2"},{"AccountNumber":"1234567890123456","Balance":1442.23,"ExpirationDate":"01-20","Limit":5000,"SecurityCode":"123","id":7,"labels":["CreditCard"],"selected":"creditCard1"},{"AccountNumber":"2345678901234567","Balance":7054.43,"id":8,"labels":["BankAccount"],"selected":"bankAccount1"},{"AccountNumber":"1234567890123456","Balance":2345.56,"ExpirationDate":"02-20","Limit":4000,"SecurityCode":"456","id":9,"labels":["CreditCard"],"selected":"creditCard2"},{"AccountNumber":"3456789012345678","Balance":4231.12,"id":10,"labels":["BankAccount"],"selected":"bankAccount2"},{"APR":0.0541,"AccountNumber":"4567890123456789-0","Balance":9045.53,"LoanAmount":12000.0,"id":11,"labels":["UnsecuredLoan"],"selected":"unsecuredLoan2"},{"AccountNumber":"4567890123456789","Balance":12345.45,"id":12,"labels":["BankAccount"],"selected":"bankAccount3"},{"APR":0.0341,"AccountNumber":"5678901234567890-0","Balance":16341.95,"LoanAmount":22000.0,"id":13,"labels":["UnsecuredLoan"],"selected":"unsecuredLoan3"},{"PhoneNumber":"555-555-1234","id":14,"labels":["PhoneNumber"],"selected":"phoneNumber2"}],"links":[{"end":3,"id":0,"source":0,"start":0,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":1,"source":1,"start":1,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":2,"source":2,"start":2,"target":3,"type":"HAS_ADDRESS"},{"end":4,"id":3,"source":0,"start":0,"target":4,"type":"HAS_PHONENUMBER"},{"end":4,"id":4,"source":1,"start":1,"target":4,"type":"HAS_PHONENUMBER"},{"end":5,"id":5,"source":1,"start":1,"target":5,"type":"HAS_SSN"},{"end":5,"id":6,"source":2,"start":2,"target":5,"type":"HAS_SSN"},{"end":6,"id":7,"source":0,"start":0,"target":6,"type":"HAS_SSN"},{"end":7,"id":8,"source":0,"start":0,"target":7,"type":"HAS_CREDITCARD"},{"end":8,"id":9,"source":0,"start":0,"target":8,"type":"HAS_BANKACCOUNT"},{"end":9,"id":10,"source":1,"start":1,"target":9,"type":"HAS_CREDITCARD"},{"end":10,"id":11,"source":1,"start":1,"target":10,"type":"HAS_BANKACCOUNT"},{"end":11,"id":12,"source":1,"start":1,"target":11,"type":"HAS_UNSECUREDLOAN"},{"end":12,"id":13,"source":2,"start":2,"target":12,"type":"HAS_BANKACCOUNT"},{"end":13,"id":14,"source":2,"start":2,"target":13,"type":"HAS_UNSECUREDLOAN"},{"end":14,"id":15,"source":2,"start":2,"target":14,"type":"HAS_PHONENUMBER"}]},"stats":{"nodesDeleted":0,"relationshipsCreated":16,"time":26,"nodesCreated":15,"text":"Nodes
+        created: 15\nRelationships created: 16\nProperties set: 41\nLabels added:
+        15\n","rows":1,"propertiesSet":41,"containsUpdates":true,"relationshipsDeleted":0},"columns":["accountHolder1","accountHolder2","accountHolder3","address1","bankAccount1","bankAccount2","bankAccount3","creditCard1","creditCard2","phoneNumber1","phoneNumber2","ssn1","ssn2","unsecuredLoan2","unsecuredLoan3"],"query":"","json":[{"accountHolder1":{"FirstName":"John","LastName":"Doe","UniqueId":"JohnDoe","_id":0,"_labels":["AccountHolder"]},"accountHolder2":{"FirstName":"Jane","LastName":"Appleseed","UniqueId":"JaneAppleseed","_id":1,"_labels":["AccountHolder"]},"accountHolder3":{"FirstName":"Matt","LastName":"Smith","UniqueId":"MattSmith","_id":2,"_labels":["AccountHolder"]},"address1":{"City":"San
+        Francisco","State":"California","Street":"123 NW 1st Street","ZipCode":"94101","_id":3,"_labels":["Address"]},"bankAccount1":{"AccountNumber":"2345678901234567","Balance":7054.43,"_id":8,"_labels":["BankAccount"]},"bankAccount2":{"AccountNumber":"3456789012345678","Balance":4231.12,"_id":10,"_labels":["BankAccount"]},"bankAccount3":{"AccountNumber":"4567890123456789","Balance":12345.45,"_id":12,"_labels":["BankAccount"]},"creditCard1":{"AccountNumber":"1234567890123456","Balance":1442.23,"ExpirationDate":"01-20","Limit":5000,"SecurityCode":"123","_id":7,"_labels":["CreditCard"]},"creditCard2":{"AccountNumber":"1234567890123456","Balance":2345.56,"ExpirationDate":"02-20","Limit":4000,"SecurityCode":"456","_id":9,"_labels":["CreditCard"]},"phoneNumber1":{"PhoneNumber":"555-555-5555","_id":4,"_labels":["PhoneNumber"]},"phoneNumber2":{"PhoneNumber":"555-555-1234","_id":14,"_labels":["PhoneNumber"]},"ssn1":{"SSN":"241-23-1234","_id":5,"_labels":["SSN"]},"ssn2":{"SSN":"241-23-4567","_id":6,"_labels":["SSN"]},"unsecuredLoan2":{"APR":0.0541,"AccountNumber":"4567890123456789-0","Balance":9045.53,"LoanAmount":12000.0,"_id":11,"_labels":["UnsecuredLoan"]},"unsecuredLoan3":{"APR":0.0341,"AccountNumber":"5678901234567890-0","Balance":16341.95,"LoanAmount":22000.0,"_id":13,"_labels":["UnsecuredLoan"]}}],"time":31,"version":null,"plan":"Compiler
+        CYPHER 2.3\n\nPlanner RULE\n\nRuntime INTERPRETED\n\n+---------------+------+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        Operator      | Rows | DB Hits | Identifiers                                                                                                                                                                                                                                                                                                                                                                                     |
+        Other                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |\n+---------------+------+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        +ColumnFilter |    1 |       0 | accountHolder1, accountHolder2, accountHolder3,
+        address1, bankAccount1, bankAccount2, bankAccount3, creditCard1, creditCard2,
+        phoneNumber1, phoneNumber2, ssn1, ssn2, unsecuredLoan2, unsecuredLoan3                                                                                                                                                                                            |
+        keep columns accountHolder1, accountHolder2, accountHolder3, address1, bankAccount1,
+        bankAccount2, bankAccount3, creditCard1, creditCard2, phoneNumber1, phoneNumber2,
+        ssn1, ssn2, unsecuredLoan2, unsecuredLoan3                                                                                                                                                                                                                                                                                                  |\n|
+        |             +------+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        +UpdateGraph  |    1 |     143 | anon[1081], anon[1125], anon[1229], anon[1469],
+        anon[1654], anon[1902], anon[2087], anon[2321], anon[2510], anon[2742], anon[2903],
+        anon[574], anon[626], anon[678], anon[867], anon[927], accountHolder1, accountHolder2,
+        accountHolder3, address1, bankAccount1, bankAccount2, bankAccount3, creditCard1,
+        creditCard2, phoneNumber1, phoneNumber2, ssn1, ssn2, unsecuredLoan2, unsecuredLoan3
+        | CreateNode; CreateNode; CreateNode; CreateNode; CreateRelationship; CreateRelationship;
+        CreateRelationship; CreateNode; CreateRelationship; CreateRelationship; CreateNode;
+        CreateRelationship; CreateRelationship; CreateNode; CreateRelationship; CreateNode;
+        CreateRelationship; CreateNode; CreateRelationship; CreateNode; CreateRelationship;
+        CreateNode; CreateRelationship; CreateNode; CreateRelationship; CreateNode;
+        CreateRelationship; CreateNode; CreateRelationship; CreateNode; CreateRelationship
+        |\n+---------------+------+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 143\n"}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:39 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-23.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: "MATCH \t\t(accountHolder:AccountHolder)-[]->(contactInformation)\nWITH
+        \t\tcontactInformation,\n\t\t\tcount(accountHolder) AS RingSize\nMATCH \t\t(contactInformation)<-[]-(accountHolder)\nWITH
+        \t\tcollect(accountHolder.UniqueId) AS AccountHolders,\n\t\t\tcontactInformation,
+        RingSize\nWHERE \t\tRingSize > 1\nRETURN \t\tAccountHolders AS FraudRing,\n\t\t\tlabels(contactInformation)
+        AS ContactType,\n\t\t\tRingSize\nORDER BY \tRingSize DESC"
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - a4a97244-0479-4847-8be2-c7ff3f748765
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:51 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Set-Cookie:
+      - heroku-session-affinity=ACyDaANoA24IAfX8jHj///8HYgALQWBiAArGu2EBbAAAAAFtAAAABXdlYi4xarU1QzOAixCipBqumUja3EAoMHVr;
+        Version=1; Expires=Fri, 16-Feb-2018 23:33:52 GMT; Max-Age=86400; Domain=neo4j-console-23.herokuapp.com;
+        Path=/
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"result":"+----------------------------------------------------------------------+\n|
+        FraudRing                               | ContactType     | RingSize |\n+----------------------------------------------------------------------+\n|
+        [\"MattSmith\",\"JaneAppleseed\",\"JohnDoe\"] | [\"Address\"]     | 3        |\n|
+        [\"MattSmith\",\"JaneAppleseed\"]           | [\"SSN\"]         | 2        |\n|
+        [\"JaneAppleseed\",\"JohnDoe\"]             | [\"PhoneNumber\"] | 2        |\n+----------------------------------------------------------------------+\n3
+        rows\n20 ms\n","init":null,"visualization":{"nodes":[{"FirstName":"John","LastName":"Doe","UniqueId":"JohnDoe","id":0,"labels":["AccountHolder"]},{"FirstName":"Jane","LastName":"Appleseed","UniqueId":"JaneAppleseed","id":1,"labels":["AccountHolder"]},{"FirstName":"Matt","LastName":"Smith","UniqueId":"MattSmith","id":2,"labels":["AccountHolder"]},{"City":"San
+        Francisco","State":"California","Street":"123 NW 1st Street","ZipCode":"94101","id":3,"labels":["Address"]},{"PhoneNumber":"555-555-5555","id":4,"labels":["PhoneNumber"]},{"SSN":"241-23-1234","id":5,"labels":["SSN"]},{"SSN":"241-23-4567","id":6,"labels":["SSN"]},{"AccountNumber":"1234567890123456","Balance":1442.23,"ExpirationDate":"01-20","Limit":5000,"SecurityCode":"123","id":7,"labels":["CreditCard"]},{"AccountNumber":"2345678901234567","Balance":7054.43,"id":8,"labels":["BankAccount"]},{"AccountNumber":"1234567890123456","Balance":2345.56,"ExpirationDate":"02-20","Limit":4000,"SecurityCode":"456","id":9,"labels":["CreditCard"]},{"AccountNumber":"3456789012345678","Balance":4231.12,"id":10,"labels":["BankAccount"]},{"APR":0.0541,"AccountNumber":"4567890123456789-0","Balance":9045.53,"LoanAmount":12000.0,"id":11,"labels":["UnsecuredLoan"]},{"AccountNumber":"4567890123456789","Balance":12345.45,"id":12,"labels":["BankAccount"]},{"APR":0.0341,"AccountNumber":"5678901234567890-0","Balance":16341.95,"LoanAmount":22000.0,"id":13,"labels":["UnsecuredLoan"]},{"PhoneNumber":"555-555-1234","id":14,"labels":["PhoneNumber"]}],"links":[{"end":3,"id":0,"source":0,"start":0,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":1,"source":1,"start":1,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":2,"source":2,"start":2,"target":3,"type":"HAS_ADDRESS"},{"end":4,"id":3,"source":0,"start":0,"target":4,"type":"HAS_PHONENUMBER"},{"end":4,"id":4,"source":1,"start":1,"target":4,"type":"HAS_PHONENUMBER"},{"end":5,"id":5,"source":1,"start":1,"target":5,"type":"HAS_SSN"},{"end":5,"id":6,"source":2,"start":2,"target":5,"type":"HAS_SSN"},{"end":6,"id":7,"source":0,"start":0,"target":6,"type":"HAS_SSN"},{"end":7,"id":8,"source":0,"start":0,"target":7,"type":"HAS_CREDITCARD"},{"end":8,"id":9,"source":0,"start":0,"target":8,"type":"HAS_BANKACCOUNT"},{"end":9,"id":10,"source":1,"start":1,"target":9,"type":"HAS_CREDITCARD"},{"end":10,"id":11,"source":1,"start":1,"target":10,"type":"HAS_BANKACCOUNT"},{"end":11,"id":12,"source":1,"start":1,"target":11,"type":"HAS_UNSECUREDLOAN"},{"end":12,"id":13,"source":2,"start":2,"target":12,"type":"HAS_BANKACCOUNT"},{"end":13,"id":14,"source":2,"start":2,"target":13,"type":"HAS_UNSECUREDLOAN"},{"end":14,"id":15,"source":2,"start":2,"target":14,"type":"HAS_PHONENUMBER"}]},"stats":{"time":20,"rows":3},"columns":["FraudRing","ContactType","RingSize"],"query":"MATCH
+        (accountHolder:AccountHolder)-[]-\u003e(contactInformation)\n WITH contactInformation,
+        count(accountHolder) AS RingSize\n MATCH (contactInformation)\u003c-[]-(accountHolder)\n
+        WITH collect(accountHolder.UniqueId) AS AccountHolders, contactInformation,
+        RingSize\n WHERE RingSize \u003e 1\n RETURN AccountHolders AS FraudRing, labels(contactInformation)
+        AS ContactType, RingSize\n ORDER BY RingSize DESC","json":[{"FraudRing":["MattSmith","JaneAppleseed","JohnDoe"],"ContactType":["Address"],"RingSize":3},{"FraudRing":["MattSmith","JaneAppleseed"],"ContactType":["SSN"],"RingSize":2},{"FraudRing":["JaneAppleseed","JohnDoe"],"ContactType":["PhoneNumber"],"RingSize":2}],"time":23,"version":null,"plan":"Compiler
+        CYPHER 2.3\n\nPlanner COST\n\nRuntime INTERPRETED\n\n+-------------------+----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        Operator          | Estimated Rows | Rows | DB Hits | Identifiers                                                                                                                |
+        Other                                                                 |\n+-------------------+----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +ProduceResults   |              2 |    3 |       0 | ContactType, FraudRing,
+        RingSize                                                                                           |
+        FraudRing, ContactType, RingSize                                      |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Projection       |              2 |    3 |       0 | anon[282], anon[295],
+        anon[327], anon[373], RingSize, AccountHolders, ContactType, FraudRing, RingSize,
+        contactInformation | anon[295]; anon[327]; anon[373]                                       |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Sort             |              2 |    3 |       0 | anon[282], anon[295],
+        anon[327], anon[373], RingSize, AccountHolders, contactInformation                                   |
+        anon[373]                                                             |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Projection       |              2 |    3 |       6 | anon[282], anon[295],
+        anon[327], anon[373], RingSize, AccountHolders, contactInformation                                   |
+        AccountHolders; LabelsFunction(contactInformation); RingSize          |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Filter           |              2 |    3 |       0 | anon[282], RingSize,
+        AccountHolders, contactInformation                                                                    |
+        anon[282]                                                             |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Projection       |              2 |   12 |       0 | anon[282], RingSize,
+        AccountHolders, contactInformation                                                                    |
+        AccountHolders; contactInformation; RingSize; RingSize \u003e {  AUTOINT0}
+        |\n| |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +EagerAggregation |              2 |   12 |      16 | RingSize, AccountHolders,
+        contactInformation                                                                               |
+        contactInformation, RingSize                                          |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Expand(All)      |              4 |   16 |      28 | RingSize, anon[155],
+        accountHolder, contactInformation                                                                     |
+        (contactInformation)\u003c--(  accountHolder@160)                          |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +EagerAggregation |              4 |   12 |       0 | RingSize, contactInformation                                                                                               |
+        contactInformation                                                    |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +Expand(All)      |             16 |   16 |      19 | anon[38], accountHolder,
+        contactInformation                                                                                |
+        (  accountHolder@9)--\u003e(contactInformation)                            |\n|
+        |                 +----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n|
+        +NodeByLabelScan  |              3 |    3 |       4 | accountHolder                                                                                                              |
+        :AccountHolder                                                        |\n+-------------------+----------------+------+---------+----------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+\n\nTotal
+        database accesses: 73\n"}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:40 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-23.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: "MATCH \t\t(accountHolder:AccountHolder)-[]->(contactInformation)\nWITH
+        \t\tcontactInformation,\n\t\t\tcount(accountHolder) AS RingSize\nMATCH \t\t(contactInformation)<-[]-(accountHolder),\n\t\t\t(accountHolder)-[r:HAS_CREDITCARD|HAS_UNSECUREDLOAN]->(unsecuredAccount)\nWITH
+        \t\tcollect(DISTINCT accountHolder.UniqueId) AS AccountHolders,\n\t\t\tcontactInformation,
+        RingSize,\n\t\t\tSUM(CASE type(r)\n\t\t\t\tWHEN 'HAS_CREDITCARD' THEN unsecuredAccount.Limit\n\t\t\t\tWHEN
+        'HAS_UNSECUREDLOAN' THEN unsecuredAccount.Balance\n\t\t\t\tELSE 0\n\t\t\tEND)
+        as FinancialRisk\nWHERE \t\tRingSize > 1\nRETURN \t\tAccountHolders AS FraudRing,\n\t\t\tlabels(contactInformation)
+        AS ContactType,\n\t\t\tRingSize,\n\t\t\tround(FinancialRisk) as FinancialRisk\nORDER
+        BY \tFinancialRisk DESC"
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - a4a97244-0479-4847-8be2-c7ff3f748765
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:52 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Set-Cookie:
+      - heroku-session-affinity=ACyDaANoA24IAayoa/f///8HYgALQWFiAANSJmEBbAAAAAFtAAAABXdlYi4xavPHpnZGa+wrmC9x0hAYJ2KApwTp;
+        Version=1; Expires=Fri, 16-Feb-2018 23:33:53 GMT; Max-Age=86400; Domain=neo4j-console-23.herokuapp.com;
+        Path=/
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"result":"+--------------------------------------------------------------------------------------+\n|
+        FraudRing                               | ContactType     | RingSize | FinancialRisk
+        |\n+--------------------------------------------------------------------------------------+\n|
+        [\"MattSmith\",\"JaneAppleseed\",\"JohnDoe\"] | [\"Address\"]     | 3        |
+        34387.0       |\n| [\"MattSmith\",\"JaneAppleseed\"]           | [\"SSN\"]         |
+        2        | 29387.0       |\n| [\"JaneAppleseed\",\"JohnDoe\"]             |
+        [\"PhoneNumber\"] | 2        | 18046.0       |\n+--------------------------------------------------------------------------------------+\n3
+        rows\n29 ms\n","init":null,"visualization":{"nodes":[{"FirstName":"John","LastName":"Doe","UniqueId":"JohnDoe","id":0,"labels":["AccountHolder"]},{"FirstName":"Jane","LastName":"Appleseed","UniqueId":"JaneAppleseed","id":1,"labels":["AccountHolder"]},{"FirstName":"Matt","LastName":"Smith","UniqueId":"MattSmith","id":2,"labels":["AccountHolder"]},{"City":"San
+        Francisco","State":"California","Street":"123 NW 1st Street","ZipCode":"94101","id":3,"labels":["Address"]},{"PhoneNumber":"555-555-5555","id":4,"labels":["PhoneNumber"]},{"SSN":"241-23-1234","id":5,"labels":["SSN"]},{"SSN":"241-23-4567","id":6,"labels":["SSN"]},{"AccountNumber":"1234567890123456","Balance":1442.23,"ExpirationDate":"01-20","Limit":5000,"SecurityCode":"123","id":7,"labels":["CreditCard"]},{"AccountNumber":"2345678901234567","Balance":7054.43,"id":8,"labels":["BankAccount"]},{"AccountNumber":"1234567890123456","Balance":2345.56,"ExpirationDate":"02-20","Limit":4000,"SecurityCode":"456","id":9,"labels":["CreditCard"]},{"AccountNumber":"3456789012345678","Balance":4231.12,"id":10,"labels":["BankAccount"]},{"APR":0.0541,"AccountNumber":"4567890123456789-0","Balance":9045.53,"LoanAmount":12000.0,"id":11,"labels":["UnsecuredLoan"]},{"AccountNumber":"4567890123456789","Balance":12345.45,"id":12,"labels":["BankAccount"]},{"APR":0.0341,"AccountNumber":"5678901234567890-0","Balance":16341.95,"LoanAmount":22000.0,"id":13,"labels":["UnsecuredLoan"]},{"PhoneNumber":"555-555-1234","id":14,"labels":["PhoneNumber"]}],"links":[{"end":3,"id":0,"source":0,"start":0,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":1,"source":1,"start":1,"target":3,"type":"HAS_ADDRESS"},{"end":3,"id":2,"source":2,"start":2,"target":3,"type":"HAS_ADDRESS"},{"end":4,"id":3,"source":0,"start":0,"target":4,"type":"HAS_PHONENUMBER"},{"end":4,"id":4,"source":1,"start":1,"target":4,"type":"HAS_PHONENUMBER"},{"end":5,"id":5,"source":1,"start":1,"target":5,"type":"HAS_SSN"},{"end":5,"id":6,"source":2,"start":2,"target":5,"type":"HAS_SSN"},{"end":6,"id":7,"source":0,"start":0,"target":6,"type":"HAS_SSN"},{"end":7,"id":8,"source":0,"start":0,"target":7,"type":"HAS_CREDITCARD"},{"end":8,"id":9,"source":0,"start":0,"target":8,"type":"HAS_BANKACCOUNT"},{"end":9,"id":10,"source":1,"start":1,"target":9,"type":"HAS_CREDITCARD"},{"end":10,"id":11,"source":1,"start":1,"target":10,"type":"HAS_BANKACCOUNT"},{"end":11,"id":12,"source":1,"start":1,"target":11,"type":"HAS_UNSECUREDLOAN"},{"end":12,"id":13,"source":2,"start":2,"target":12,"type":"HAS_BANKACCOUNT"},{"end":13,"id":14,"source":2,"start":2,"target":13,"type":"HAS_UNSECUREDLOAN"},{"end":14,"id":15,"source":2,"start":2,"target":14,"type":"HAS_PHONENUMBER"}]},"stats":{"time":29,"rows":3},"columns":["FraudRing","ContactType","RingSize","FinancialRisk"],"query":"MATCH
+        (accountHolder:AccountHolder)-[]-\u003e(contactInformation)\n WITH contactInformation,
+        count(accountHolder) AS RingSize\n MATCH (contactInformation)\u003c-[]-(accountHolder),(accountHolder)-[r:HAS_CREDITCARD|HAS_UNSECUREDLOAN]-\u003e(unsecuredAccount)\n
+        WITH collect(DISTINCT accountHolder.UniqueId) AS AccountHolders, contactInformation,
+        RingSize, SUM(\n CASE type(r)\n WHEN \u0027HAS_CREDITCARD\u0027\n THEN unsecuredAccount.Limit\n
+        WHEN \u0027HAS_UNSECUREDLOAN\u0027\n THEN unsecuredAccount.Balance\n ELSE
+        0 END ) AS FinancialRisk\n WHERE RingSize \u003e 1\n RETURN AccountHolders
+        AS FraudRing, labels(contactInformation) AS ContactType, RingSize, round(FinancialRisk)
+        AS FinancialRisk\n ORDER BY FinancialRisk DESC","json":[{"FraudRing":["MattSmith","JaneAppleseed","JohnDoe"],"ContactType":["Address"],"RingSize":3,"FinancialRisk":34387.0},{"FraudRing":["MattSmith","JaneAppleseed"],"ContactType":["SSN"],"RingSize":2,"FinancialRisk":29387.0},{"FraudRing":["JaneAppleseed","JohnDoe"],"ContactType":["PhoneNumber"],"RingSize":2,"FinancialRisk":18046.0}],"time":32,"version":null,"plan":"Compiler
+        CYPHER 2.3\n\nPlanner COST\n\nRuntime INTERPRETED\n\n+-------------------+----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        Operator          | Estimated Rows | Rows | DB Hits | Identifiers                                                                                                                                                         |
+        Other                                                                                      |\n+-------------------+----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +ProduceResults   |              1 |    3 |       0 | ContactType, FinancialRisk,
+        FraudRing, RingSize                                                                                                                     |
+        FraudRing, ContactType, RingSize, FinancialRisk                                            |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Projection       |              1 |    3 |       0 | anon[538], anon[551],
+        anon[583], anon[629], anon[642], FinancialRisk, RingSize, AccountHolders,
+        ContactType, FinancialRisk, FraudRing, RingSize, contactInformation | anon[551];
+        anon[583]; anon[629]; anon[642]                                                 |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Sort             |              1 |    3 |       0 | anon[538], anon[551],
+        anon[583], anon[629], anon[642], FinancialRisk, RingSize, AccountHolders,
+        contactInformation                                                  | anon[642]                                                                                  |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Projection       |              1 |    3 |       6 | anon[538], anon[551],
+        anon[583], anon[629], anon[642], FinancialRisk, RingSize, AccountHolders,
+        contactInformation                                                  | AccountHolders;
+        LabelsFunction(contactInformation); RingSize; RoundFunction(FinancialRisk)
+        |\n| |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Filter           |              1 |    3 |       0 | anon[538], FinancialRisk,
+        RingSize, AccountHolders, contactInformation                                                                                              |
+        anon[538]                                                                                  |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Projection       |              1 |   10 |       0 | anon[538], FinancialRisk,
+        RingSize, AccountHolders, contactInformation                                                                                              |
+        RingSize \u003e {  AUTOINT3}; contactInformation; RingSize; FinancialRisk;
+        AccountHolders       |\n| |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +EagerAggregation |              1 |   10 |      50 | FinancialRisk, RingSize,
+        AccountHolders, contactInformation                                                                                                         |
+        contactInformation, RingSize                                                               |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Filter           |              1 |   18 |       0 | RingSize, anon[155],
+        accountHolder, contactInformation, r, unsecuredAccount                                                                                         |
+        NOT(anon[155] \u003d\u003d r)                                                                        |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Expand(All)      |              1 |   22 |      38 | RingSize, anon[155],
+        accountHolder, contactInformation, r, unsecuredAccount                                                                                         |
+        (  accountHolder@160)-[r:HAS_CREDITCARD|:HAS_UNSECUREDLOAN]-\u003e(unsecuredAccount)            |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Expand(All)      |              1 |   16 |      28 | RingSize, anon[155],
+        accountHolder, contactInformation                                                                                                              |
+        (contactInformation)\u003c--(  accountHolder@160)                                               |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +EagerAggregation |              4 |   12 |       0 | RingSize, contactInformation                                                                                                                                        |
+        contactInformation                                                                         |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +Expand(All)      |             16 |   16 |      19 | anon[38], accountHolder,
+        contactInformation                                                                                                                         |
+        (  accountHolder@9)--\u003e(contactInformation)                                                 |\n|
+        |                 +----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n|
+        +NodeByLabelScan  |              3 |    3 |       4 | accountHolder                                                                                                                                                       |
+        :AccountHolder                                                                             |\n+-------------------+----------------+------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 145\n"}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:40 GMT
 recorded_with: VCR 2.9.3

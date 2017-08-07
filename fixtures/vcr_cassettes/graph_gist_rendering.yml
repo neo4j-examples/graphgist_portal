@@ -1085,4 +1085,946 @@ http_interactions:
         database accesses: 1\n"}'
     http_version: 
   recorded_at: Wed, 06 Apr 2016 06:31:20 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/init
+    body:
+      encoding: UTF-8
+      string: '{"init":"none"}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:34 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"message":null,"visualization":{"nodes":[],"links":[]},"result":"+-------------+\n|
+        Neo | r | m |\n+-------------+\n+-------------+\n0 rows\n18 ms\n","time":22,"plan":"ColumnFilter\n  |\n  +Extract\n    |\n    +Filter\n      |\n      +TraversalMatcher\n\n+------------------+------+--------+-------------+-------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                               Other |\n+------------------+------+--------+-------------+-------------------------------------+\n|     ColumnFilter
+        |    0 |      0 |             |              keep columns Neo, r, m |\n|          Extract
+        |    0 |      0 |             |                                 Neo |\n|           Filter
+        |    0 |      0 |             | Property(n,name) \u003d\u003d {  AUTOSTRING0}
+        |\n| TraversalMatcher |    0 |      1 |             |                m,   UNNAMED14,
+        m, r |\n+------------------+------+--------+-------------+-------------------------------------+\n\nTotal
+        database accesses: 1","json":[],"stats":{"time":18,"rows":0},"query":"MATCH
+        (n:Crew)-[r:KNOWS*]-m\n WHERE n.name\u003d\u0027Neo\u0027\n RETURN n AS Neo,r,m","columns":["Neo","r","m"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:22 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: |-
+        CREATE
+          (a:Person {name: 'Alice'}),
+          (b:Person {name: 'Bob'}),
+          (c:Person {name: 'Carrie'}),
+          (d:Person {name: 'David'}),
+          (e:Person {name: 'Emily'}),
+          (a)-[:FRIENDS_WITH]->(b),
+          (a)-[:FRIENDS_WITH]->(e),
+          (b)-[:FRIENDS_WITH]->(c),
+          (b)-[:FRIENDS_WITH]->(d),
+          (:Colorized {name: 'Colorized'})
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:34 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"0
+        rows\n26 ms\n+-------------------+\n| No data returned. |\n+-------------------+\nNodes
+        created: 6\nRelationships created: 4\nProperties set: 6\n\n","time":43,"plan":"EmptyResult\n  |\n  +UpdateGraph\n\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n|    Operator
+        | Rows | DbHits |                                                                         Identifiers
+        |                                                                                                                                                  Other
+        |\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        EmptyResult |    0 |      0 |                                                                                     |                                                                                                                                                        |\n|
+        UpdateGraph |    1 |     34 | a, b, c, d, e,   UNNAMED161,   UNNAMED189,   UNNAMED217,   UNNAMED245,   UNNAMED271
+        | CreateNode; CreateNode; CreateNode; CreateNode; CreateNode; CreateRelationship;
+        CreateRelationship; CreateRelationship; CreateRelationship; CreateNode |\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 34","json":[],"stats":{"containsUpdates":true,"text":"Nodes
+        created: 6\nRelationships created: 4\nProperties set: 6\nLabels added: 6\n","time":26,"relationshipsDeleted":0,"relationshipsCreated":4,"nodesDeleted":0,"nodesCreated":6,"propertiesSet":6,"rows":0},"query":"CREATE
+        (a:Person { name: \u0027Alice\u0027 }),(b:Person { name: \u0027Bob\u0027 }),(c:Person
+        { name: \u0027Carrie\u0027 }),(d:Person { name: \u0027David\u0027 }),(e:Person
+        { name: \u0027Emily\u0027 }),(a)-[:FRIENDS_WITH]-\u003e(b),(a)-[:FRIENDS_WITH]-\u003e(e),(b)-[:FRIENDS_WITH]-\u003e(c),(b)-[:FRIENDS_WITH]-\u003e(d),(:Colorized
+        { name: \u0027Colorized\u0027 })","columns":[],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:23 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (b:Person {name: ''Bob''})-[:FRIENDS_WITH]->(d:Person {name:
+        ''David''}) RETURN b, d'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:35 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob","selected":"b"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David","selected":"d"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------------------------+\n|
+        b                   | d                     |\n+---------------------------------------------+\n|
+        Node[1]{name:\"Bob\"} | Node[3]{name:\"David\"} |\n+---------------------------------------------+\n1
+        row\n32 ms\n","time":40,"plan":"ColumnFilter\n  |\n  +Filter\n    |\n    +TraversalMatcher\n\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                                                                                                           Other
+        |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|     ColumnFilter
+        |    1 |      0 |             |                                                                                               keep
+        columns b, d |\n|           Filter |    1 |      5 |             | ((Property(b,name(0))
+        \u003d\u003d {  AUTOSTRING0} AND Property(d,name(0)) \u003d\u003d {  AUTOSTRING1})
+        AND hasLabel(d:Person(0))) |\n| TraversalMatcher |    1 |     27 |             |                                                                                               d,   UNNAMED30,
+        d |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 32","json":[{"b":{"_id":1,"_labels":["Person"],"name":"Bob"},"d":{"_id":3,"_labels":["Person"],"name":"David"}}],"stats":{"time":32,"rows":1},"query":"MATCH
+        (b:Person { name: \u0027Bob\u0027 })-[:FRIENDS_WITH]-\u003e(d:Person { name:
+        \u0027David\u0027 })\n RETURN b, d","columns":["b","d"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:23 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: MATCH (a:Person) RETURN count(a)
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:36 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+----------+\n|
+        count(a) |\n+----------+\n| 5        |\n+----------+\n1 row\n18 ms\n","time":23,"plan":"ColumnFilter\n  |\n  +EagerAggregation\n    |\n    +NodeByLabel\n\n+------------------+------+--------+-------------+-----------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                 Other |\n+------------------+------+--------+-------------+-----------------------+\n|     ColumnFilter
+        |    1 |      0 |             | keep columns count(a) |\n| EagerAggregation
+        |    1 |      0 |             |                       |\n|      NodeByLabel
+        |    5 |      6 |        a, a |               :Person |\n+------------------+------+--------+-------------+-----------------------+\n\nTotal
+        database accesses: 6","json":[{"count(a)":5}],"stats":{"time":18,"rows":1},"query":"MATCH
+        (a:Person)\n RETURN count(a)","columns":["count(a)"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:24 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: RETURN 'table after header' AS text
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:36 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+----------------------+\n|
+        text                 |\n+----------------------+\n| \"table after header\"
+        |\n+----------------------+\n1 row\n24 ms\n","time":34,"plan":"Extract\n  |\n  +Null\n\n+----------+------+--------+-------------+-------+\n|
+        Operator | Rows | DbHits | Identifiers | Other |\n+----------+------+--------+-------------+-------+\n|  Extract
+        |    1 |      0 |             |  text |\n|     Null |    ? |      ? |             |       |\n+----------+------+--------+-------------+-------+\n\nTotal
+        database accesses: ?","json":[{"text":"table after header"}],"stats":{"time":24,"rows":1},"query":"RETURN
+        \u0027table after header\u0027 AS text","columns":["text"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:24 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (a:Person {name: ''Alice''})-[:FRIENDS_WITH]->(b:Person {name:
+        ''Bob''}) RETURN * LIMIT 1'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:37 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice","selected":"a"},{"id":1,"labels":["Person"],"name":"Bob","selected":"b"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------------------------+\n|
+        a                     | b                   |\n+---------------------------------------------+\n|
+        Node[0]{name:\"Alice\"} | Node[1]{name:\"Bob\"} |\n+---------------------------------------------+\n1
+        row\n21 ms\n","time":27,"plan":"ColumnFilter\n  |\n  +Slice\n    |\n    +Filter\n      |\n      +TraversalMatcher\n\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                                                                                                           Other
+        |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|     ColumnFilter
+        |    1 |      0 |             |                                                                                               keep
+        columns a, b |\n|            Slice |    1 |      0 |             |                                                                                                    {  AUTOINT2}
+        |\n|           Filter |    1 |      5 |             | ((Property(a,name(0))
+        \u003d\u003d {  AUTOSTRING0} AND Property(b,name(0)) \u003d\u003d {  AUTOSTRING1})
+        AND hasLabel(b:Person(0))) |\n| TraversalMatcher |    1 |     15 |             |                                                                                               b,   UNNAMED32,
+        b |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 20","json":[{"a":{"_id":0,"_labels":["Person"],"name":"Alice"},"b":{"_id":1,"_labels":["Person"],"name":"Bob"}}],"stats":{"time":21,"rows":1},"query":"MATCH
+        (a:Person { name: \u0027Alice\u0027 })-[:FRIENDS_WITH]-\u003e(b:Person { name:
+        \u0027Bob\u0027 })\n RETURN *\n LIMIT 1","columns":["a","b"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:25 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (c:Colorized {name: ''Colorized''}) RETURN *'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:37 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized","selected":"c"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------+\n|
+        c                         |\n+---------------------------+\n| Node[5]{name:\"Colorized\"}
+        |\n+---------------------------+\n1 row\n11 ms\n","time":15,"plan":"Filter\n  |\n  +NodeByLabel\n\n+-------------+------+--------+-------------+----------------------------------------+\n|    Operator
+        | Rows | DbHits | Identifiers |                                  Other |\n+-------------+------+--------+-------------+----------------------------------------+\n|      Filter
+        |    1 |      2 |             | Property(c,name(0)) \u003d\u003d {  AUTOSTRING0}
+        |\n| NodeByLabel |    1 |      2 |        c, c |                             :Colorized
+        |\n+-------------+------+--------+-------------+----------------------------------------+\n\nTotal
+        database accesses: 4","json":[{"c":{"_id":5,"_labels":["Colorized"],"name":"Colorized"}}],"stats":{"time":11,"rows":1},"query":"MATCH
+        (c:Colorized { name: \u0027Colorized\u0027 })\n RETURN *","columns":["c"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:25 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: MATCH (n:MissingParen
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - eeceac17-76ba-4928-be4c-4f6f05eb8ad0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:38 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"time":7,"error":"Unexpected end of input: expected an identifier
+        character, whitespace, NodeLabel, a property map, \u0027)\u0027 or a relationship
+        pattern (line 1, column 22)\n\"MATCH (n:MissingParen\"\n                      ^","query":"MATCH
+        (n:MissingParen","init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:26 GMT
+- request:
+    method: head
+    uri: https://i.imgur.com/5giAsjq.png
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Last-Modified:
+      - Fri, 11 Dec 2015 07:42:57 GMT
+      Etag:
+      - '"ad6940df6ba6916f558845e8c5eb7816"'
+      Content-Type:
+      - image/png
+      Cache-Control:
+      - public, max-age=31536000
+      Content-Length:
+      - '26271'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 15 Feb 2018 23:33:39 GMT
+      Age:
+      - '309225'
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-iad2130-IAD, cache-mia17628-MIA
+      X-Cache:
+      - HIT, HIT
+      X-Cache-Hits:
+      - 1, 1
+      X-Timer:
+      - S1518737619.453298,VS0,VE1
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - cat factory 1.0
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:26 GMT
+- request:
+    method: head
+    uri: http://example.org/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Cache-Control:
+      - max-age=604800
+      Content-Type:
+      - text/html
+      Date:
+      - Thu, 15 Feb 2018 23:33:39 GMT
+      Etag:
+      - '"1541025663"'
+      Expires:
+      - Thu, 22 Feb 2018 23:33:39 GMT
+      Last-Modified:
+      - Fri, 09 Aug 2013 23:54:35 GMT
+      Server:
+      - ECS (fll/07B0)
+      X-Cache:
+      - HIT
+      Content-Length:
+      - '1270'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:27 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/init
+    body:
+      encoding: UTF-8
+      string: '{"init":"none"}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:42 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"message":null,"visualization":{"nodes":[],"links":[]},"result":"+-------------+\n|
+        Neo | r | m |\n+-------------+\n+-------------+\n0 rows\n18 ms\n","time":22,"plan":"ColumnFilter\n  |\n  +Extract\n    |\n    +Filter\n      |\n      +TraversalMatcher\n\n+------------------+------+--------+-------------+-------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                               Other |\n+------------------+------+--------+-------------+-------------------------------------+\n|     ColumnFilter
+        |    0 |      0 |             |              keep columns Neo, r, m |\n|          Extract
+        |    0 |      0 |             |                                 Neo |\n|           Filter
+        |    0 |      0 |             | Property(n,name) \u003d\u003d {  AUTOSTRING0}
+        |\n| TraversalMatcher |    0 |      1 |             |                m,   UNNAMED14,
+        m, r |\n+------------------+------+--------+-------------+-------------------------------------+\n\nTotal
+        database accesses: 1","json":[],"stats":{"time":18,"rows":0},"query":"MATCH
+        (n:Crew)-[r:KNOWS*]-m\n WHERE n.name\u003d\u0027Neo\u0027\n RETURN n AS Neo,r,m","columns":["Neo","r","m"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:31 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: |-
+        CREATE
+          (a:Person {name: 'Alice'}),
+          (b:Person {name: 'Bob'}),
+          (c:Person {name: 'Carrie'}),
+          (d:Person {name: 'David'}),
+          (e:Person {name: 'Emily'}),
+          (a)-[:FRIENDS_WITH]->(b),
+          (a)-[:FRIENDS_WITH]->(e),
+          (b)-[:FRIENDS_WITH]->(c),
+          (b)-[:FRIENDS_WITH]->(d),
+          (:Colorized {name: 'Colorized'})
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:43 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"0
+        rows\n32 ms\n+-------------------+\n| No data returned. |\n+-------------------+\nNodes
+        created: 6\nRelationships created: 4\nProperties set: 6\n\n","time":49,"plan":"EmptyResult\n  |\n  +UpdateGraph\n\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n|    Operator
+        | Rows | DbHits |                                                                         Identifiers
+        |                                                                                                                                                  Other
+        |\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n|
+        EmptyResult |    0 |      0 |                                                                                     |                                                                                                                                                        |\n|
+        UpdateGraph |    1 |     34 | a, b, c, d, e,   UNNAMED161,   UNNAMED189,   UNNAMED217,   UNNAMED245,   UNNAMED271
+        | CreateNode; CreateNode; CreateNode; CreateNode; CreateNode; CreateRelationship;
+        CreateRelationship; CreateRelationship; CreateRelationship; CreateNode |\n+-------------+------+--------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 34","json":[],"stats":{"containsUpdates":true,"text":"Nodes
+        created: 6\nRelationships created: 4\nProperties set: 6\nLabels added: 6\n","time":32,"relationshipsDeleted":0,"relationshipsCreated":4,"nodesDeleted":0,"nodesCreated":6,"propertiesSet":6,"rows":0},"query":"CREATE
+        (a:Person { name: \u0027Alice\u0027 }),(b:Person { name: \u0027Bob\u0027 }),(c:Person
+        { name: \u0027Carrie\u0027 }),(d:Person { name: \u0027David\u0027 }),(e:Person
+        { name: \u0027Emily\u0027 }),(a)-[:FRIENDS_WITH]-\u003e(b),(a)-[:FRIENDS_WITH]-\u003e(e),(b)-[:FRIENDS_WITH]-\u003e(c),(b)-[:FRIENDS_WITH]-\u003e(d),(:Colorized
+        { name: \u0027Colorized\u0027 })","columns":[],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:32 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (b:Person {name: ''Bob''})-[:FRIENDS_WITH]->(d:Person {name:
+        ''David''}) RETURN b, d'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:44 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob","selected":"b"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David","selected":"d"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------------------------+\n|
+        b                   | d                     |\n+---------------------------------------------+\n|
+        Node[1]{name:\"Bob\"} | Node[3]{name:\"David\"} |\n+---------------------------------------------+\n1
+        row\n25 ms\n","time":30,"plan":"ColumnFilter\n  |\n  +Filter\n    |\n    +TraversalMatcher\n\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                                                                                                           Other
+        |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|     ColumnFilter
+        |    1 |      0 |             |                                                                                               keep
+        columns b, d |\n|           Filter |    1 |      5 |             | ((Property(b,name(0))
+        \u003d\u003d {  AUTOSTRING0} AND Property(d,name(0)) \u003d\u003d {  AUTOSTRING1})
+        AND hasLabel(d:Person(0))) |\n| TraversalMatcher |    1 |     27 |             |                                                                                               d,   UNNAMED30,
+        d |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 32","json":[{"b":{"_id":1,"_labels":["Person"],"name":"Bob"},"d":{"_id":3,"_labels":["Person"],"name":"David"}}],"stats":{"time":25,"rows":1},"query":"MATCH
+        (b:Person { name: \u0027Bob\u0027 })-[:FRIENDS_WITH]-\u003e(d:Person { name:
+        \u0027David\u0027 })\n RETURN b, d","columns":["b","d"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:32 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: MATCH (a:Person) RETURN count(a)
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:45 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+----------+\n|
+        count(a) |\n+----------+\n| 5        |\n+----------+\n1 row\n12 ms\n","time":16,"plan":"ColumnFilter\n  |\n  +EagerAggregation\n    |\n    +NodeByLabel\n\n+------------------+------+--------+-------------+-----------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                 Other |\n+------------------+------+--------+-------------+-----------------------+\n|     ColumnFilter
+        |    1 |      0 |             | keep columns count(a) |\n| EagerAggregation
+        |    1 |      0 |             |                       |\n|      NodeByLabel
+        |    5 |      6 |        a, a |               :Person |\n+------------------+------+--------+-------------+-----------------------+\n\nTotal
+        database accesses: 6","json":[{"count(a)":5}],"stats":{"time":12,"rows":1},"query":"MATCH
+        (a:Person)\n RETURN count(a)","columns":["count(a)"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:33 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: RETURN 'table after header' AS text
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:45 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+----------------------+\n|
+        text                 |\n+----------------------+\n| \"table after header\"
+        |\n+----------------------+\n1 row\n5 ms\n","time":9,"plan":"Extract\n  |\n  +Null\n\n+----------+------+--------+-------------+-------+\n|
+        Operator | Rows | DbHits | Identifiers | Other |\n+----------+------+--------+-------------+-------+\n|  Extract
+        |    1 |      0 |             |  text |\n|     Null |    ? |      ? |             |       |\n+----------+------+--------+-------------+-------+\n\nTotal
+        database accesses: ?","json":[{"text":"table after header"}],"stats":{"time":5,"rows":1},"query":"RETURN
+        \u0027table after header\u0027 AS text","columns":["text"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:33 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (a:Person {name: ''Alice''})-[:FRIENDS_WITH]->(b:Person {name:
+        ''Bob''}) RETURN * LIMIT 1'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:46 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice","selected":"a"},{"id":1,"labels":["Person"],"name":"Bob","selected":"b"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------------------------+\n|
+        a                     | b                   |\n+---------------------------------------------+\n|
+        Node[0]{name:\"Alice\"} | Node[1]{name:\"Bob\"} |\n+---------------------------------------------+\n1
+        row\n18 ms\n","time":24,"plan":"ColumnFilter\n  |\n  +Slice\n    |\n    +Filter\n      |\n      +TraversalMatcher\n\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|         Operator
+        | Rows | DbHits | Identifiers |                                                                                                           Other
+        |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n|     ColumnFilter
+        |    1 |      0 |             |                                                                                               keep
+        columns a, b |\n|            Slice |    1 |      0 |             |                                                                                                    {  AUTOINT2}
+        |\n|           Filter |    1 |      5 |             | ((Property(a,name(0))
+        \u003d\u003d {  AUTOSTRING0} AND Property(b,name(0)) \u003d\u003d {  AUTOSTRING1})
+        AND hasLabel(b:Person(0))) |\n| TraversalMatcher |    1 |     15 |             |                                                                                               b,   UNNAMED32,
+        b |\n+------------------+------+--------+-------------+-----------------------------------------------------------------------------------------------------------------+\n\nTotal
+        database accesses: 20","json":[{"a":{"_id":0,"_labels":["Person"],"name":"Alice"},"b":{"_id":1,"_labels":["Person"],"name":"Bob"}}],"stats":{"time":18,"rows":1},"query":"MATCH
+        (a:Person { name: \u0027Alice\u0027 })-[:FRIENDS_WITH]-\u003e(b:Person { name:
+        \u0027Bob\u0027 })\n RETURN *\n LIMIT 1","columns":["a","b"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:34 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: 'MATCH (c:Colorized {name: ''Colorized''}) RETURN *'
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:46 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"visualization":{"nodes":[{"id":0,"labels":["Person"],"name":"Alice"},{"id":1,"labels":["Person"],"name":"Bob"},{"id":2,"labels":["Person"],"name":"Carrie"},{"id":3,"labels":["Person"],"name":"David"},{"id":4,"labels":["Person"],"name":"Emily"},{"id":5,"labels":["Colorized"],"name":"Colorized","selected":"c"}],"links":[{"end":1,"id":0,"source":0,"start":0,"target":1,"type":"FRIENDS_WITH"},{"end":4,"id":1,"source":0,"start":0,"target":4,"type":"FRIENDS_WITH"},{"end":2,"id":2,"source":1,"start":1,"target":2,"type":"FRIENDS_WITH"},{"end":3,"id":3,"source":1,"start":1,"target":3,"type":"FRIENDS_WITH"}]},"result":"+---------------------------+\n|
+        c                         |\n+---------------------------+\n| Node[5]{name:\"Colorized\"}
+        |\n+---------------------------+\n1 row\n21 ms\n","time":26,"plan":"Filter\n  |\n  +NodeByLabel\n\n+-------------+------+--------+-------------+----------------------------------------+\n|    Operator
+        | Rows | DbHits | Identifiers |                                  Other |\n+-------------+------+--------+-------------+----------------------------------------+\n|      Filter
+        |    1 |      2 |             | Property(c,name(0)) \u003d\u003d {  AUTOSTRING0}
+        |\n| NodeByLabel |    1 |      2 |        c, c |                             :Colorized
+        |\n+-------------+------+--------+-------------+----------------------------------------+\n\nTotal
+        database accesses: 4","json":[{"c":{"_id":5,"_labels":["Colorized"],"name":"Colorized"}}],"stats":{"time":21,"rows":1},"query":"MATCH
+        (c:Colorized { name: \u0027Colorized\u0027 })\n RETURN *","columns":["c"],"init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:35 GMT
+- request:
+    method: post
+    uri: http://neo4j-console-21.herokuapp.com/console/cypher
+    body:
+      encoding: UTF-8
+      string: MATCH (n:MissingParen
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      X-Session:
+      - bbac3bff-4dc6-4071-99e0-768fcd3cd871
+      Cookie:
+      - ''
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Feb 2018 23:33:47 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Type:
+      - text/html; charset=UTF-8
+      Server:
+      - Jetty(9.0.5.v20130815)
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"time":12,"error":"Unexpected end of input: expected an identifier
+        character, whitespace, NodeLabel, a property map, \u0027)\u0027 or a relationship
+        pattern (line 1, column 22)\n\"MATCH (n:MissingParen\"\n                      ^","query":"MATCH
+        (n:MissingParen","init":null,"version":null}'
+    http_version: 
+  recorded_at: Thu, 15 Feb 2018 23:23:35 GMT
 recorded_with: VCR 2.9.3

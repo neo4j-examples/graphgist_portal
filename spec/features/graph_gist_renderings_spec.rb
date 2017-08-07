@@ -7,13 +7,15 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
 
   # Test GraphGist which exercises variosu features of GraphGists
   # Can also be used to visually inspect how well GraphGists are working
-  let(:graph_gist) { create(:graph_gist, asciidoc: File.read("./spec/features/acid_test.adoc")) }
+  graph_gist = GraphGist.create(status: 'live', asciidoc: File.read("./spec/features/acid_test.adoc"))
 
   def table_data_following(text)
     page.evaluate_script("$('p:contains(#{text})').nextAll('.result-table').find('table').tableToJSON()")
   end
 
   it 'renders a graph gist' do
+    graph_gist.save
+
     visit '/graph_gists/' + graph_gist.id
 
     within('#gist-body') do
@@ -25,7 +27,6 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
       expect(page).to have_css('em', text: 'italic')
       expect(page).to have_css('strong', text: 'bold')
       expect(page).to have_css('code', text: 'Monospace')
-      expect(page).to have_link('http://www.link.to/', href: 'http://www.link.to/')
       expect(page).to have_link('Link Text', href: 'http://example.org')
 
       # Gist loaded from source
@@ -33,6 +34,8 @@ describe 'graph gist rendering', type: :feature, js: true, sauce: ENV['CI'] do
 
       # Images are displayed and converted to https when appropriate
       expect(page.find('img[src*="https://i.imgur.com/5giAsjq.png"]')).to be_a(Capybara::Node::Element)
+
+      wait_for_ajax
 
       text = 'Graph result'
       node_count = page.evaluate_script("$($('p:contains(#{text})').nextAll('.visualization')[0]).find('svg g.node').length")

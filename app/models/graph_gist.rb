@@ -1,6 +1,7 @@
 require 'graph_gist_tools'
 require 'open-uri'
 require 'ipaddr'
+require 'faraday_middleware'
 
 class GraphGist < GraphStarter::Asset
   has_image

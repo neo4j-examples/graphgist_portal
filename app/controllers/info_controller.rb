@@ -59,6 +59,7 @@ class InfoController < ApplicationController
   end
 
   def preview_graphgist
+    params.permit!
     id = params[:id]
 
     if params[:graph_gist_candidate]
@@ -142,7 +143,9 @@ class InfoController < ApplicationController
   end
 
   def create_graphgist # rubocop: disable Metrics/AbcSize
-    Neo4j::Transaction.run do
+    Neo4j::ActiveBase.run_transaction do
+      params.permit!
+
       if params[:graph_gist][:url].empty?
         params[:graph_gist].delete :url
       end

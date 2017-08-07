@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'rspec/its'
 require './lib/graph_gist_tools'
 
 RSpec.describe GraphGistTools do

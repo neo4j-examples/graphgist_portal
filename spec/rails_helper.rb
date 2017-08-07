@@ -40,8 +40,10 @@ end
 # RSpec helpers for deleting data from Neo4j
 module DeleteDbHelpers
   def delete_dbs
-    Neo4j::Session.current.query('MATCH (n) DETACH DELETE n')
+    Neo4j::ActiveBase.current_session.query('MATCH (n) DETACH DELETE n')
     User.delete_all
+    runner = Neo4j::Migrations::Runner.new
+    runner.all
   end
 end
 
