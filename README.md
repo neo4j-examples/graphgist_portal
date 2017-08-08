@@ -43,7 +43,7 @@ Install the project requirements
 bundle install
 ```
 
-Set the environment
+Set the environment (optional)
 
 ```
 export GITHUB_KEY='<your_key>'
@@ -64,7 +64,7 @@ Web Addresses:
 After some user(s) are created you can give a user admin privileges by running the following query in the neo4j database website linked above:
 
 ```
-MATCH (u:User {username:'<username of a user>'}) SET u.admin = true RETURN u
+MATCH (u:User {name:'<username of a user>'}) SET u.admin = true RETURN u
 ```
 
 If you need to reboot the database, use:
