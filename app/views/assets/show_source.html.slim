@@ -1,0 +1,26 @@
+h1 = @asset.name
+
+= text_area_tag 'graph_gist_asciidoc', @asset.asciidoc
+
+coffee:
+  graph_gist_asciidoc = document.getElementById('graph_gist_asciidoc')
+  if graph_gist_asciidoc
+    editor = CodeMirror.fromTextArea graph_gist_asciidoc,
+      lineNumbers: true
+      lineWrapping: true
+      readOnly: true
+      mode: 'asciidoc',
+      theme: 'midnight'
+
+    setTimeout ( ->
+      editor.refresh()
+    ), 100
+
+scss:
+  .CodeMirror {
+    height: 80vh
+  }
+
+  body {
+    height: auto
+  }

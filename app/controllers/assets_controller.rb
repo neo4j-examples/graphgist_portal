@@ -26,6 +26,13 @@ class AssetsController < ::GraphStarter::AssetsController
     end
   end
 
+  def show_source
+    params[:model_slug] = "graph_gists"
+    @asset, _ = asset_with_access_level
+
+    render file: 'public/404.html', status: :not_found, layout: false unless @asset
+  end
+
   def edit_graph_gists_by_owner
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
