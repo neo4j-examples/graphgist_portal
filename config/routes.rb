@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   get 'models/:name' => 'models#show', as: :model
   get 'authorizables/user_and_group_search.json' => 'authorizables#user_and_group_search'
   get ':model_slug/new' => 'assets#new', as: :new_asset
+  get ':model_slug' => 'assets#index', as: :assets
   post ':model_slug' => 'assets#create', as: :create_asset
   get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
   mount GraphStarter::Engine, at: '/'

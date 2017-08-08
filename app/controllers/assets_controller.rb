@@ -1,4 +1,12 @@
 class AssetsController < ::GraphStarter::AssetsController
+
+  def index
+    if (%w(industries use_cases challenges people).include? params[:model_slug]) and !(current_user&.admin?)
+      fail 'Must be an admin user'
+    end
+    super
+  end
+
   def show
     @asset, @access_level = asset_with_access_level
 
