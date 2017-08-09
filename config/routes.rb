@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   get 'graph_gists/:id/edit_by_owner_step2' => 'assets#edit_graph_gists_by_owner_step2', as: :graph_edit_by_owner_step2
   patch 'graph_gists/:id/edit_by_owner_step2' => 'assets#update_graph_gists_by_owner_step2', as: :graph_update_by_owner_step2
 
+  get 'graph_gists/:id/source' => 'assets#show_source', as: :graph_show_source
+
   get 'candidates/waiting_review' => 'info#list_candidates', as: :list_candidates_graphgist
   post 'candidates/graphgist/:id/status/live' => 'assets#make_graphgist_live', as: :make_graphgist_live
   post 'candidates/graphgist/:id/status/disabled' => 'assets#make_graphgist_disabled', as: :make_graphgist_disabled
