@@ -223,6 +223,11 @@ class GraphGist < GraphStarter::Asset
     @authorized_associations ||= associations.except(*GraphStarter::Asset.associations.keys + [:images, :image, :candidate])
   end
 
+  def avg_rating
+    ratings = rated_by_user(nil, :rating).pluck(:rating).reject {|r| r.level.nil?}.map(&:level)
+    ratings.empty? ? 0.0 : ratings.inject(:+) / ratings.size
+  end
+
   class << self
     def build_from_url(url)
       asciidoc_text = nil
