@@ -1,5 +1,10 @@
 class AssetsController < ::GraphStarter::AssetsController
 
+  def index
+    super
+    @assets.sort! { |a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title] }
+  end
+
   def show
     @asset, @access_level = asset_with_access_level
 
