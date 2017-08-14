@@ -1,0 +1,24 @@
+- as_cards = false if !defined?(as_cards)
+
+- asset.class.authorized_associations.each do |name, association|
+  - if association.target_class.ancestors.include?(GraphStarter::Asset)
+    - result = asset.send(name)
+    - if result.present?
+      .item
+        .content
+          - if asset.summary.present?
+            .ui.horizontal.divider Summary
+            = asset.summary
+          .ui.horizontal.divider = name.to_s.humanize
+          .description
+            - if as_cards
+              .ui.link.cards
+                - Array(result).each do |object|
+                  = render partial: '/graph_starter/assets/card', locals: {asset: object}
+            - else
+              .ui.middle.aligned.big.divided.list
+                - Array(result).each do |object|
+                  .item
+                    .content
+                      = asset_icon object
+                      = link_to object.title, asset_path(object)
