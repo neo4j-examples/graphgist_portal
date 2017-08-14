@@ -2,7 +2,7 @@ class AssetsController < ::GraphStarter::AssetsController
 
   def index
     super
-    @assets.sort! { |a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title] }
+    @assets.sort! { |a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title] } if @assets.all? &.is_a?(GraphGist)
   end
 
   def show
