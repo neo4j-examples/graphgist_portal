@@ -90,7 +90,7 @@ window.renderTable = (element, data, options = {}) ->
     bFilter: large
     bInfo: large
     bLengthChange: large
-    bPaginate: large
+    bPaginate: options.paging || large
     aaData: result.data
     aLengthMenu: [
       [10, 25, 50, -1 ]
@@ -99,7 +99,6 @@ window.renderTable = (element, data, options = {}) ->
     aaSorting: []
     bSortable: true
     searching: if options.searching? then options.searching else true
-    paging: if options.paging? then options.paging else true
     oLanguage:
       oPaginate:
         sNext: ' >> '
