@@ -18,6 +18,9 @@ javascript:
   .ui.grid
     - if asset_presenter.main_column_exists?
       div class="#{center_width} wide column"
+        - if @asset.summary.present?
+          .ui.horizontal.divider Summary
+          = simple_format @asset.summary
         - if asset_presenter.associations_in_body?
           = render partial: '/graph_starter/assets/associations', locals: {asset: @asset, as_cards: true}
         - else

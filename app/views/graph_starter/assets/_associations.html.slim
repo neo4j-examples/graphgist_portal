@@ -7,9 +7,6 @@
     - if result.present?
       .item
         .content
-          - if asset.summary.present?
-            .ui.horizontal.divider Summary
-            = simple_format asset.summary
           .ui.horizontal.divider = name.to_s.humanize
           .description
             - if as_cards
