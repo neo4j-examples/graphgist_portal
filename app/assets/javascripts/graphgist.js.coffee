@@ -11,6 +11,10 @@
 # specific language governing permissions and limitations under the License.
 ###
 
+#= require codemirror/runmode/runmode
+#= require codemirror/runmode/colorize
+#= require codemirror/mode/cypher
+
 $.fn.goTo = ->
     $('html, body').animate
       scrollTop: "#{$(this).offset().top - 60}px"
@@ -19,7 +23,6 @@ $.fn.goTo = ->
     @ # for chaining...
 
 window.GraphGist = ($, options) ->
-
   HAS_ERRORS = false
   $WRAPPER = $('<div class="query-wrapper" />')
   COLLAPSE_ICON = 'ui large compress icon fi-arrows-compress'
@@ -36,7 +39,7 @@ window.GraphGist = ($, options) ->
   $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand" title="Toggle fullscreen mode"></i></div>')
   $I = $('<i/>')
   DEFAULT_VERSION = '2.3'
-  CONSOLE_VERSIONS = 
+  CONSOLE_VERSIONS =
     '2.0.0-M06': 'http://neo4j-console-20m06.herokuapp.com/'
     '2.0.0-RC1': 'http://neo4j-console-20rc1.herokuapp.com/'
     '2.1': 'http://neo4j-console-21.herokuapp.com/'
@@ -79,7 +82,7 @@ window.GraphGist = ($, options) ->
     if querySearchParams()['use_test_console_server'] == 'true'
       consoleUrl = 'http://neo4j-console-test.herokuapp.com/'
     if graphgist_cached_queries?
-        executeQueries (->), postProcessRendering
+      executeQueries (->), postProcessRendering
     else
       CypherConsole {
         url: consoleUrl
@@ -119,7 +122,7 @@ window.GraphGist = ($, options) ->
       heading = $('h2').first()
     if heading.length
       headingText = heading.text()
-      #            document.title = headingText + ' - Neo4j GraphGist';
+    #            document.title = headingText + ' - Neo4j GraphGist';
     headingText
 
   postProcessPage = ->
@@ -199,6 +202,14 @@ window.GraphGist = ($, options) ->
           toggler $wrapper, $toggleQuery, 'hide'
 
     $('pre code.language-cypher').addClass 'cm-s-neo'
+
+    CodeMirror.colorize(document.getElementsByClassName('language-cypher'))
+
+
+#    code_els = $('pre code.language-cypher').toArray()
+#    for i of code_els
+#      code_el = code_els[i]
+#      CodeMirror.runMode $(code_el).text(), 'cypher', code_el
     $('table').addClass 'table'
     # bootstrap formatting
     version
@@ -248,7 +259,6 @@ window.GraphGist = ($, options) ->
 
 
   executeQueries = (final_success, always) ->
-
     $elements = $('div.query-wrapper')
     $elements.each (index, element) ->
       $element = $(element)
@@ -402,7 +412,6 @@ window.GraphGist = ($, options) ->
     $visContainer
 
 
-
   handleSelection = (data, show_result_only) ->
     return data if !show_result_only
 
@@ -414,8 +423,8 @@ window.GraphGist = ($, options) ->
 
     for link in data.links
       if link.selected or !hasSelectedRels and data.nodes[link.source].selected and data.nodes[link.target].selected
-        # link.source = data.nodes[link.source]['$index']
-        # link.target = data.nodes[link.target]['$index']
+# link.source = data.nodes[link.source]['$index']
+# link.target = data.nodes[link.target]['$index']
         links.push link
 
     {nodes, links}
