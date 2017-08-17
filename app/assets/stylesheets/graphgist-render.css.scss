@@ -505,7 +505,7 @@ pre {
       color: rgba(0,0,0,0.75);
       font-size: 14px;
       font-weight: 300;
-      margin: 0 0 1rem 0.5em;
+      margin: 0 0 1rem 0;
       padding: .5rem;
       height: 2.67rem;
       width: 100%;
@@ -525,6 +525,10 @@ pre {
       }
       tr:nth-of-type(even) {
         background: #f9f9f9;
+      }
+
+      &.dataTable {
+        width: 100%;
       }
     }
 
