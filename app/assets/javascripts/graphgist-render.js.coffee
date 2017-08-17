@@ -12,6 +12,10 @@
 #= require base64
 #= require mutate.min
 
+#= require codemirror/runmode/runmode
+#= require codemirror/runmode/colorize
+#= require codemirror/mode/cypher
+
 # Transform ASCIIdoc HTML output to match Semantic UI expectations
 $('.sect1').addClass('ui container')
 for code_element in $('code[class*="language-"]')
