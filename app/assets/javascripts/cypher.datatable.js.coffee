@@ -4,28 +4,17 @@ convertResult = (data) ->
     columns: []
     data: []
   columns = data.columns
-  count = columns.length
-  rows = data.json.length
 
   for column, idx in columns
     result.columns[idx] =
       sTitle: column
-      sWidth: column.length * CHAR_WIDTH
 
   for row, row_idx in data.json
     new_row = for column, idx in columns
       value = convertCell(row[column])
-      result.columns[idx].sWidth = Math.max(value.length * CHAR_WIDTH, result.columns[idx].sWidth)
       render(value)
 
     result.data[row_idx] = new_row
-
-  width = 0
-  for column, idx in columns
-    width += result.columns[idx].sWidth
-
-  for column, idx in columns
-    result.columns[idx].sWidth = '' + Math.round(100 * result.columns[idx].sWidth / width) + '%'
 
   result
 
@@ -87,6 +76,7 @@ window.renderTable = (element, data, options = {}) ->
 
   dataTable = table.dataTable
     aoColumns: result.columns
+    bAutoWidth: true
     bFilter: large
     bInfo: large
     bLengthChange: large
