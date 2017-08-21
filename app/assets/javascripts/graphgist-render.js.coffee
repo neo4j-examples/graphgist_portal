@@ -1,7 +1,3 @@
-#= require codemirror/runmode/runmode
-#= require codemirror/runmode/colorize
-#= require codemirror/mode/cypher
-
 #= require graph_starter/underscore
 #= require jquery-ui.min
 #= require d3.min
@@ -15,6 +11,10 @@
 #= require graphgist
 #= require base64
 #= require mutate.min
+
+#= require codemirror/runmode/runmode
+#= require codemirror/runmode/colorize
+#= require codemirror/mode/cypher
 
 # Transform ASCIIdoc HTML output to match Semantic UI expectations
 $('.sect1').addClass('ui container')
