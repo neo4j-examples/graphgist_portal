@@ -11,10 +11,6 @@
 # specific language governing permissions and limitations under the License.
 ###
 
-#= require codemirror/runmode/runmode
-#= require codemirror/runmode/colorize
-#= require codemirror/mode/cypher
-
 $.fn.goTo = ->
     $('html, body').animate
       scrollTop: "#{$(this).offset().top - 60}px"
