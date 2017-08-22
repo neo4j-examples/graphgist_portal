@@ -11,7 +11,8 @@
 # specific language governing permissions and limitations under the License.
 ###
 
-#= require codemirror/runmode/runmode-standalone
+#= require codemirror
+#= require codemirror/runmode/runmode
 #= require codemirror/runmode/colorize
 #= require codemirror/mode/cypher
 
