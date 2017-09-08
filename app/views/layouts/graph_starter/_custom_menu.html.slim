@@ -2,8 +2,6 @@
 = javascript_include_tag 'semantic-ui/dimmer', 'data-turbolinks-track' => true
 = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
 
-
-a.ui.item href="#{main_app.about_path}" What is a GraphGist?
 a.ui.item href="#{graph_starter.assets_path(model_slug: :graph_gists)}" GraphGists
 - if current_user
   a.ui.item href="#{main_app.submit_graphgist_path}" Create a GraphGist
