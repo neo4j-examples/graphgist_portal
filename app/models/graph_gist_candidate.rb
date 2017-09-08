@@ -15,6 +15,7 @@ class GraphGistCandidate < GraphStarter::Asset
 
   property :query_cache, type: String
   validates :query_cache, presence: true
+  property :has_errors, type: Boolean, default: false
 
   property :status, type: String, default: 'candidate'
   enumerable_property :status, %w(live disabled candidate draft)
@@ -117,12 +118,17 @@ class GraphGistCandidate < GraphStarter::Asset
     cypher_blocks = GraphGistTools.cypher_blocks(asciidoctor_document)
     queries = cypher_blocks.map(&:source)
     responses = []
+    self.has_errors = false
 
     client = Neo4jConsole::Neo4jConsoleClient.new(asciidoctor_document.attributes['neo4j-version'])
     client.init
     queries.each do |query|
       response = client.cypher(query)
-      responses.push JSON.parse(response.body)
+      response_body = JSON.parse(response.body)
+      responses.push response_body
+      if response_body.has_key?('error')
+        self.has_errors = true
+      end
     end
     self.query_cache = responses.to_json
   end
