@@ -26,10 +26,6 @@ a.ui.item href="#{graph_starter.assets_path(model_slug: :graph_gists)}" GraphGis
       img.ui.mini.circular.image src="#{current_user.image}" style="margin-left: 8px; position: absolute; top: 5px; right: 10px; width: 30px;"
     a.ui.item href="#{main_app.destroy_user_session_path}" method="delete" Sign out
   - else
-    .ui.item <a href="#{main_app.new_user_session_path}">Sign in with:</a>
-    a.ui.item href="#{main_app.user_omniauth_authorize_path(:twitter)}"
-      i.twitter.icon
-    a.ui.item href="#{main_app.user_omniauth_authorize_path(:github)}"
-      i.github.icon
-
+    a.ui.item href="#{main_app.user_omniauth_authorize_path(:auth0)}"
+      | Sign in
 
