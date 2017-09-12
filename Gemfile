@@ -47,8 +47,7 @@ gem 'codemirror-rails'
 gem 'rails-html-sanitizer'
 
 gem 'devise-neo4j'
-gem 'omniauth-twitter'
-gem 'omniauth-github'
+gem 'omniauth-auth0'
 
 gem 'redis-rails'
 

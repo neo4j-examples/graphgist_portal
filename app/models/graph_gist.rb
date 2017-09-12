@@ -191,7 +191,7 @@ class GraphGist < GraphStarter::Asset
     end
 
     twitter, author = document.attributes.values_at('twitter', 'author')
-    self.author ||= Person.find_or_create({twitter_username: Person.standardized_twitter_username(twitter)}, name: author) if twitter
+    self.author ||= Person.find_or_create({twitter_username: Person.standardized_twitter_username(twitter)}, name: author) unless twitter.to_s.empty?
   end
 
   def place_url(new_url)

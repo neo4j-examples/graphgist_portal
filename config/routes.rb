@@ -60,7 +60,7 @@ Rails.application.routes.draw do
 
   get 'render_graphgist_js' => 'info#render_graphgist_js'
 
-  devise_for :users, controllers: {registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
+  devise_for :users, controllers: {sessions: 'users/sessions', registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
 
   get 'challenges/new' => 'assets#challenge_new'
   post 'challenges' => 'assets#challenge_create', as: :challenge_create
