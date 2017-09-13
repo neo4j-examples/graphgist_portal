@@ -13,6 +13,10 @@ javascript:
       .ui.message.yellow.gist-alert
         div.header This is an unapproved candidate.
 
+  - if (@asset.is_a?(GraphGist) || @asset.is_a?(GraphGistCandidate)) && @asset.has_errors
+    .ui.message.red.gist-alert
+      div.header This graphgist has errors
+
   - center_width, right_width = "thirteen", "three"
 
   .ui.grid
