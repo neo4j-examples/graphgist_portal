@@ -1,6 +1,13 @@
 class InfoController < ApplicationController
   before_action :authenticate_user!, :only => [:submit_graphgist]
 
+  def featured_graphgists
+    @title = 'Featured GraphGists'
+
+    @featured_graphgists = apply_associations(GraphGist.only_featured).to_a
+    @featured_page = true
+  end
+
   def live_graphgists
     @live_graphgists = apply_associations(GraphGist.only_live.for_category('asset', params[:category])).to_a
   end
