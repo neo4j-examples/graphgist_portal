@@ -35,8 +35,12 @@ class InfoController < ApplicationController
     @graph_gists = GraphGist.as(:gist).challenge_category.pluck(:gist)
   end
 
-  def about
+  def home
     @title = 'Home'
+  end
+
+  def about
+    @title = 'What is a GraphGist?'
   end
 
   def graphgist_recommendations

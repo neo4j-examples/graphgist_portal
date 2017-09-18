@@ -1,0 +1,93 @@
+scss:
+  pre {
+    background-color: #FDFFE8;
+    border: 1px solid black;
+    padding: 1em;
+    font-size: 0.7em;
+    display: inline-block;
+    margin-right: 1em;
+  }
+
+div style="font-size: 1.4rem"
+
+  h1 About the GraphGist Portal
+ 
+  p
+    | Already know what a graphgist is? <a href="#{main_app.submit_graphgist_path}">Start yours now</a>.
+ 
+  h2 What is a GraphGist
+ 
+  p Building a graph of your data is fairly simple as the graph structure represents the real world much better than columns and rows of data. GraphGists are teaching tools which allow developers to explore how data in a particular domain would be modeled as a graph and see some example queries of that graph data.
+ 
+  h2 Why create a GraphGist?
+
+  p <a href="http://www.neo4j.com/graphgists/">Neo4j GraphGists</a> are an easy way to create and share example graph models & data  for particular use cases or industries.  You can explain these models with text and graphics, and provide example queries for how to interact with data using Cypher. They’re very helpful educating the Neo4j community and even developers within your own organization.
+
+  p These documents are written in a simple, textual markup language (<a href="http://asciidoctor.org/">AsciiDoc</a>) and rendered in your browser as rich and interactive web pages that you can quickly evolve from describing simple how-tos or questions to providing an extensive use-case specification.
+
+  p To see the expressive power of this approach, here are some winners of our past community competitions:
+
+  h2 Example GraphGists
+
+  h3 Pop Culture
+  ul
+    li
+      a href="http://portal.graphgist.org/graph_gists/855363c7-cdeb-4c8b-b4a5-b72c8f2388e3" Exploring the Star Wars Social Networks
+
+  h3 Open/Government Data and Politics
+  ul
+    li
+      a href="http://portal.graphgist.org/graph_gists/c4eab62c-7f5e-4e17-8f75-811d65d83127" Drug Repurposing by hetnet relationship prediction: a new hope
+
+  h3 Investigative Journalism
+  ul
+    li
+      a href="http://portal.graphgist.org/graph_gists/d9ec56c6-0a76-49ab-8f43-0504d92225f7" Our Inspiration
+
+  h3 Sports and Recreation
+  ul
+    li
+      a href="http://portal.graphgist.org/graph_gists/14bdffc9-8ba4-464e-86f8-577f484428e6" Running Competition
+
+  h3 Public Web APIs
+  ul
+    li
+      a href="http://portal.graphgist.org/graph_gists/09bb2bbc-fb73-47a8-9778-3e5f22dcd27c" Wikipedia Game
+
+
+  h2 How do I create a GraphGist?
+  p GraphGists work like any AsciiDoc document, but they allow you to insert special comments to define how data from Neo4j can be displayed and interacted with.
+  p First define a block of <a href="http://neo4j.com/developer/cypher-query-language/">Cypher</a> code to setup the database, this block can also use LOAD CSV. Please use a educational graph size (around 150 nodes and rels):
+
+  pre
+    |
+      //setup
+      //hide
+      [source,cypher]
+      ----
+      CREATE (neo:Database {name:'Neo4j'})
+      CREATE (neo)-[:SUPPORTS]->(:Language {name:'Cypher'})
+      ----
+
+  p You can then describe the use cases, run their queries on the data and output results as a table and/or a graph:
+
+  div
+    pre style="float: left"
+      |
+        [source,cypher]
+        ----
+        MATCH (db:Database)-[:SUPPORTS]->(language:Language)
+        RETURN db.name as db, collect(language.name) as languages
+        ----
+
+        //table
+
+    pre
+      |
+        [source,cypher]
+        ----
+        MATCH (d:Database)-[rel:SUPPORTS]->(l:Language)
+        RETURN d,l
+        ----
+
+        //graph_result

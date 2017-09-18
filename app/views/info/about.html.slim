@@ -10,53 +10,20 @@ scss:
 
 div style="font-size: 1.4rem"
 
-  h1 About the GraphGist Portal
- 
+  h1 What is a GraphGist?
+
+  = image_tag 'about_graphgists.png', class: 'ui right large floated image'
+
   p
-    | Already know what a graphgist is? <a href="#{main_app.submit_graphgist_path}">Start yours now</a>.
- 
-  h2 What is a GraphGist
- 
-  p Building a graph of your data is fairly simple as the graph structure represents the real world much better than columns and rows of data. GraphGists are teaching tools which allow developers to explore how data in a particular domain would be modeled as a graph and see some example queries of that graph data.
- 
-  h2 Why create a GraphGist?
+    |
+      With Neo4j GraphGists you can describe and model your domain in a simple text file (<a href="http://asciidoc.org/">AsciiDoc</a>) and render it as a rich, interactive, database-backed page in any browser.
 
-  p <a href="http://www.neo4j.com/graphgists/">Neo4j GraphGists</a> are an easy way to create and share example graph models & data  for particular use cases or industries.  You can explain these models with text and graphics, and provide example queries for how to interact with data using Cypher. They’re very helpful educating the Neo4j community and even developers within your own organization.
+      It is perfect to document a specific domain, use-case, question or graph problem.
 
-  p These documents are written in a simple, textual markup language (<a href="http://asciidoctor.org/">AsciiDoc</a>) and rendered in your browser as rich and interactive web pages that you can quickly evolve from describing simple how-tos or questions to providing an extensive use-case specification.
+  h2 Examples
 
-  p To see the expressive power of this approach, here are some winners of our past community competitions:
-
-  h2 Example GraphGists
-
-  h3 Pop Culture
-  ul
-    li
-      a href="http://portal.graphgist.org/graph_gists/855363c7-cdeb-4c8b-b4a5-b72c8f2388e3" Exploring the Star Wars Social Networks
-
-  h3 Open/Government Data and Politics
-  ul
-    li
-      a href="http://portal.graphgist.org/graph_gists/c4eab62c-7f5e-4e17-8f75-811d65d83127" Drug Repurposing by hetnet relationship prediction: a new hope
-
-  h3 Investigative Journalism
-  ul
-    li
-      a href="http://portal.graphgist.org/graph_gists/d9ec56c6-0a76-49ab-8f43-0504d92225f7" Our Inspiration
-
-  h3 Sports and Recreation
-  ul
-    li
-      a href="http://portal.graphgist.org/graph_gists/14bdffc9-8ba4-464e-86f8-577f484428e6" Running Competition
-
-  h3 Public Web APIs
-  ul
-    li
-      a href="http://portal.graphgist.org/graph_gists/09bb2bbc-fb73-47a8-9778-3e5f22dcd27c" Wikipedia Game
-
-
-  h2 How do I create a GraphGist?
   p GraphGists work like any AsciiDoc document, but they allow you to insert special comments to define how data from Neo4j can be displayed and interacted with.
+
   p First define a block of <a href="http://neo4j.com/developer/cypher-query-language/">Cypher</a> code to setup the database, this block can also use LOAD CSV. Please use a educational graph size (around 150 nodes and rels):
 
   pre
@@ -69,7 +36,7 @@ div style="font-size: 1.4rem"
       CREATE (neo)-[:SUPPORTS]->(:Language {name:'Cypher'})
       ----
 
-  p You can then describe the use cases, run their queries on the data and output results as a table and/or a graph:
+  p You can then describe the use-cases, run their queries on the data and output results as a table and/or a graph:
 
   div
     pre style="float: left"
@@ -91,3 +58,54 @@ div style="font-size: 1.4rem"
         ----
 
         //graph_result
+
+
+  p You can fork <a href="https://gist.github.com/jexp/a56f7e7587ce5ed97561">this GraphGist template</a> to have something to start working with.
+
+  p
+    |
+      A reader can explore your GraphGist to read and understand your domain.  A live console is also inserted into GraphGists so that readers can even try out their own queries
+      We want to encourage you to model a domain that you know or like and describe it interactively in a GraphGist.
+
+  /p
+    |
+      To learn about interesting existing models created by other Neo4j users browse the <a href="http://neo4j.com/graphgists/">impressive collection</a>.
+
+  h2 How do I create a GraphGist?
+
+  asciidoc:
+    . Find a great domain (Music, Dating, Comics, Healthcare, Politics, Sciences, ...)
+    . Whiteboard a good example graph model.
+    . Determine interesting use-cases.
+    . Create Cypher statements for setup and query-use-cases.
+    . Write a good description and create a useful model picture (using a tool like link:http://gliffy.com[Gliffy] or link:http://www.apcjones.com/arrows/#[Arrows] or Neo4j Browser).
+    . Compose it all nicely in your AsciiDoc-GraphGist-file (see link:https://github.com/neo4j-contrib/graphgist/blob/master/gists/syntax.adoc[this syntax documentation]).
+    . Store it as a link:https://gist.github.com/[GitHub Gist]
+    . Submit the URL on the link:/submit_graphgist[submission page]
+
+    link:http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0[**Watch the video to learn more!**]
+
+  /h2 GraphGist Challenges
+
+  /p
+    |
+      There have been three GraphGist competitions so far.  Check out our most recent <a href="/challenge/index.html">2015/2016 Winter Challenge</a>!
+
+  /p
+    |
+      The best way gathering great graph models is to ask your community.
+      That's why we already ran several challenges to find interesting ideas for GraphGists with tremendous results.
+
+  /p
+    asciidoc:
+      The first challenge in September 2013 had link:https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-september-challenge-submissions[17 submissions] and link:http://blog.neo4j.org/2013/10/the-first-graphgist-challenge-completed.html?_ga=1.56087459.909862480.1422364624[3 winners].
+
+  /p
+    asciidoc:
+      Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories.
+      We got an impressive link:https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-winter-challenge-submissions---categories[65 submissions]. Here are the link:http://blog.neo4j.org/2014/02/graph-gist-winter-challenge-winners.html?_ga=1.56087459.909862480.1422364624[winners per category]
+
+  p
+
+  p
+  

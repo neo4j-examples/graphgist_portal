@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   mathjax 'mathjax'
 
-  root 'info#about'
+  root 'info#home'
+  get 'about' => 'info#about'
 
   get 'featured_graphgists(.:format)' => 'info#featured_graphgists'
 
