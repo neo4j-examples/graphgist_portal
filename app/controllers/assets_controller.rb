@@ -58,7 +58,10 @@ class AssetsController < ::GraphStarter::AssetsController
     end
 
     @asset = @liveAsset.candidate
-    @asset.update(params['graph_gist_candidate'])
+    if !@asset.update(params['graph_gist_candidate'])
+      flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
+      return redirect_to :back
+    end
 
     if ['candidate', 'draft'].include?(@liveAsset.status)
       @liveAsset.is_candidate_updated = false

@@ -151,12 +151,15 @@ class InfoController < ApplicationController
       @graphgist.author = current_user.person
       @graphgist.creators << current_user
 
-      @candidate = GraphGistCandidate.create_from_graphgist(@graphgist)
-
-      # GraphGistMailer.thanks_for_submission(@graphgist, current_user).deliver_now
+      unless @graphgist.errors.present?
+        @candidate = GraphGistCandidate.create_from_graphgist(@graphgist)
+      end
     end
 
-    return render text: "Could not create GraphGistCandidate: #{@graphgist.errors.messages.inspect}" if @graphgist.errors.present?
+    if @graphgist.errors.present?
+      flash[:error] = @graphgist.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
+      return redirect_to :back
+    end
 
     redirect_to graph_edit_by_owner_step2_path(id: @graphgist.id)
   end
