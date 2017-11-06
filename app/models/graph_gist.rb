@@ -1,5 +1,6 @@
 require 'graph_gist_tools'
 require 'open-uri'
+require 'ipaddr'
 
 class GraphGist < GraphStarter::Asset
   has_image
@@ -56,7 +57,7 @@ class GraphGist < GraphStarter::Asset
 
   json_methods :html, :query_cache_html, :render_id, :persisted?
 
-  validate :is_challenge_active
+  validate :is_challenge_active, :check_for_broken_links
 
   def is_challenge_active
     if challenges.count > 0
@@ -148,6 +149,59 @@ class GraphGist < GraphStarter::Asset
       end
     end
     self.query_cache = responses.to_json
+  end
+
+  HOSTS_LOCAL = %w(
+    localhost
+  )
+
+  def host_is_local?(host)
+    HOSTS_LOCAL.any? { |test_host| host.match(/^#{test_host}/) }
+  end
+
+  def is_ip?(ip)
+    !!IPAddr.new(ip) rescue false
+  end
+
+  def is_ip_local?(ip)
+    return false if !is_ip?(ip)
+    net1 = IPAddr.new("10.0.0.0/8")
+    net2 = IPAddr.new("172.16.0.0/12")
+    net3 = IPAddr.new("192.168.0.0/16")
+    net4 = IPAddr.new("fd00::/8")
+    ip_address = IPAddr.new(ip)
+    net1 === ip_address or net2 === ip_address or net3 === ip_address or net4 === ip_address
+  end
+
+  def check_for_broken_links
+    self.raw_html.scan(/(?:href|src)=["'](https?:\/\/[^"']+)["']/im) do |url|
+      url = url[0]
+
+      begin
+        uri = URI(url)
+        next if host_is_local?(uri.host) or is_ip_local?(uri.host)
+      rescue URI::InvalidURIError
+        errors.add(:asciidoc, "The URL '#{url}' is invalid")
+        self.has_errors = true
+        next
+      end
+
+      begin
+        conn = Faraday.new
+        res = conn.head do |req|
+          req.url url
+          req.options.timeout = 30
+          req.options.open_timeout = 20
+        end
+        if res.status >= 400
+          errors.add(:asciidoc, "The URL '#{url}' is invalid")
+          self.has_errors = true
+        end
+      rescue Faraday::ConnectionFailed
+        errors.add(:asciidoc, "The URL '#{url}' is invalid")
+        self.has_errors = true
+      end
+    end
   end
 
   HOSTS_TRANSFORMABLE_TO_HTTPS = %w(
