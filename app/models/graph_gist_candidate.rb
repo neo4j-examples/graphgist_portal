@@ -175,7 +175,7 @@ class GraphGistCandidate < GraphStarter::Asset
           req.options.timeout = 30
           req.options.open_timeout = 20
         end
-        if res.status >= 400
+        if res.status >= 400 and res.status < 600
           errors.add(:asciidoc, "The URL '#{url}' is invalid")
           self.has_errors = true
         end
