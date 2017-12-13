@@ -1,5 +1,5 @@
 class InfoController < ApplicationController
-  before_action :authenticate_user!, :only => [:submit_graphgist]
+  before_action :authenticate_user!, :only => [:submit_graphgist, :my_graphgists, :create_graphgist]
 
   def featured_graphgists
     @title = 'Featured GraphGists'
@@ -186,5 +186,12 @@ class InfoController < ApplicationController
     redirect_to '/' if !current_user.present? || !current_user.admin?
 
     @candidates = GraphGistCandidate.where(status: 'candidate')
+  end
+
+  def my_graphgists
+    redirect_to '/' if !current_user.present?
+
+    @title = 'My GraphGists'
+    @graphgists = GraphGistCandidate.where(author: current_user.person)
   end
 end
