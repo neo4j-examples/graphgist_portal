@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   authenticated do
     post 'create_graphgist' => 'info#create_graphgist'
+    get 'my_graphgists' => 'info#my_graphgists'
   end
 
   get 'challenge_graphgists' => 'info#challenge_graphgists'
