@@ -37,7 +37,7 @@ window.GraphGist = ($, options) ->
   $VISUALIZATION = $('<div/>').addClass('visualization')
   VISUALIZATION_HEIGHT = 400
   DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
-  $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand" title="Toggle fullscreen mode"></i></div>')
+  $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand fullscreen-icon" title="Toggle fullscreen mode"></i></div>')
   $I = $('<i/>')
   DEFAULT_VERSION = '2.3'
   CONSOLE_VERSIONS =
