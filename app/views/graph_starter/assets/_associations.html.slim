@@ -3,7 +3,7 @@
 - asset.class.authorized_associations.each do |name, association|
   - if association.target_class.ancestors.include?(GraphStarter::Asset)
     - result = asset.send(name)
-    - result = result.to_a.sort! {|a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title]} if association.target_class == GraphGist
+    - result = result.to_a.sort! {|a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title]} if association.target_class == GraphGist || association.target_class == GraphGistCandidate
     - if result.present?
       .item
         .content

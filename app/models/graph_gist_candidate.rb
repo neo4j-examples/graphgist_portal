@@ -260,6 +260,10 @@ class GraphGistCandidate < GraphStarter::Asset
     )
   end
 
+  def self.authorized_associations
+    @authorized_associations ||= associations.except(*GraphStarter::Asset.associations.keys + [:graphgist, :images, :image])
+  end
+
   def self.create_from_graphgist(graphgist)
     self.create(
       graphgist: graphgist,
