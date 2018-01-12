@@ -57,7 +57,7 @@ javascript:
 
       = render partial: '/graph_starter/assets/extra_buttons', locals: {asset: @asset}
 
-      - if !asset_presenter.left_sidebar_exists?
+      - if !asset_presenter.left_sidebar_exists? || @asset.is_a?(GraphGistCandidate)
         .ui.items
           - if !asset_presenter.associations_in_body?
             = render partial: '/graph_starter/assets/associations', locals: {asset: @asset}
