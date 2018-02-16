@@ -74,72 +74,72 @@ RSpec.describe QueryController, type: :controller do
       end.to raise_error KeyError, 'key not found: "1234"'
     end
 
-    it 'caches the the inital query' do
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    # it 'caches the the inital query' do
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
-      expect(response.body).to eq('OK')
+    #   make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
+    #   expect(response.body).to eq('OK')
 
-      make_query_request("CREATE (n:Person {name: 'Sally'})", session_b_id)
-      expect(response.body).to eq('OK')
-    end
+    #   make_query_request("CREATE (n:Person {name: 'Sally'})", session_b_id)
+    #   expect(response.body).to eq('OK')
+    # end
 
-    it 'caches two queries' do
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    # it 'caches two queries' do
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
 
-      make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
-      expect(response.body).to eq('OK')
-      make_query_request("CREATE (n:Person {name: 'Sally'})", session_b_id)
-      expect(response.body).to eq('OK')
+    #   make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
+    #   expect(response.body).to eq('OK')
+    #   make_query_request("CREATE (n:Person {name: 'Sally'})", session_b_id)
+    #   expect(response.body).to eq('OK')
 
-      make_query_request('MATCH (n:Person) RETURN n', session_a_id)
-      expect(response.body).to eq('OK')
-      make_query_request('MATCH (n:Person) RETURN n', session_b_id)
-      expect(response.body).to eq('OK')
-    end
+    #   make_query_request('MATCH (n:Person) RETURN n', session_a_id)
+    #   expect(response.body).to eq('OK')
+    #   make_query_request('MATCH (n:Person) RETURN n', session_b_id)
+    #   expect(response.body).to eq('OK')
+    # end
 
-    it 'does not cache if earlier queries change' do
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    # it 'does not cache if earlier queries change' do
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'Sally'})", 'X-Session': session_a_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', "CREATE (n:Person {name: 'sally'})", 'X-Session': session_b_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_a_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      expect(default_connection).to receive(:post)
-        .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_b_id, 'Cookie': '')
-        .and_return(default_faraday_result)
-        .exactly(1).times
+    #   expect(default_connection).to receive(:post)
+    #     .with('http://neo4j-console-31.herokuapp.com/console/cypher', 'MATCH (n:Person) RETURN n', 'X-Session': session_b_id, 'Cookie': '')
+    #     .and_return(default_faraday_result)
+    #     .exactly(1).times
 
-      make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
-      expect(response.body).to eq('OK')
-      make_query_request("CREATE (n:Person {name: 'sally'})", session_b_id)
-      expect(response.body).to eq('OK')
+    #   make_query_request("CREATE (n:Person {name: 'Sally'})", session_a_id)
+    #   expect(response.body).to eq('OK')
+    #   make_query_request("CREATE (n:Person {name: 'sally'})", session_b_id)
+    #   expect(response.body).to eq('OK')
 
-      make_query_request('MATCH (n:Person) RETURN n', session_a_id)
-      expect(response.body).to eq('OK')
-      make_query_request('MATCH (n:Person) RETURN n', session_b_id)
-      expect(response.body).to eq('OK')
-    end
+    #   make_query_request('MATCH (n:Person) RETURN n', session_a_id)
+    #   expect(response.body).to eq('OK')
+    #   make_query_request('MATCH (n:Person) RETURN n', session_b_id)
+    #   expect(response.body).to eq('OK')
+    # end
   end
 end

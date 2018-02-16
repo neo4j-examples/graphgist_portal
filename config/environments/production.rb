@@ -76,6 +76,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = {host: 'portal.graphgist.org'}
 
-  config.neo4j.session_type = :server_db
-  config.neo4j.session_path = ENV['NEO4J_URL'] || ENV['GRAPHENEDB_URL']
+  config.neo4j.session.type = :http
+  config.neo4j.session.path = ENV['NEO4J_URL'] || ENV['GRAPHENEDB_URL']
 end

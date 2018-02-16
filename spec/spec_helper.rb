@@ -23,7 +23,9 @@ Dotenv.load('.env.test')
 def delete_db
   # clear_model_memory_caches
   VCR.turned_off do
-    Neo4j::Session.current.query('MATCH (n) DETACH DELETE n')
+    Neo4j::ActiveBase.current_session.query('MATCH (n) DETACH DELETE n')
+    runner = Neo4j::Migrations::Runner.new
+    runner.all
   end
 end
 
@@ -34,6 +36,7 @@ VCR.configure do |config|
   config.hook_into :webmock # or :fakeweb
   config.ignore_localhost = true
   config.ignore_hosts 'ondemand.saucelabs.com', 'saucelabs.com'
+  config.allow_http_connections_when_no_cassette = true
 end
 WebMock.allow_net_connect!
 
@@ -42,12 +45,16 @@ require 'capybara'
 require 'capybara/webkit'
 Capybara.current_driver = :webkit
 Capybara.javascript_driver = :webkit
+Capybara.default_max_wait_time = 5
 Capybara::Webkit.configure do |config|
   config.allow_url("fonts.googleapis.com")
   config.allow_url("i.imgur.com")
+  # config.debug = true
+  config.raise_javascript_errors = true
 end
 
 require 'factory_girl'
+require 'wait_for_ajax'
 
 # Introduces `let_context` helper method
 # This allows us to simplify the case where we want to

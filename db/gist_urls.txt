@@ -1,8 +1,5 @@
 http://gist.neo4j.org/?8390148
-http://gist.neo4j.org/?167380d216f082ee454b
-http://gist.neo4j.org/?8371221
 http://gist.neo4j.org/?8493604
-http://gist.neo4j.org/?7521440722051d915c71
 http://gist.neo4j.org/?8158724
 http://gist.neo4j.org/?8630438
 http://gist.neo4j.org/?8015026

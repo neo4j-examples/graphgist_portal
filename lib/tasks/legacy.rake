@@ -34,7 +34,7 @@ end
 
 namespace :legacy_graph_gist_portal do
   task import_legacy_db: :environment do
-    legacy_db = Neo4j::Session.open(:server_db, ENV['LEGACY_GRAPHGIST_DB_URL'])
+    legacy_db = Neo4j::Session.open(:http, ENV['LEGACY_GRAPHGIST_DB_URL'])
 
     gists = legacy_db.query.match(gist: :Gist).pluck(:gist)
 

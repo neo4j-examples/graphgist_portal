@@ -5,6 +5,31 @@ class AssetsController < ::GraphStarter::AssetsController
     @assets.sort! { |a, b| [b.avg_rating, a.title] <=> [a.avg_rating, b.title] } if @assets.all? &.is_a?(GraphGist)
   end
 
+  def search
+    params.permit!
+    super
+  end
+
+  def asset
+    params.permit!
+    super
+  end
+
+  def create
+    params.permit!
+    super
+  end
+
+  def rate
+    params.permit!
+    super
+  end
+
+  def asset_set(var = :asset, limit = 30)
+    params.permit!
+    super
+  end
+
   def show
     @asset, @access_level = asset_with_access_level
 
@@ -32,6 +57,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def edit_graph_gists_by_owner
+    params.permit!
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
 
@@ -50,6 +76,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def update_graph_gists_by_owner
+    params.permit!
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
 
@@ -75,6 +102,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def edit_graph_gists_by_owner_step2
+    params.permit!
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
 
@@ -93,6 +121,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def update_graph_gists_by_owner_step2
+    params.permit!
     params[:model_slug] = "graph_gists"
     @liveAsset, @access_level = asset_with_access_level
 
@@ -119,6 +148,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def asset_with_access_level
+    params.permit!
     scope = model_class_scope.where('asset.uuid = {id} OR asset.slug = {id}', id: params[:id])
     if defined?(current_user)
       scope.pluck(:asset, :level)
@@ -130,6 +160,7 @@ class AssetsController < ::GraphStarter::AssetsController
   def make_graphgist_live
     fail 'Must be an admin user' if !current_user.admin?
 
+    params.permit!
     params[:model_slug] = "graph_gists"
     live = asset
     if live.candidate.nil?
@@ -152,6 +183,7 @@ class AssetsController < ::GraphStarter::AssetsController
   def make_graphgist_disabled
     fail 'Must be an admin user' if !current_user.admin?
 
+    params.permit!
     params[:model_slug] = "graph_gists"
     live = asset
     if live.candidate.nil?
@@ -168,6 +200,7 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def make_graphgist_candidate
+    params.permit!
     params[:model_slug] = "graph_gists"
     live, access_level = asset_with_access_level
 
@@ -190,12 +223,14 @@ class AssetsController < ::GraphStarter::AssetsController
   end
 
   def challenge_new
+    params.permit!
     params[:model_slug] = "challenges"
     @asset = model_class.new
     fail 'Must be an admin user' if @asset.is_a?(Challenge) && !current_user.admin?
   end
 
   def challenge_create
+    params.permit!
     params[:model_slug] = "challenges"
     fail 'Must be an admin user' if @asset.is_a?(Challenge) && !current_user.admin?
 
