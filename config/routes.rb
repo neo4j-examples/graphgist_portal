@@ -74,5 +74,7 @@ Rails.application.routes.draw do
   get ':model_slug' => 'assets#index', as: :assets
   post ':model_slug' => 'assets#create', as: :create_asset
   get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
+  get ':model_slug/:id/edit' => 'assets#edit', as: :edit
+  patch ':model_slug/:id' => 'assets#update'
   mount GraphStarter::Engine, at: '/'
 end
