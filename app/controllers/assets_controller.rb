@@ -30,6 +30,11 @@ class AssetsController < ::GraphStarter::AssetsController
     super
   end
 
+  def update
+    params.permit!
+    super
+  end
+
   def show
     @asset, @access_level = asset_with_access_level
 
