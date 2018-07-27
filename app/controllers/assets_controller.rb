@@ -10,6 +10,20 @@ class AssetsController < ::GraphStarter::AssetsController
     super
   end
 
+  def search_by_title_category_and_author
+    params.permit!
+    query_string = params[:query]
+    @assets = asset_set
+      .query_as(:asset)
+      .match('(asset)-[:WROTE|:FOR_INDUSTRY|:FOR_USE_CASE]-(category:Asset)')
+      .where("asset.title =~ {query} OR category.name =~ {query}")
+      .params(query: "(?i).*#{query_string}.*")
+      .limit(30)
+      .pluck(:asset)
+
+    render "index.json"
+  end
+
   def asset
     params.permit!
     super

@@ -76,5 +76,6 @@ Rails.application.routes.draw do
   get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
   get ':model_slug/:id/edit' => 'assets#edit', as: :edit
   patch ':model_slug/:id' => 'assets#update'
+  get ':model_slug/search_by_title_category_and_author/:query.json' => 'assets#search_by_title_category_and_author', as: :search_by_title_category_and_author
   mount GraphStarter::Engine, at: '/'
 end
