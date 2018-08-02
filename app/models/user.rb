@@ -87,7 +87,7 @@ class User
   # :recoverable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:auth0]
+         :omniauthable, omniauth_providers: [:auth0, :authtoken]
   def self.find_by_provider_and_uid(provider, uid)
     all.where("(n.provider = '#{provider}' AND n.uid = '#{uid}') OR n.uid = '#{provider}|#{uid}'").pluck(:n).first
   end
