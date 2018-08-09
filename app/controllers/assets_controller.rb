@@ -18,8 +18,8 @@ class AssetsController < ::GraphStarter::AssetsController
       .match('(asset)-[:WROTE|:FOR_INDUSTRY|:FOR_USE_CASE]-(category:Asset)')
       .where("asset.title =~ {query} OR category.name =~ {query}")
       .params(query: "(?i).*#{query_string}.*")
-      .limit(30)
-      .pluck(:asset)
+      .with('DISTINCT asset AS distinctAsset')
+      .pluck(:distinctAsset)
 
     render "index.json"
   end
