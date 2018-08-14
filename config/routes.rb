@@ -60,6 +60,9 @@ Rails.application.routes.draw do
   get 'graph_gists/query_session_id' => 'query#graph_gist_query_session_id'
   post 'graph_gists/:graphgist_id/query' => 'query#graph_gist_query'
 
+  get 'graph_gists/search/:query.json' => 'assets#search', as: :search
+  get 'graph_gists/search_by_title_category_and_author/:query.json' => 'assets#search_by_title_category_and_author', as: :search_by_title_category_and_author
+
   get 'render_graphgist_js' => 'info#render_graphgist_js'
 
   devise_for :users, controllers: {sessions: 'users/sessions', registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
@@ -76,6 +79,5 @@ Rails.application.routes.draw do
   get ':model_slug/:id(.:format)' => 'assets#show', as: :asset
   get ':model_slug/:id/edit' => 'assets#edit', as: :edit
   patch ':model_slug/:id' => 'assets#update'
-  get ':model_slug/search_by_title_category_and_author/:query.json' => 'assets#search_by_title_category_and_author', as: :search_by_title_category_and_author
   mount GraphStarter::Engine, at: '/'
 end
