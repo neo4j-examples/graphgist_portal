@@ -156,6 +156,11 @@ class GraphGistCandidate < GraphStarter::Asset
   end
 
   def check_for_broken_links
+    if self.raw_html.empty?
+      errors.add(:asciidoc, "raw_html field empty, unable to run check.")
+      return nil
+    end
+
     self.raw_html.scan(/(?:href|src)=["'](https?:\/\/[^"']+)["']/im) do |url|
       url = url[0]
 
