@@ -4,7 +4,7 @@ class InfoController < ApplicationController
   def featured_graphgists
     @title = 'Featured GraphGists'
 
-    @featured_graphgists = apply_associations(GraphGist.only_featured).to_a
+    @featured_graphgists = apply_associations(GraphGist.only_featured.limit(30)).to_a
     @featured_page = true
   end
 
