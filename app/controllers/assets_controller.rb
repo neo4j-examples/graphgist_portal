@@ -7,21 +7,166 @@ class AssetsController < ::GraphStarter::AssetsController
 
   def search
     params.permit!
-    super
+
+    query_string = params[:query]
+    params[:model_slug] = "graph_gists"
+
+    assets_ids = []
+    assets_query = Neo4j::ActiveBase.current_session.query(
+      "MATCH (asset:GraphGist) "\
+      "WHERE asset.title =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30 "\
+      "UNION "\
+      "MATCH (asset:GraphGist)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
+      "WHERE category.name =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30 "\
+      "UNION "\
+      "MATCH (asset:GraphGist)<-[:WROTE]-(author:Person) "\
+      "WHERE author.name =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30",
+    query: "(?i).*#{query_string}.*")
+
+    assets_query.each do |asset|
+      assets_ids.push(asset.id)
+    end
+
+    assets = GraphGist
+      .query_as(:asset)
+      .where("asset.uuid IN {ids}")
+      .params(ids: assets_ids)
+      .with(:asset)
+      .optional_match('(asset)-[:HAS_IMAGE]->(image)')
+      .pluck('asset {.title, .uuid, image: head(collect(image))}')
+
+    results_data = assets.map do |asset|
+      description = model_class.search_properties.map do |property|
+        "<b>#{property.to_s.humanize}:</b> #{asset[property]}"
+      end.join("<br>")
+
+      first_image = asset[:image] ? asset[:image].source_url : nil
+
+      {
+        title: asset[:title],
+        url: asset_path(id: asset[:uuid], model_slug: model_class.model_slug),
+        description: description,
+        image: first_image
+      }.reject {|_, v| v.nil? }.tap do |result|
+        model_class.search_properties.each do |property|
+          result[property] = asset[property]
+        end
+      end
+    end
+
+    render json: {results: results_data}.to_json
   end
 
   def search_by_title_category_and_author
     params.permit!
     query_string = params[:query]
-    @assets = asset_set
-      .query_as(:asset)
-      .match('(asset)-[:WROTE|:FOR_INDUSTRY|:FOR_USE_CASE]-(category:Asset)')
-      .where("asset.title =~ {query} OR category.name =~ {query}")
-      .params(query: "(?i).*#{query_string}.*")
-      .with('DISTINCT asset AS distinctAsset')
-      .pluck(:distinctAsset)
+    params[:model_slug] = "graph_gists"
 
-    render "index.json"
+    assets_ids = []
+    assets_query = Neo4j::ActiveBase.current_session.query(
+      "MATCH (asset:GraphGist) "\
+      "WHERE asset.title =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30 "\
+      "UNION "\
+      "MATCH (asset:GraphGist)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
+      "WHERE category.name =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30 "\
+      "UNION "\
+      "MATCH (asset:GraphGist)<-[:WROTE]-(author:Person) "\
+      "WHERE author.name =~ {query} "\
+      "RETURN asset.uuid AS id "\
+      "LIMIT 30",
+    query: "(?i).*#{query_string}.*")
+
+    assets_query.each do |asset|
+      assets_ids.push(asset.id)
+    end
+
+    assets = GraphGist
+      .query_as(:asset)
+      .where("asset.uuid IN {ids}")
+      .params(ids: assets_ids)
+      .with('asset')
+      .optional_match('(asset)-[:HAS_IMAGE]->(image)')
+      .with('asset, image')
+      .optional_match('(asset)<-[:WROTE]-(author:Person)')
+      .with('asset, image, author')
+      .optional_match('(asset)-[:FOR_INDUSTRY]->(industry:Industry)')
+      .with('asset, image, author, industry')
+      .optional_match('(industry)-[:HAS_IMAGE]->(industry_image)')
+      .with('asset, image, author, industry, head(collect(industry_image)) AS industry_image')
+      .optional_match('(asset)-[:FOR_USE_CASE]->(use_case:UseCase)')
+      .with('asset, image, author, industry, industry_image, use_case')
+      .optional_match('(use_case)-[:HAS_IMAGE]->(use_case_image)')
+      .with('asset, image, author, industry, industry_image, use_case, head(collect(use_case_image)) AS use_case_image')
+      .pluck('asset {'\
+        '.title,'\
+        '.uuid,'\
+        '.slug,'\
+        '.updated_at,'\
+        '.featured,'\
+        '.created_at,'\
+        'author: author {.uuid, .name, .slug},'\
+        'image: head(collect(image)),'\
+        'industries: collect(industry {.uuid, .name, .slug, image: industry_image}),'\
+        'use_cases: collect(use_case {.uuid, .name, .slug, image: use_case_image})'\
+      '}')
+
+    results_data = assets.map do |asset|
+      first_image = asset[:image] ? asset[:image].source_url : nil
+
+      {
+        title: asset[:title],
+        name: asset[:title],
+        id: asset[:uuid],
+        slug: asset[:slug],
+        model_slug: params[:model_slug],
+        updated_at: asset[:updated_at],
+        created_at: asset[:created_at],
+        featured: asset[:featured],
+        image: first_image,
+        author: asset[:author] ? {
+          model_slug: 'people',
+          name: asset[:author][:name],
+          title: asset[:author][:name],
+          id: asset[:author][:uuid],
+        } : nil,
+        industries: asset[:industries].map do |category|
+          category_first_image = category[:image] ? category[:image].source_url : nil
+
+          {
+            title: category[:name],
+            name: category[:name],
+            id: category[:uuid],
+            slug: category[:slug],
+            model_slug: 'industries',
+            image: category_first_image
+          }
+        end,
+        use_cases: asset[:use_cases].map do |category|
+          category_first_image = category[:image] ? category[:image].source_url : nil
+
+          {
+            title: category[:name],
+            name: category[:name],
+            id: category[:uuid],
+            slug: category[:slug],
+            model_slug: 'use_cases',
+            image: category_first_image
+          }
+        end
+      }
+    end
+
+    render json: results_data.to_json
   end
 
   def asset
