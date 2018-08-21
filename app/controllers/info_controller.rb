@@ -5,7 +5,112 @@ class InfoController < ApplicationController
     @title = 'Featured GraphGists'
 
     @featured_graphgists = apply_associations(GraphGist.only_featured.limit(30)).to_a
+
     @featured_page = true
+  end
+
+  def index_json
+    params.permit!
+    assets = GraphGist
+      .query_as(:asset)
+
+    if params[:category].present?
+      assets = assets
+        .match('(asset)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category)')
+        .where('category.slug = {slug}')
+        .params(slug: params[:category])
+    end
+
+    list_json(assets)
+  end
+
+  def featured_graphgists_json
+    assets = GraphGist
+      .query_as(:asset)
+      .where("asset.featured = true")
+
+    list_json(assets)
+  end
+
+  def list_json(assets)
+    assets = assets
+      .with('asset')
+      .limit(30)
+      .optional_match('(asset)-[:HAS_IMAGE]->(image:Image)')
+      .with('asset, image')
+      .optional_match('(asset)<-[:WROTE]-(author:Person)')
+      .with('asset, image, author')
+      .optional_match('(asset)-[:FOR_INDUSTRY]->(industry:Industry)')
+      .with('asset, image, author, industry')
+      .optional_match('(industry)-[:HAS_IMAGE]->(industry_image)')
+      .with('asset, image, author, industry, head(collect(industry_image)) AS industry_image')
+      .optional_match('(asset)-[:FOR_USE_CASE]->(use_case:UseCase)')
+      .with('asset, image, author, industry, industry_image, use_case')
+      .optional_match('(use_case)-[:HAS_IMAGE]->(use_case_image)')
+      .with('asset, image, author, industry, industry_image, use_case, head(collect(use_case_image)) AS use_case_image')
+      .pluck('asset {'\
+        '.title,'\
+        '.uuid,'\
+        '.slug,'\
+        '.summary,'\
+        '.updated_at,'\
+        '.featured,'\
+        '.created_at,'\
+        'author: author {.uuid, .name, .slug},'\
+        'image: head(collect(image)),'\
+        'industries: collect(industry {.uuid, .name, .slug, image: industry_image}),'\
+        'use_cases: collect(use_case {.uuid, .name, .slug, image: use_case_image})'\
+      '}')
+
+    assets_result = assets.map do |asset|
+      author = asset[:author]
+      first_image = asset[:image] ? asset[:image].source_url : nil
+
+      {
+        title: asset[:title],
+        name: asset[:title],
+        summary: asset[:summary],
+        id: asset[:uuid],
+        slug: asset[:slug],
+        model_slug: params[:model_slug],
+        updated_at: asset[:updated_at],
+        created_at: asset[:created_at],
+        featured: asset[:featured],
+        image: first_image,
+        author: author ? {
+          model_slug: 'people',
+          name: author[:name],
+          title: author[:name],
+          id: author[:uuid],
+        } : nil,
+        industries: asset[:industries].map do |category|
+          category_first_image = category[:image] ? category[:image].source_url : nil
+
+          {
+            title: category[:name],
+            name: category[:name],
+            id: category[:uuid],
+            slug: category[:slug],
+            model_slug: 'industries',
+            image: category_first_image
+          }
+        end,
+        use_cases: asset[:use_cases].map do |category|
+          category_first_image = category[:image] ? category[:image].source_url : nil
+
+          {
+            title: category[:name],
+            name: category[:name],
+            id: category[:uuid],
+            slug: category[:slug],
+            model_slug: 'use_cases',
+            image: category_first_image
+          }
+        end
+      }
+    end
+
+    render json: assets_result.to_json
   end
 
   def live_graphgists
