@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root 'info#home'
   get 'about' => 'info#about'
 
+  get 'featured_graphgists.json' => 'info#featured_graphgists_json'
   get 'featured_graphgists(.:format)' => 'info#featured_graphgists'
 
   get 'submit_graphgist' => 'info#submit_graphgist'
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
 
   get 'live_graphgists(.:format)' => 'info#live_graphgists'
   get 'graph_gists/.json' => 'graph_starter/assets#show'
+  get 'graph_gists.json' => 'info#index_json'
 
   get 'graph_gists/query_session_id' => 'query#graph_gist_query_session_id'
   post 'graph_gists/:graphgist_id/query' => 'query#graph_gist_query'
