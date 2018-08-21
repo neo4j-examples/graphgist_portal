@@ -58,8 +58,8 @@ class InfoController < ApplicationController
         '.created_at,'\
         'author: author {.uuid, .name, .slug},'\
         'image: head(collect(image)),'\
-        'industries: collect(industry {.uuid, .name, .slug, image: industry_image}),'\
-        'use_cases: collect(use_case {.uuid, .name, .slug, image: use_case_image})'\
+        'industries: collect(distinct industry {.uuid, .name, .slug, image: industry_image}),'\
+        'use_cases: collect(distinct use_case {.uuid, .name, .slug, image: use_case_image})'\
       '}')
 
     assets_result = assets.map do |asset|
