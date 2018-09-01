@@ -13,7 +13,7 @@ class AssetsController < ::GraphStarter::AssetsController
 
     assets_ids = []
     assets_query = Neo4j::ActiveBase.current_session.query(
-      "MATCH (asset:GraphGist) "\
+      "MATCH (asset:GraphGist {status:'live'}) "\
       "WHERE asset.title =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30 "\
