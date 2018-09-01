@@ -18,12 +18,12 @@ class AssetsController < ::GraphStarter::AssetsController
       "RETURN asset.uuid AS id "\
       "LIMIT 30 "\
       "UNION "\
-      "MATCH (asset:GraphGist)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
+      "MATCH (asset:GraphGist {status:'live'})-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
       "WHERE category.name =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30 "\
       "UNION "\
-      "MATCH (asset:GraphGist)<-[:WROTE]-(author:Person) "\
+      "MATCH (asset:GraphGist {status:'live'})<-[:WROTE]-(author:Person) "\
       "WHERE author.name =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30",
@@ -70,17 +70,17 @@ class AssetsController < ::GraphStarter::AssetsController
 
     assets_ids = []
     assets_query = Neo4j::ActiveBase.current_session.query(
-      "MATCH (asset:GraphGist) "\
+      "MATCH (asset:GraphGist {status:'live'}) "\
       "WHERE asset.title =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30 "\
       "UNION "\
-      "MATCH (asset:GraphGist)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
+      "MATCH (asset:GraphGist {status:'live'})-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category) "\
       "WHERE category.name =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30 "\
       "UNION "\
-      "MATCH (asset:GraphGist)<-[:WROTE]-(author:Person) "\
+      "MATCH (asset:GraphGist {status:'live'})<-[:WROTE]-(author:Person) "\
       "WHERE author.name =~ {query} "\
       "RETURN asset.uuid AS id "\
       "LIMIT 30",
