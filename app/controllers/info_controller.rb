@@ -16,7 +16,7 @@ class InfoController < ApplicationController
 
     if params[:category].present?
       assets = assets
-        .match('(asset)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category)')
+        .match('(asset {status:"live"})-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category)')
         .where('category.slug = {slug}')
         .params(slug: params[:category])
     end
