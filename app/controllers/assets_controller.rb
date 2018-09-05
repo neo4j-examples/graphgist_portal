@@ -114,6 +114,7 @@ class AssetsController < ::GraphStarter::AssetsController
         '.updated_at,'\
         '.featured,'\
         '.created_at,'\
+        '.neo4j_version,'\
         'author: author {.uuid, .name, .slug},'\
         'image: head(collect(image)),'\
         'industries: collect(industry {.uuid, .name, .slug, image: industry_image}),'\
@@ -129,6 +130,7 @@ class AssetsController < ::GraphStarter::AssetsController
         id: asset[:uuid],
         slug: asset[:slug],
         model_slug: params[:model_slug],
+        neo4j_version: asset[:neo4j_version],
         updated_at: asset[:updated_at],
         created_at: asset[:created_at],
         featured: asset[:featured],

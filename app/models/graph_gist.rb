@@ -18,6 +18,7 @@ class GraphGist < GraphStarter::Asset
   validates :asciidoc, presence: true
   property :raw_html, type: String
   validates :raw_html, presence: true
+  property :neo4j_version, type: String
 
   property :query_cache, type: String
   validates :query_cache, presence: true
@@ -76,6 +77,7 @@ class GraphGist < GraphStarter::Asset
     return if !asciidoc.present?
 
     place_asciidoc()
+    place_neo4j_version()
     place_query_cache()
   end
 
@@ -150,6 +152,11 @@ class GraphGist < GraphStarter::Asset
       end
     end
     self.query_cache = responses.to_json
+  end
+
+  def place_neo4j_version
+    self.neo4j_version = asciidoctor_document.attributes['neo4j-version']
+    return self.neo4j_version
   end
 
   HOSTS_LOCAL = %w(

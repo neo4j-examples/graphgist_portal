@@ -64,6 +64,7 @@ class InfoController < ApplicationController
         '.updated_at,'\
         '.featured,'\
         '.created_at,'\
+        '.neo4j_version,'\
         'author: author {.uuid, .name, .slug},'\
         'image: head(collect(image)),'\
         'industries: collect(distinct industry {.uuid, .name, .slug, image: industry_image}),'\
@@ -78,6 +79,7 @@ class InfoController < ApplicationController
         title: asset[:title],
         name: asset[:title],
         summary: asset[:summary],
+        neo4j_version: asset[:neo4j_version],
         id: asset[:uuid],
         slug: asset[:slug],
         model_slug: params[:model_slug],
