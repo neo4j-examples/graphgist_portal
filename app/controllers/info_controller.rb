@@ -13,12 +13,20 @@ class InfoController < ApplicationController
     params.permit!
     assets = GraphGist
       .query_as(:asset)
+      .where('asset.status = "live"')
 
     if params[:category].present?
       assets = assets
-        .match('(asset {status:"live"})-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category)')
+        .match('(asset)-[:FOR_INDUSTRY|:FOR_USE_CASE]->(category)')
         .where('category.slug = {slug}')
         .params(slug: params[:category])
+    end
+
+    if params[:author].present?
+      assets = assets
+        .match('(asset)<-[:WROTE]-(author:Person)')
+        .where('author.slug = {slug} OR author.uuid = {slug}')
+        .params(slug: params[:author])
     end
 
     list_json(assets)
