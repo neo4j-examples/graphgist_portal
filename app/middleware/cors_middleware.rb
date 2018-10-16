@@ -12,7 +12,7 @@ class CorsMiddleware
     new_headers = headers.dup
     new_headers = new_headers.merge(
       'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Allow-Methods' => 'GET'
+      'Access-Control-Allow-Methods' => 'GET, OPTIONS'
     )
 
     if http_origin_uri
