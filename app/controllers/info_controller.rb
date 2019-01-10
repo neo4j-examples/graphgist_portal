@@ -258,6 +258,8 @@ class InfoController < ApplicationController
   end
 
   def create_graphgist # rubocop: disable Metrics/AbcSize
+    redirect_to '/' if !current_user.present?
+
     Neo4j::ActiveBase.run_transaction do
       params.permit!
 
