@@ -1,3 +1,7 @@
 h1 New GraphGist Created!
 
 h2 = link_to @graphgist.title, graph_starter.asset_url(id: @graphgist, model_slug: 'graph_gists')
+
+p
+  | by 
+  = link_to @graphgist.author.name, asset_path(model_slug: :people, id: @graphgist.author.slug)

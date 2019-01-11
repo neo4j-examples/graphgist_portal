@@ -267,9 +267,10 @@ class InfoController < ApplicationController
         params[:graph_gist].delete :url
       end
 
-      @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category))
-      @graphgist.author = current_user.person
-      @graphgist.creators << current_user
+      @graphgist = GraphGist.create(params[:graph_gist].except(:industries, :use_cases, :challenge_category).merge({
+        author: current_user.person,
+        creators: [current_user]
+      }))
 
       unless @graphgist.errors.present?
         @candidate = GraphGistCandidate.create_from_graphgist(@graphgist)
