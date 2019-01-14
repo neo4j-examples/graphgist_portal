@@ -4,4 +4,4 @@ h2 = link_to @graphgist.title, graph_starter.asset_url(id: @graphgist, model_slu
 
 p
   | by 
-  = link_to @graphgist.author.name, asset_path(model_slug: :people, id: @graphgist.author.slug)
+  = link_to @graphgist.author.name, graph_starter.asset_url(id: @graphgist.author.slug, model_slug: 'people')
