@@ -39,7 +39,7 @@ window.GraphGist = ($, options) ->
   DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
   $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="ui large expand icon fi-arrows-expand fullscreen-icon" title="Toggle fullscreen mode"></i></div>')
   $I = $('<i/>')
-  DEFAULT_VERSION = '2.3'
+  DEFAULT_VERSION = '3.5'
   CONSOLE_VERSIONS =
     '2.0.0-M06': 'http://neo4j-console-20m06.herokuapp.com/'
     '2.0.0-RC1': 'http://neo4j-console-20rc1.herokuapp.com/'
@@ -48,6 +48,10 @@ window.GraphGist = ($, options) ->
     '2.3': 'http://neo4j-console-23.herokuapp.com/'
     '3.0': 'http://neo4j-console-30.herokuapp.com/'
     '3.1': 'http://neo4j-console-31.herokuapp.com/'
+    '3.2': 'http://neo4j-console-32.herokuapp.com/'
+    '3.3': 'http://neo4j-console-33.herokuapp.com/'
+    '3.4': 'http://neo4j-console-34.herokuapp.com/'
+    '3.5': 'http://neo4j-console-35.herokuapp.com/'
     'local': 'http://localhost:8080/'
     '1.9': 'http://neo4j-console-19.herokuapp.com/'
   neod3Renderer = new Neod3Renderer
