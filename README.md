@@ -50,6 +50,12 @@ export GITHUB_KEY='<your_key>'
 export GITHUB_SECRET='<your_secret>'
 ```
 
+Run migrations
+
+```
+rake neo4j:migrate
+```
+
 Start the rails server
 
 ```
