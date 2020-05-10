@@ -52,12 +52,15 @@ Rails.application.routes.draw do
   post 'candidates/graphgist/:id/status/live' => 'assets#make_graphgist_live', as: :make_graphgist_live
   post 'candidates/graphgist/:id/status/disabled' => 'assets#make_graphgist_disabled', as: :make_graphgist_disabled
   post 'candidates/graphgist/:id/status/candidate' => 'assets#make_graphgist_candidate', as: :make_graphgist_candidate
+  post 'candidates/graphgist/:id/as_guide' => 'assets#make_graphgist_as_guide', as: :make_graphgist_as_guide
+  post 'candidates/graphgist/:id/not_guide' => 'assets#make_graphgist_not_guide', as: :make_graphgist_not_guide
 
   get 'graph_gists/:id/recommendations.json' => 'info#graphgist_recommendations'
 
   get 'live_graphgists(.:format)' => 'info#live_graphgists'
   get 'graph_gists/.json' => 'graph_starter/assets#show'
   get 'graph_gists.json' => 'info#index_json'
+  get 'graph_guides(.:format)' => 'info#graph_guides', as: :graph_guides
 
   get 'graph_gists/query_session_id' => 'query#graph_gist_query_session_id'
   post 'graph_gists/:graphgist_id/query' => 'query#graph_gist_query'

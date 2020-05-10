@@ -127,6 +127,10 @@ class InfoController < ApplicationController
     @live_graphgists = apply_associations(GraphGist.only_live.for_category('asset', params[:category])).to_a
   end
 
+  def graph_guides
+    @assets = apply_associations(GraphGist.only_guide).to_a
+  end
+
   def associations
     return @associations if @associations.present?
 

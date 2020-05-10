@@ -9,6 +9,8 @@ class GraphGist < GraphStarter::Asset
   has_one :in, :candidate, type: :IS_VERSION, model_class: :GraphGistCandidate, unique: true
   property :is_candidate_updated, type: Boolean, default: false
 
+  property :is_guide, type: Boolean, default: false
+
   property :title
   property :url, type: String, constraint: :unique
   property :raw_url, type: String
@@ -43,7 +45,7 @@ class GraphGist < GraphStarter::Asset
   property :featured, type: Boolean
 
   scope :only_featured, -> { where(featured: true) }
-
+  scope :only_guide, -> { where(is_guide: true) }
   scope :only_live, -> { where(status: 'live') }
 
   has_many :out, :industries, type: :FOR_INDUSTRY
