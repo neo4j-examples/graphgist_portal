@@ -10,6 +10,18 @@
         a.ui.labeled.icon.button href="#{graph_edit_by_owner_path(id: asset.is_a?(GraphGist) ? @asset.id : @asset.graphgist.id)}"
           i.edit.icon
           | Edit Graphgist
+      - if asset.is_guide == false
+        .ui.divider
+        = form_tag make_graphgist_as_guide_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
+          button.ui.button type="submit"
+            | Optimized as Guide
+      - if asset.is_guide == true
+        .ui.divider
+        p
+          | This is optimized as Guide
+        = form_tag make_graphgist_not_guide_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)
+          button.ui.button type="submit"
+            | Remove from guides
       - if asset.status == 'draft'
         .ui.divider
         = form_tag make_graphgist_candidate_path(id: asset.is_a?(GraphGistCandidate) ? asset.graphgist.id : asset.id)

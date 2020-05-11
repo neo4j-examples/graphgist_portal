@@ -338,6 +338,7 @@ class AssetsController < ::GraphStarter::AssetsController
     live.asciidoc = candidate.asciidoc
     live.title = candidate.title
     live.url = candidate.url
+    live.is_guide = candidate.is_guide
     live.status = 'live'
     live.is_candidate_updated = false
     live.save
@@ -386,6 +387,51 @@ class AssetsController < ::GraphStarter::AssetsController
     candidate.save
 
     redirect_to graph_starter.asset_path(id: live.id, model_slug: 'graph_gists')
+  end
+
+  def make_graphgist_as_guide
+    params.permit!
+    params[:model_slug] = "graph_gists"
+    live, access_level = asset_with_access_level
+
+    if access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
+    if live.candidate.nil?
+      candidate = GraphGistCandidate.create_from_graphgist(live)
+    else
+      candidate = live.candidate
+    end
+
+    candidate.status = 'candidate'
+    candidate.is_guide = true
+    candidate.save
+
+    redirect_to graph_starter.asset_path(id: candidate.id, model_slug: 'graph_gist_candidates')
+  end
+
+
+  def make_graphgist_not_guide
+    params.permit!
+    params[:model_slug] = "graph_gists"
+    live, access_level = asset_with_access_level
+
+    if access_level != 'write'
+      fail 'You don\'t have write access'
+    end
+
+    if live.candidate.nil?
+      candidate = GraphGistCandidate.create_from_graphgist(live)
+    else
+      candidate = live.candidate
+    end
+
+    candidate.status = 'candidate'
+    candidate.is_guide = false
+    candidate.save
+
+    redirect_to graph_starter.asset_path(id: candidate.id, model_slug: 'graph_gist_candidates')
   end
 
   def challenge_new

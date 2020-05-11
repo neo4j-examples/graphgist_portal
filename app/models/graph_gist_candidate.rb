@@ -4,6 +4,8 @@ require 'open-uri'
 class GraphGistCandidate < GraphStarter::Asset
   has_one :out, :graphgist, type: :IS_VERSION, model_class: :GraphGist, unique: true
 
+  property :is_guide, type: Boolean, default: false
+
   property :title
   property :url, type: String
   property :raw_url, type: String
@@ -285,6 +287,7 @@ class GraphGistCandidate < GraphStarter::Asset
       created_at: graphgist.created_at,
       updated_at: graphgist.updated_at,
       summary: graphgist.summary,
+      is_guide: graphgist.is_guide,
       # image: graphgist.image,
     )
   end
