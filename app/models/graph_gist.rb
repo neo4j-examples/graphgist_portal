@@ -203,7 +203,7 @@ class GraphGist < GraphStarter::Asset
 
       begin
         conn = Faraday.new
-        res = conn.head do |req|
+        res = conn.get do |req|
           req.url url
           req.options.timeout = 30
           req.options.open_timeout = 20
