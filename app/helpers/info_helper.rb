@@ -1,5 +1,11 @@
 module InfoHelper
-  ADOC_LOAD_OPTIONS = {attributes: 'experimental', header_footer: true, safe: 0, template_dir: Rails.root.join('graph_guide_templates').to_s}
+  ADOC_LOAD_OPTIONS = {
+    attributes: ['experimental', 'env-guide'].freeze,
+    header_footer: true,
+    safe: 0,
+    template_dir: Rails.root.join('graph_guide_templates').to_s
+  }
+
   def graph_guide_parts_for(graph_gist)
     # html_doc = Nokogiri::HTML(graph_gist.html)
     # slide_level = (1..6).find { |i| html_doc.xpath("//h#{i}").size > 1 } - 1
@@ -17,7 +23,6 @@ module InfoHelper
 
     # adoc.convert # Why do I need to do this?  No idea...
     # adoc.set_attribute('slide_level', slide_level.to_s)
-
     adoc.convert
   end
 end
