@@ -190,7 +190,11 @@ class InfoController < ApplicationController
     end
 
     if id.present?
-      @graphgist = GraphGistCandidate.find(id)
+      begin
+        @graphgist = GraphGistCandidate.find(id)
+      rescue Neo4j::ActiveNode::Labels::RecordNotFound
+        @graphgist = GraphGist.find(id)
+      end
     else
       @graphgist = GraphGistCandidate.new(title: 'Preview')
     end
@@ -264,10 +268,15 @@ class InfoController < ApplicationController
   def create_graphgist # rubocop: disable Metrics/AbcSize
     redirect_to '/' if !current_user.present?
 
-    Neo4j::ActiveBase.run_transaction do
-      params.permit!
+    params.permit!
 
-      if params[:graph_gist][:url].empty?
+    url = params[:graph_gist][:url]
+    if url.present? and GraphGist.find_by(url: url)
+      return redirect_to submit_graphgist_path(url_used: 1)
+    end
+
+    Neo4j::ActiveBase.run_transaction do
+      if url.empty?
         params[:graph_gist].delete :url
       end
 
@@ -283,7 +292,7 @@ class InfoController < ApplicationController
 
     if @graphgist.errors.present?
       flash[:error] = @graphgist.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
-      return redirect_to :back
+      return redirect_to submit_graphgist_path
     end
 
     redirect_to graph_edit_by_owner_step2_path(id: @graphgist.id)

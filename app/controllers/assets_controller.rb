@@ -193,7 +193,19 @@ class AssetsController < ::GraphStarter::AssetsController
 
   def update
     params.permit!
-    super
+
+    @asset = asset
+    @asset.update(params[params[:model_slug].singularize])
+
+    if params[:image].present?
+      if @asset.class.has_image?
+        @asset.image = Image.create(source: params[:image])
+      elsif @asset.class.has_images?
+        @asset.images << Image.create(source: params[:image])
+      end
+    end
+
+    redirect_to action: :show, id: @asset.id
   end
 
   def show
@@ -231,9 +243,13 @@ class AssetsController < ::GraphStarter::AssetsController
       fail 'You don\'t have write access'
     end
 
-    @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
-    if !@asset
-      @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+    if !current_user.admin?
+      @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
+      if !@asset
+        @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+      end
+    else
+      @asset = @liveAsset
     end
 
     @title = @asset.title.to_s + ' - Edit'
@@ -250,18 +266,47 @@ class AssetsController < ::GraphStarter::AssetsController
       fail 'You don\'t have write access'
     end
 
-    @asset = @liveAsset.candidate
-    if !@asset.update(params['graph_gist_candidate'])
+    if !current_user.admin?
+      @asset = @liveAsset.candidate
+    else
+      @asset = @liveAsset
+      @candidate = @liveAsset.candidate
+    end
+
+    if current_user.admin?
+      updateParams = params['graph_gist_candidate']
+      updateParams = updateParams.merge(params['graph_gist'])
+    else
+      updateParams = params['graph_gist_candidate']
+    end
+
+    @asset.has_errors = false
+    if !@asset.update(updateParams)
       flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
       return redirect_to :back
     end
 
-    if ['candidate', 'draft'].include?(@liveAsset.status)
-      @liveAsset.is_candidate_updated = false
-      @liveAsset.update(params['graph_gist_candidate'])
-    else
-      @liveAsset.is_candidate_updated = true
-      @liveAsset.save
+    if current_user.admin? and params[:image].present?
+      if @asset.class.has_image?
+        @asset.image = GraphStarter::Image.create(source: params[:image])
+      elsif @asset.class.has_images?
+        @asset.images << GraphStarter::Image.create(source: params[:image])
+      end
+    end
+    
+    if current_user.admin?
+      @candidate.has_errors = false
+      @candidate.update(updateParams)
+    end
+
+    if !current_user.admin?
+      if ['candidate', 'draft'].include?(@liveAsset.status)
+        @liveAsset.is_candidate_updated = false
+        @liveAsset.update(params['graph_gist_candidate'])
+      else
+        @liveAsset.is_candidate_updated = true
+        @liveAsset.save
+      end
     end
 
     redirect_to graph_edit_by_owner_step2_path(id: params[:id])
@@ -276,9 +321,13 @@ class AssetsController < ::GraphStarter::AssetsController
       fail 'You don\'t have write access'
     end
 
-    @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
-    if !@asset
-      @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+    if !current_user.admin?
+      @asset = GraphGistCandidate.where(graphgist:  @liveAsset).to_a[0]
+      if !@asset
+        @asset = GraphGistCandidate.create_from_graphgist(@liveAsset)
+      end
+    else
+      @asset = @liveAsset
     end
 
     @title = @asset.title.to_s + ' - Edit'
@@ -295,22 +344,36 @@ class AssetsController < ::GraphStarter::AssetsController
       fail 'You don\'t have write access'
     end
 
-    @asset = @liveAsset.candidate
-    @asset.status = 'candidate'
-    if !@asset.update(params['graph_gist_candidate'])
+    if !current_user.admin?
+      @asset = @liveAsset.candidate
+      @asset.status = 'candidate'
+    else
+      @asset = @liveAsset
+    end
+
+    if current_user.admin?
+      updateParams = params['graph_gist']
+    else
+      updateParams = params['graph_gist_candidate']
+    end
+
+    if !@asset.update(updateParams)
       flash[:error] = @asset.errors.messages.to_a.map {|pair| pair.join(' ') }.join(' / ')
       return redirect_to :back
     end
 
-    if ['candidate', 'draft'].include?(@liveAsset.status)
-      @liveAsset.is_candidate_updated = false
-      @liveAsset.update(params['graph_gist_candidate'])
+    if !current_user.admin?
+      if ['candidate', 'draft'].include?(@liveAsset.status)
+        @liveAsset.is_candidate_updated = false
+        @liveAsset.update(params['graph_gist_candidate'])
+      else
+        @liveAsset.is_candidate_updated = true
+        @liveAsset.save
+      end
+      redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'graph_gist_candidates')
     else
-      @liveAsset.is_candidate_updated = true
-      @liveAsset.save
+      redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'graph_gists')
     end
-
-    redirect_to graph_starter.asset_path(id: @asset.id, model_slug: 'graph_gist_candidates')
   end
 
   def asset_with_access_level

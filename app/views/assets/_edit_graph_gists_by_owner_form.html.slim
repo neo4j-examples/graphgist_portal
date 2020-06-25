@@ -1,11 +1,37 @@
 = form_for @asset, url: url_for(action: action), html: {class: 'ui form graph_gist_edit_form', multipart: true} do |f|
+  - if current_user.admin?
+    = render partial: 'images', locals: {asset: @asset}
+
+    - if @access_level == 'write'
+      .field
+        label Add image
+
+        = file_field_tag 'image'
+
   .field
     label Title (Required)
     = f.text_field :title, required: true
 
   .field
     label AsciiDoc (Required)
-    = f.text_area :asciidoc, required: true
+    = f.text_area :asciidoc, required: true, id: "graph_gist_candidate_asciidoc"
+
+  - if current_user.admin?
+    - @asset.class.authorized_associations.each do |name, association|
+      - target_class = association.target_class
+      - next if !target_class.ancestors.include?(GraphStarter::Asset)
+      javascript:
+        var current_#{name} = [];
+
+      .field
+        label = name.to_s.humanize
+
+        - field_name = (association.type == :has_many ? "#{name.to_s.singularize}_ids" : "#{name}_id")
+        - options = target_class.as(:n).pluck(target_class.name_property, target_class.id_property_name).map {|title, _| [GraphStarter::Asset.sanitize_title(title), _] }.sort_by {|pair| pair.inspect.downcase }
+
+        - html_options = {class: 'ui fluid search dropdown'}
+        - html_options[:multiple] = '' if association.type == :has_many
+        = f.select field_name, options, {include_blank: 'Please select'}, html_options
 
   #preview-button.ui.button Preview
 
@@ -13,6 +39,9 @@
     | Save and Continue
 
 #iframe-spinner.ui.active.centered.large.loader
+
+javascript:
+  $('.ui.dropdown').dropdown()
 
 coffee:
   $('#preview-button').click (e) ->

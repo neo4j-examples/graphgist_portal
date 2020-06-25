@@ -12,7 +12,7 @@ class GraphGist < GraphStarter::Asset
   property :is_guide, type: Boolean, default: false
 
   property :title
-  property :url, type: String, constraint: :unique
+  property :url, type: String
   property :raw_url, type: String
   validates :raw_url, presence: {message: 'URL could not be resolved'}, if: "asciidoc.nil?"
 

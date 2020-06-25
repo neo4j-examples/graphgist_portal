@@ -1,3 +1,8 @@
+- if params[:url_used].present?
+  p.ui.red.message
+    i.close.icon
+    = "URL already being used by another GraphGist"
+
 p Enter the URL or AsciiDoc of your GraphGist and click "Preview". If it looks good you can click on the "Submit GraphGist" button to submit it for publication on this site!
 
 p If you don't know what a GraphGist is or need help creating one you can consult <a href="#{root_path}">this guide</a>
