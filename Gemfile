@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'rake', '~> 10.5'
+gem 'rake', '~> 13.0'
 
 gem 'dotenv-rails', github: 'bkeepers/dotenv', require: 'dotenv/rails-now'
 
